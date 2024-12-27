@@ -24,49 +24,75 @@ h1 {
   padding: 20px;
 }
 
-/* Mazo restante */
-#mazo-restante {
-  width: 200px;
-  height: 100px;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-  border: 1px dashed #ddd;
-  position: relative;
-}
-
-.mazo-carta {
-  width: 20px;
-  height: 80px;
-  background-color: #ccc;
-  border-radius: 5px;
-  position: absolute;
-  margin-left: -10px;
-  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
-}
-
-.mazo-carta:nth-child(odd) {
-  background-color: #aaa;
-}
-
-.mazo-carta:nth-child(even) {
-  background-color: #eee;
-}
-
 /* Carta actual */
-#current-card-display {
+.card {
   width: 100px;
   height: 150px;
-  background: #f9f9f9;
   border: 2px solid #333;
   border-radius: 10px;
-  margin: auto;
+  background-color: #f9f9f9;
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: auto;
+  margin-bottom: 20px;
 }
 
-#card-value {
+.card-value {
   font-size: 2em;
   color: #333;
+}
+
+/* Turno */
+#turno-indicador {
+  margin-top: 20px;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.turno-jugador {
+  color: #4CAF50; /* Verde */
+}
+
+.turno-maquina {
+  color: #F44336; /* Rojo */
+}
+
+/* Botones */
+button {
+  margin: 10px;
+  padding: 10px 20px;
+  border: none;
+  background-color: #4CAF50;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+/* Cartas acumuladas */
+#cartas-jugador,
+#cartas-maquina {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 5px;
+  margin: 10px 0;
+}
+
+.card-small {
+  width: 50px;
+  height: 70px;
+  border: 1px solid #333;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1em;
+  color: #333;
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
 }
