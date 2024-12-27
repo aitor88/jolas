@@ -38,7 +38,7 @@ function siguienteCarta() {
   cartaActual = mazo.pop();
   fichasEnCarta = 0;
   document.getElementById("card-value").innerText = cartaActual;
-  habilitarBotones(true);
+  habilitarBotones(turnoJugador);
 }
 
 // Actualizar el estado del juego
@@ -70,29 +70,55 @@ function tomarCarta() {
     cartasMaquina.push(cartaActual);
     fichasMaquina += fichasEnCarta;
   }
+  fichasEnCarta = 0; // Limpiar las fichas acumuladas en la carta
   siguienteTurno();
 }
 
 // Rechazar la carta
 function rechazarCarta() {
-  if (turnoJugador && fichasJugador > 0) {
-    fichasJugador--;
-    fichasEnCarta++;
-  } else if (!turnoJugador && fichasMaquina > 0) {
-    fichasMaquina--;
-    fichasEnCarta++;
+  if (turnoJugador) {
+    if (fichasJugador > 0) {
+      fichasJugador--;
+      fichasEnCarta++;
+    } else {
+      alert("No tienes fichas suficientes. Debes tomar la carta.");
+      tomarCarta();
+      return;
+    }
   } else {
-    tomarCarta();
+    if (fichasMaquina > 0) {
+      fichasMaquina--;
+      fichasEnCarta++;
+    } else {
+      tomarCarta();
+      return;
+    }
   }
-  actualizarEstado();
+  siguienteTurno();
 }
 
 // Pasar al siguiente turno
 function siguienteTurno() {
   turnoJugador = !turnoJugador;
+  document.getElementById("turno-actual").className = turnoJugador
+    ? "turno-jugador"
+    : "turno-maquina";
+  document.getElementById("turno-actual").innerText = turnoJugador ? "Jugador" : "Máquina";
+
   habilitarBotones(turnoJugador);
   actualizarEstado();
-  siguienteCarta();
+
+  if (!turnoJugador) {
+    setTimeout(() => {
+      const decisionMaquina =
+        Math.random() < 0.5 && fichasMaquina > 0; // Decisión aleatoria para rechazar
+      if (decisionMaquina) {
+        rechazarCarta();
+      } else {
+        tomarCarta();
+      }
+    }, 1000);
+  }
 }
 
 // Finalizar el juego
