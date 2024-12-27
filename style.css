@@ -75,8 +75,12 @@ button:hover {
 #cartas-jugador, #cartas-maquina {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: start; /* Alineación inicial */
   margin-top: 10px;
+  overflow-x: auto; /* Evita que las cartas salgan del contenedor */
+  padding: 10px;
+  border: 1px solid #ddd; /* Bordes opcionales para mejor visualización */
+  border-radius: 5px;
 }
 
 .card-small {
