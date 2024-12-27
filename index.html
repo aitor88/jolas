@@ -17,21 +17,27 @@
         <div>Fichas restantes (Jugador): <span id="fichas-jugador">11</span></div>
         <div>Fichas restantes (Máquina): <span id="fichas-maquina">11</span></div>
       </div>
+
       <div id="current-card-section">
         <h3>Carta actual:</h3>
         <div class="card">
           <div class="card-value" id="card-value"></div>
         </div>
-        <h4>Fichas en la carta: <span id="chips-on-card">0</span></h4>
+        <h4>Fichas en la carta:</h4>
+        <div id="chips-on-card" class="chips-container"></div>
       </div>
+
       <div id="turno-indicador">
         Turno de: <span id="turno-actual" class="turno-jugador">Jugador</span>
       </div>
+
       <div id="actions">
         <button id="rechazar" disabled>Rechazar (gastar ficha)</button>
         <button id="tomar" disabled>Tomar carta</button>
       </div>
+
       <div id="cartas-restantes">Cartas restantes en el mazo: 24</div>
+
       <div id="cartas-acumuladas">
         <h2 id="cartas-jugador-title">Cartas acumuladas (Jugador): 0</h2>
         <div id="cartas-jugador"></div>
