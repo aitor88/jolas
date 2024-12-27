@@ -10,13 +10,22 @@
   <div id="app">
     <h1>No Gracias - Solitario</h1>
     <div id="game">
-      <div id="current-card">Carta: <span id="card-value">-</span></div>
-      <div id="fichas">Fichas disponibles: <span id="fichas-value">11</span></div>
+      <div id="scoreboard">
+        <div>Puntuación: <span id="puntuacion">0</span></div>
+        <div>Fichas restantes: <span id="fichas-value">11</span></div>
+      </div>
+      <div id="current-card">
+        <h2>Carta actual:</h2>
+        <div id="card-value">-</div>
+      </div>
       <div id="actions">
         <button id="rechazar">Rechazar</button>
         <button id="tomar">Tomar</button>
       </div>
-      <div id="cartas-acumuladas">Cartas acumuladas: <span id="cartas-value">-</span></div>
+      <div id="cartas-acumuladas">
+        <h2>Cartas acumuladas:</h2>
+        <div id="cartas-value">-</div>
+      </div>
     </div>
   </div>
   <script src="script.js"></script>
