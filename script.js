@@ -3,8 +3,8 @@ let mazo = [];
 let cartaActual = null;
 let fichasJugador = 11;
 let fichasMaquina = 11;
-let cartasJugador = [];
-let cartasMaquina = [];
+let cartasJugador = [ ];
+let cartasMaquina = [ ];
 let fichasEnCarta = 0;
 let turnoJugador = true;
 
