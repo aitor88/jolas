@@ -115,3 +115,13 @@ button:hover {
   display: flex;
   gap: 3px;
 }
+
+/* Estilo para los círculos de las fichas */
+.chip {
+  width: 15px;
+  height: 15px;
+  background-color: #F44336; /* Rojo */
+  border-radius: 50%;
+  display: inline-block;
+  margin: 5px;
+}
