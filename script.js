@@ -33,16 +33,15 @@ function siguienteCarta() {
   }
   cartaActual = mazo.pop();
   fichasEnCarta = 0;
-  document.getElementById("card-value").innerText = cartaActual;
-  document.getElementById("chips-on-card").innerText = fichasEnCarta;
+  mostrarCartaActual();
   actualizarEstado();
   habilitarBotones(turnoJugador);
 }
 
-// Habilitar o deshabilitar botones
-function habilitarBotones(habilitar) {
-  document.getElementById("rechazar").disabled = !habilitar;
-  document.getElementById("tomar").disabled = !habilitar;
+// Muestra la carta actual en pantalla
+function mostrarCartaActual() {
+  document.getElementById("card-value").innerText = cartaActual;
+  document.getElementById("chips-on-card").innerText = fichasEnCarta;
 }
 
 // Toma la carta actual
@@ -50,9 +49,11 @@ function tomarCarta(jugador) {
   if (jugador) {
     cartasJugador.push(cartaActual);
     fichasJugador += fichasEnCarta;
+    actualizarCartas("cartas-jugador", cartasJugador);
   } else {
     cartasMaquina.push(cartaActual);
     fichasMaquina += fichasEnCarta;
+    actualizarCartas("cartas-maquina", cartasMaquina);
   }
   siguienteCarta();
 }
@@ -71,16 +72,16 @@ function rechazarCarta(jugador) {
   actualizarEstado();
 }
 
-// Juega la máquina
-function turnoMaquina() {
-  const tomar = fichasEnCarta >= 3 || cartaActual <= 10 || cartasMaquina.includes(cartaActual - 1);
-  if (tomar) {
-    tomarCarta(false);
-  } else {
-    rechazarCarta(false);
-  }
-  turnoJugador = true;
-  habilitarBotones(true);
+// Actualiza las cartas acumuladas
+function actualizarCartas(elementId, cartas) {
+  const contenedor = document.getElementById(elementId);
+  contenedor.innerHTML = "";
+  cartas.forEach((carta) => {
+    const cartaDiv = document.createElement("div");
+    cartaDiv.classList.add("card-small");
+    cartaDiv.innerText = carta;
+    contenedor.appendChild(cartaDiv);
+  });
 }
 
 // Actualiza el estado del juego
@@ -88,38 +89,12 @@ function actualizarEstado() {
   document.getElementById("fichas-jugador").innerText = fichasJugador;
   document.getElementById("fichas-maquina").innerText = fichasMaquina;
   document.getElementById("chips-on-card").innerText = fichasEnCarta;
-  document.getElementById("cartas-jugador").innerText = cartasJugador.join(", ");
-  document.getElementById("cartas-maquina").innerText = cartasMaquina.join(", ");
   actualizarPuntuacion();
-}
-
-// Calcula la puntuación actual
-function calcularPuntuacion(cartas, fichas) {
-  let puntosNegativos = 0;
-  const cartasOrdenadas = [...cartas].sort((a, b) => a - b);
-  for (let i = 0; i < cartasOrdenadas.length; i++) {
-    if (i === 0 || cartasOrdenadas[i] !== cartasOrdenadas[i - 1] + 1) {
-      puntosNegativos += cartasOrdenadas[i];
-    }
-  }
-  return puntosNegativos - fichas;
-}
-
-// Actualiza la puntuación en pantalla
-function actualizarPuntuacion() {
-  const puntosJugador = calcularPuntuacion(cartasJugador, fichasJugador);
-  const puntosMaquina = calcularPuntuacion(cartasMaquina, fichasMaquina);
-  document.getElementById("puntuacion-jugador").innerText = puntosJugador;
-  document.getElementById("puntuacion-maquina").innerText = puntosMaquina;
 }
 
 // Finaliza el juego
 function finalizarJuego() {
-  const puntosJugador = calcularPuntuacion(cartasJugador, fichasJugador);
-  const puntosMaquina = calcularPuntuacion(cartasMaquina, fichasMaquina);
-  alert(`Juego terminado. 
-Jugador: ${puntosJugador} puntos. 
-Máquina: ${puntosMaquina} puntos.`);
+  alert("Fin del juego");
 }
 
 // Event Listeners
