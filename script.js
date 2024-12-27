@@ -81,9 +81,7 @@ function rechazarCarta(jugador) {
 function turnoMaquina() {
   habilitarBotones(false);
   const tomar =
-    fichasEnCarta >= 3 || 
-    cartaActual <= 10 || 
-    cartasMaquina.includes(cartaActual - 1);
+    fichasEnCarta >= 3 || cartaActual <= 10 || cartasMaquina.includes(cartaActual - 1);
 
   setTimeout(() => {
     if (tomar) {
@@ -150,12 +148,11 @@ function calcularPuntuacion(cartas, fichas) {
   return puntos - fichas;
 }
 
-// Actualiza el estado
+// Actualiza el estado del juego
 function actualizarEstado() {
   document.getElementById("fichas-jugador").innerText = fichasJugador;
   document.getElementById("fichas-maquina").innerText = fichasMaquina;
   document.getElementById("chips-on-card").innerText = fichasEnCarta;
-  actualizarPuntuacion();
 }
 
 // Finaliza el juego
@@ -165,7 +162,7 @@ function finalizarJuego() {
   alert(`Juego terminado. Jugador: ${puntosJugador} puntos. Máquina: ${puntosMaquina} puntos.`);
 }
 
-// Habilita o deshabilita botones
+// Habilita o deshabilita los botones
 function habilitarBotones(habilitar) {
   document.getElementById("rechazar").disabled = !habilitar;
   document.getElementById("tomar").disabled = !habilitar;
