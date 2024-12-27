@@ -59,6 +59,7 @@ function actualizarEstado() {
 function actualizarCartas(elementId, cartas) {
   const contenedor = document.getElementById(elementId);
   contenedor.innerHTML = "";
+  cartas.sort((a, b) => a - b); // Ordenar cartas de menor a mayor
   cartas.forEach((carta) => {
     const cartaDiv = document.createElement("div");
     cartaDiv.classList.add("card-small");
