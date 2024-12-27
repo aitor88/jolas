@@ -45,17 +45,18 @@ h1 {
 
 #mazo-restante {
   position: relative;
-  width: 100%;
-  height: 100px; /* Ajustamos la altura */
+  width: 150px; /* Ajustar para mejorar la visibilidad */
+  height: 100px;
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  overflow: hidden; /* Evitar desbordamientos */
 }
 
 .mazo-carta {
-  width: 25px; /* Ancho reducido para apilamiento horizontal */
-  height: 100px;
-  background-color: #bbb; /* Gris claro por defecto */
+  width: 25px; /* Tamaño reducido */
+  height: 90px;
+  background-color: #bbb; /* Gris claro */
   border-radius: 8px;
   box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
   margin-left: -15px; /* Superposición horizontal */
