@@ -8,23 +8,30 @@
 </head>
 <body>
   <div id="app">
-    <h1>No Gracias - Solitario</h1>
+    <h1>No Gracias - Versus Máquina</h1>
     <div id="game">
       <div id="scoreboard">
-        <div>Puntuación: <span id="puntuacion">0</span></div>
-        <div>Fichas restantes: <span id="fichas-value">11</span></div>
+        <div>Puntuación: <span id="puntuacion-jugador">0</span></div>
+        <div>Fichas restantes (Jugador): <span id="fichas-jugador">11</span></div>
+        <div>Puntuación Máquina: <span id="puntuacion-maquina">0</span></div>
+        <div>Fichas restantes (Máquina): <span id="fichas-maquina">11</span></div>
       </div>
       <div id="current-card">
         <h2>Carta actual:</h2>
-        <div id="card-value">-</div>
+        <div id="card-container">
+          <div id="card-value">-</div>
+          <div id="chips-on-card"></div>
+        </div>
       </div>
       <div id="actions">
-        <button id="rechazar">Rechazar</button>
-        <button id="tomar">Tomar</button>
+        <button id="rechazar" disabled>Rechazar</button>
+        <button id="tomar" disabled>Tomar</button>
       </div>
       <div id="cartas-acumuladas">
-        <h2>Cartas acumuladas:</h2>
-        <div id="cartas-value">-</div>
+        <h2>Cartas acumuladas (Jugador):</h2>
+        <div id="cartas-jugador">-</div>
+        <h2>Cartas acumuladas (Máquina):</h2>
+        <div id="cartas-maquina">-</div>
       </div>
     </div>
   </div>
