@@ -40,7 +40,6 @@ h1 {
   border: 2px solid #333;
   border-radius: 10px;
   background-color: #f9f9f9;
-  display: -webkit-flex;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -75,12 +74,12 @@ button:hover {
 #cartas-jugador, #cartas-maquina {
   display: flex;
   flex-wrap: wrap;
-  justify-content: start; /* Alineación inicial */
-  margin-top: 10px;
-  overflow-x: auto; /* Evita que las cartas salgan del contenedor */
+  justify-content: flex-start; /* Alinear al inicio */
   padding: 10px;
-  border: 1px solid #ddd; /* Bordes opcionales para mejor visualización */
+  border: 1px solid #ddd; /* Bordes opcionales */
   border-radius: 5px;
+  margin-top: 10px;
+  overflow-x: auto; /* Permitir scroll horizontal si es necesario */
 }
 
 .card-small {
@@ -90,7 +89,6 @@ button:hover {
   border-radius: 5px;
   background-color: #f9f9f9;
   margin: 0;
-  display: -webkit-flex;
   display: flex;
   justify-content: center;
   align-items: center;
