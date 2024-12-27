@@ -35,7 +35,7 @@ function siguienteCarta() {
     finalizarJuego();
     return;
   }
-  cartaActual = mazo.pop();
+  cartaActual = mazo.shift(); // Extraer la primera carta del mazo
   fichasEnCarta = 0;
   document.getElementById("card-value").innerText = cartaActual;
   document.getElementById("chips-on-card").innerText = fichasEnCarta;
@@ -95,6 +95,7 @@ function siguienteTurno() {
   document.getElementById("turno-actual").innerText = turnoJugador ? "Jugador" : "Máquina";
   habilitarBotones(turnoJugador);
   actualizarEstado();
+
   if (!turnoJugador) {
     setTimeout(() => {
       const decisionMaquina = Math.random() < 0.5; // Decisión aleatoria de la máquina
