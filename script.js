@@ -11,7 +11,7 @@ let cartaActual = null;
 let fichasEnCarta = 0;
 let turnoJugador = true;
 
-// Barajar el mazo (compatible con todos los navegadores)
+// Barajar el mazo
 function barajar(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -77,14 +77,35 @@ function rechazarCarta(jugador) {
   actualizarEstado();
 }
 
-// Actualiza las cartas acumuladas
+// Turno de la máquina
+function turnoMaquina() {
+  const tomar = 
+    fichasEnCarta >= 3 || // Si hay suficientes fichas acumuladas.
+    cartaActual <= 10 || // Si la carta tiene un valor bajo.
+    cartasMaquina.includes(cartaActual - 1); // Si forma una escalera.
+
+  if (tomar) {
+    tomarCarta(false);
+  } else {
+    rechazarCarta(false);
+  }
+  turnoJugador = true;
+  habilitarBotones(true);
+}
+
+// Actualiza las cartas acumuladas (incluye superposición para escaleras)
 function actualizarCartas(elementId, cartas) {
   const contenedor = document.getElementById(elementId);
   contenedor.innerHTML = "";
-  cartas.forEach((carta) => {
+
+  const cartasOrdenadas = [...cartas].sort((a, b) => a - b);
+
+  cartasOrdenadas.forEach((carta, index) => {
     const cartaDiv = document.createElement("div");
     cartaDiv.classList.add("card-small");
     cartaDiv.innerText = carta;
+    cartaDiv.style.position = "relative";
+    cartaDiv.style.left = `${index * 20}px`; // Superposición parcial
     contenedor.appendChild(cartaDiv);
   });
 }
@@ -101,6 +122,7 @@ function actualizarEstado() {
 function calcularPuntuacion(cartas, fichas) {
   let puntosNegativos = 0;
   const cartasOrdenadas = [...cartas].sort((a, b) => a - b);
+
   for (let i = 0; i < cartasOrdenadas.length; i++) {
     if (i === 0 || cartasOrdenadas[i] !== cartasOrdenadas[i - 1] + 1) {
       puntosNegativos += cartasOrdenadas[i];
@@ -133,19 +155,7 @@ document.getElementById("rechazar").addEventListener("click", () => {
   habilitarBotones(false);
   setTimeout(turnoMaquina, 1000);
 });
-document.getElementById("rechazar").addEventListener("touchstart", () => {
-  rechazarCarta(true);
-  turnoJugador = false;
-  habilitarBotones(false);
-  setTimeout(turnoMaquina, 1000);
-});
 document.getElementById("tomar").addEventListener("click", () => {
-  tomarCarta(true);
-  turnoJugador = false;
-  habilitarBotones(false);
-  setTimeout(turnoMaquina, 1000);
-});
-document.getElementById("tomar").addEventListener("touchstart", () => {
   tomarCarta(true);
   turnoJugador = false;
   habilitarBotones(false);
