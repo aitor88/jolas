@@ -21,7 +21,6 @@ function barajar(array) {
 
 // Inicia el juego
 function iniciarJuego() {
-  console.log("Iniciando juego...");
   barajar(mazo);
   mazo = mazo.slice(0, 24); // Retirar 9 cartas aleatorias
   turnoJugador = true;
@@ -58,7 +57,7 @@ function tomarCarta(jugador) {
     fichasMaquina += fichasEnCarta;
     actualizarCartas("cartas-maquina", cartasMaquina);
   }
-  turnoJugador = !jugador; // Cambiar turno
+  turnoJugador = !jugador;
   siguienteCarta();
 }
 
@@ -73,18 +72,18 @@ function rechazarCarta(jugador) {
   } else {
     tomarCarta(jugador);
   }
-  turnoJugador = !jugador; // Cambiar turno
+  turnoJugador = !jugador;
   actualizarEstado();
   habilitarBotones(turnoJugador);
 }
 
 // Turno de la máquina
 function turnoMaquina() {
-  habilitarBotones(false); // Deshabilitar botones durante el turno de la máquina
+  habilitarBotones(false);
   const tomar =
-    fichasEnCarta >= 3 || // Si hay suficientes fichas acumuladas.
-    cartaActual <= 10 || // Si la carta tiene un valor bajo.
-    cartasMaquina.includes(cartaActual - 1); // Si forma una escalera.
+    fichasEnCarta >= 3 || 
+    cartaActual <= 10 || 
+    cartasMaquina.includes(cartaActual - 1);
 
   setTimeout(() => {
     if (tomar) {
@@ -92,16 +91,15 @@ function turnoMaquina() {
     } else {
       rechazarCarta(false);
     }
-    habilitarBotones(true); // Habilitar botones tras turno de la máquina
+    habilitarBotones(true);
   }, 1000);
 }
 
-// Actualiza las cartas acumuladas con agrupación por escaleras
+// Actualiza las cartas acumuladas con orden y agrupación por escaleras
 function actualizarCartas(elementId, cartas) {
   const contenedor = document.getElementById(elementId);
   contenedor.innerHTML = "";
 
-  // Ordenar cartas y agruparlas en escaleras
   cartas.sort((a, b) => a - b);
   const escaleras = [];
   let escaleraActual = [cartas[0]];
@@ -114,23 +112,19 @@ function actualizarCartas(elementId, cartas) {
       escaleraActual = [cartas[i]];
     }
   }
-  escaleras.push(escaleraActual); // Añadir la última escalera
+  escaleras.push(escaleraActual);
 
-  // Visualizar las escaleras
   escaleras.forEach((escalera) => {
     const grupo = document.createElement("div");
     grupo.style.display = "inline-block";
-    grupo.style.marginRight = "20px"; // Espaciado entre grupos
+    grupo.style.marginRight = "25px";
 
     escalera.forEach((carta, index) => {
       const cartaDiv = document.createElement("div");
       cartaDiv.classList.add("card-small");
       cartaDiv.innerText = carta;
-
-      // Superposición visual: solo la carta inicial es completamente visible
       cartaDiv.style.position = "relative";
-      cartaDiv.style.left = `${index * 15}px`; // Ajustar la superposición
-      cartaDiv.style.zIndex = escaleras.length - index; // Asegura que las cartas no se oculten
+      cartaDiv.style.left = `${index * 20}px`;
       grupo.appendChild(cartaDiv);
     });
 
@@ -138,26 +132,25 @@ function actualizarCartas(elementId, cartas) {
   });
 }
 
-// Calcula la puntuación actual con escaleras
+// Calcula la puntuación
 function calcularPuntuacion(cartas, fichas) {
-  let puntosNegativos = 0;
-  const cartasOrdenadas = [...cartas].sort((a, b) => a - b);
+  let puntos = 0;
+  const ordenadas = [...cartas].sort((a, b) => a - b);
+  let escaleraActual = [ordenadas[0]];
 
-  let escaleraActual = [cartasOrdenadas[0]];
-  for (let i = 1; i < cartasOrdenadas.length; i++) {
-    if (cartasOrdenadas[i] === cartasOrdenadas[i - 1] + 1) {
-      escaleraActual.push(cartasOrdenadas[i]);
+  for (let i = 1; i < ordenadas.length; i++) {
+    if (ordenadas[i] === escaleraActual[escaleraActual.length - 1] + 1) {
+      escaleraActual.push(ordenadas[i]);
     } else {
-      puntosNegativos += escaleraActual[0]; // Sumar la menor de la escalera
-      escaleraActual = [cartasOrdenadas[i]];
+      puntos += escaleraActual[0];
+      escaleraActual = [ordenadas[i]];
     }
   }
-  puntosNegativos += escaleraActual[0]; // Añadir la última escalera
-
-  return puntosNegativos - fichas;
+  puntos += escaleraActual[0];
+  return puntos - fichas;
 }
 
-// Actualiza el estado del juego
+// Actualiza el estado
 function actualizarEstado() {
   document.getElementById("fichas-jugador").innerText = fichasJugador;
   document.getElementById("fichas-maquina").innerText = fichasMaquina;
@@ -169,18 +162,16 @@ function actualizarEstado() {
 function finalizarJuego() {
   const puntosJugador = calcularPuntuacion(cartasJugador, fichasJugador);
   const puntosMaquina = calcularPuntuacion(cartasMaquina, fichasMaquina);
-  alert(`Juego terminado. 
-Jugador: ${puntosJugador} puntos. 
-Máquina: ${puntosMaquina} puntos.`);
+  alert(`Juego terminado. Jugador: ${puntosJugador} puntos. Máquina: ${puntosMaquina} puntos.`);
 }
 
-// Habilita o deshabilita los botones
+// Habilita o deshabilita botones
 function habilitarBotones(habilitar) {
   document.getElementById("rechazar").disabled = !habilitar;
   document.getElementById("tomar").disabled = !habilitar;
 }
 
-// Eventos de los botones
+// Listeners
 document.getElementById("rechazar").addEventListener("click", () => {
   rechazarCarta(true);
   setTimeout(turnoMaquina, 1000);
@@ -191,5 +182,5 @@ document.getElementById("tomar").addEventListener("click", () => {
   setTimeout(turnoMaquina, 1000);
 });
 
-// Inicia el juego al cargar la página
+// Inicia el juego
 iniciarJuego();
