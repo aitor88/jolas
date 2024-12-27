@@ -52,7 +52,15 @@ function siguienteCarta() {
 // Actualizar la carta actual en pantalla
 function actualizarCartaActual() {
   document.getElementById("card-value").innerText = cartaActual;
-  document.getElementById("chips-on-card").innerText = fichasEnCarta;
+
+  // Actualizar las fichas en la carta como círculos
+  const chipsContainer = document.getElementById("chips-on-card");
+  chipsContainer.innerHTML = ""; // Limpiar las fichas anteriores
+  for (let i = 0; i < fichasEnCarta; i++) {
+    const chip = document.createElement("div");
+    chip.classList.add("chip");
+    chipsContainer.appendChild(chip);
+  }
 }
 
 // Actualizar el estado del juego
@@ -198,7 +206,7 @@ document.getElementById("resetear").addEventListener("click", () => {
   iniciarJuego();
 });
 
-// Listeners
+// Listeners para botones de acción
 document.getElementById("rechazar").addEventListener("click", () => {
   rechazarCarta();
 });
