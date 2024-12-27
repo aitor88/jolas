@@ -16,23 +16,25 @@
         <div>Puntuación (Máquina): <span id="puntuacion-maquina">0</span></div>
         <div>Fichas restantes (Máquina): <span id="fichas-maquina">11</span></div>
       </div>
-      <div id="current-card">
-        <h2>Carta actual:</h2>
-        <div id="card-container">
-          <div class="card">
-            <div class="card-value" id="card-value">-</div>
-          </div>
-          <div id="chips-on-card">
-            <div id="chip-container"></div>
-          </div>
-        </div>
+      <div id="current-card-section">
         <div id="mazo-restante-container">
           <h3>Mazo restante:</h3>
           <div id="mazo-restante"></div>
         </div>
-        <div id="turno-indicador">
-          Turno de: <span id="turno-actual" class="turno-jugador">Jugador</span>
+        <div id="current-card">
+          <h3>Carta actual:</h3>
+          <div id="card-container">
+            <div class="card">
+              <div class="card-value" id="card-value"></div>
+            </div>
+            <div id="chips-on-card">
+              <div id="chip-container"></div>
+            </div>
+          </div>
         </div>
+      </div>
+      <div id="turno-indicador">
+        Turno de: <span id="turno-actual" class="turno-jugador">Jugador</span>
       </div>
       <div id="actions">
         <button id="rechazar" disabled>Rechazar</button>
