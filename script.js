@@ -19,12 +19,19 @@ function barajar(array) {
 // Inicializar el juego
 function iniciarJuego() {
   mazo = [];
+  cartaActual = null;
+  fichasJugador = 11;
+  fichasMaquina = 11;
+  cartasJugador = [];
+  cartasMaquina = [];
+  fichasEnCarta = 0;
+  turnoJugador = Math.random() < 0.5; // Elegir jugador inicial al azar
+
   for (let i = 3; i <= 35; i++) {
     mazo.push(i);
   }
   barajar(mazo);
   mazo = mazo.slice(0, 24); // Retirar 9 cartas aleatorias
-  turnoJugador = Math.random() < 0.5; // Elegir jugador inicial al azar
   siguienteCarta();
   actualizarEstado();
 }
@@ -185,6 +192,11 @@ function habilitarBotones(habilitar) {
   document.getElementById("rechazar").disabled = !habilitar;
   document.getElementById("tomar").disabled = !habilitar;
 }
+
+// Listener para reiniciar el juego
+document.getElementById("resetear").addEventListener("click", () => {
+  iniciarJuego();
+});
 
 // Listeners
 document.getElementById("rechazar").addEventListener("click", () => {
