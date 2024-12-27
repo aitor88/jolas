@@ -25,7 +25,7 @@ function iniciarJuego() {
   cartasJugador = [];
   cartasMaquina = [];
   fichasEnCarta = 0;
-  turnoJugador = Math.random() < 0.5; // Elegir jugador inicial al azar
+  turnoJugador = Math.random() < 0.5;
 
   for (let i = 3; i <= 35; i++) {
     mazo.push(i);
@@ -42,20 +42,19 @@ function siguienteCarta() {
     finalizarJuego();
     return;
   }
-  cartaActual = mazo.shift(); // Extraer la primera carta del mazo
-  fichasEnCarta = 0; // Reiniciar las fichas en la carta
+  cartaActual = mazo.shift();
+  fichasEnCarta = 0;
   actualizarCartaActual();
   habilitarBotones(turnoJugador);
-  actualizarCartasRestantes(); // Actualizar las cartas restantes
+  actualizarCartasRestantes();
 }
 
 // Actualizar la carta actual en pantalla
 function actualizarCartaActual() {
   document.getElementById("card-value").innerText = cartaActual;
 
-  // Actualizar las fichas en la carta como círculos
   const chipsContainer = document.getElementById("chips-on-card");
-  chipsContainer.innerHTML = ""; // Limpiar las fichas anteriores
+  chipsContainer.innerHTML = "";
   for (let i = 0; i < fichasEnCarta; i++) {
     const chip = document.createElement("div");
     chip.classList.add("chip");
@@ -88,20 +87,20 @@ function agruparCartas(cartas) {
     if (cartas[i] === escalera[escalera.length - 1] + 1) {
       escalera.push(cartas[i]);
     } else {
-      agrupaciones.push([...escalera]); // Guardar la escalera anterior
+      agrupaciones.push([...escalera]);
       escalera = [cartas[i]];
     }
   }
-  agrupaciones.push([...escalera]); // Agregar la última escalera o carta
+  agrupaciones.push([...escalera]);
   return agrupaciones;
 }
 
 // Actualizar las cartas acumuladas en pantalla
 function actualizarCartas(elementId, agrupaciones) {
   const contenedor = document.getElementById(elementId);
-  contenedor.innerHTML = ""; // Limpiar contenido previo
+  contenedor.innerHTML = "";
   agrupaciones.forEach((grupo) => {
-    if (grupo && grupo.length > 0) { // Verificar que el grupo no esté vacío
+    if (grupo && grupo.length > 0) {
       const grupoDiv = document.createElement("div");
       grupoDiv.classList.add("group");
 
@@ -110,11 +109,10 @@ function actualizarCartas(elementId, agrupaciones) {
         cartaDiv.classList.add("card-small");
         cartaDiv.innerText = carta;
 
-        // Visualmente destacar la primera carta del grupo
         if (index === 0) {
           cartaDiv.style.fontWeight = "bold";
         } else {
-          cartaDiv.style.opacity = "0.6"; // Cartas menores con menos énfasis
+          cartaDiv.style.opacity = "0.6";
         }
 
         grupoDiv.appendChild(cartaDiv);
@@ -139,9 +137,9 @@ function tomarCarta() {
     cartasMaquina.push(cartaActual);
     fichasMaquina += fichasEnCarta;
   }
-  fichasEnCarta = 0; // Reiniciar las fichas acumuladas en la carta
+  fichasEnCarta = 0;
   siguienteTurno();
-  siguienteCarta(); // Cambiar a la siguiente carta
+  siguienteCarta();
 }
 
 // Rechazar la carta
@@ -153,10 +151,10 @@ function rechazarCarta() {
     fichasMaquina--;
     fichasEnCarta++;
   } else {
-    tomarCarta(); // Si no hay fichas suficientes, el jugador toma la carta
+    tomarCarta();
     return;
   }
-  actualizarCartaActual(); // Actualizar las fichas en la carta
+  actualizarCartaActual();
   siguienteTurno();
 }
 
@@ -169,7 +167,7 @@ function siguienteTurno() {
 
   if (!turnoJugador) {
     setTimeout(() => {
-      const decisionMaquina = Math.random() < 0.5; // Decisión aleatoria de la máquina
+      const decisionMaquina = Math.random() < 0.5;
       if (decisionMaquina && fichasMaquina > 0) {
         rechazarCarta();
       } else {
