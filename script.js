@@ -66,6 +66,7 @@ function actualizarMazoRestante() {
   const mazoContainer = document.getElementById("mazo-restante");
   mazoContainer.innerHTML = "";
 
+  // Dibujar las cartas restantes en el mazo
   mazo.forEach((_, index) => {
     const cartaDiv = document.createElement("div");
     cartaDiv.classList.add("mazo-carta");
@@ -142,88 +143,6 @@ function habilitarBotones(habilitar) {
   document.getElementById("rechazar").disabled = !habilitar;
   document.getElementById("tomar").disabled = !habilitar;
 }
-
-// Calcula la puntuación
-function calcularPuntuacion(cartas, fichas) {
-  let puntos = 0;
-  const ordenadas = [...cartas].sort((a, b) => a - b);
-  let escaleraActual = [ordenadas[0]];
-
-  for (let i = 1; i < ordenadas.length; i++) {
-    if (ordenadas[i] === escaleraActual[escaleraActual.length - 1] + 1) {
-      escaleraActual.push(ordenadas[i]);
-    } else {
-      puntos += escaleraActual[0];
-      escaleraActual = [ordenadas[i]];
-    }
-  }
-  puntos += escaleraActual[0];
-  return puntos - fichas;
-}
-
-// Actualiza el indicador de turno
-function actualizarIndicadorTurno() {
-  const turnoTexto = turnoJugador ? "Jugador" : "Máquina";
-  const turnoElemento = document.getElementById("turno-actual");
-  turnoElemento.innerText = turnoTexto;
-
-  // Cambiar color según el turno
-  if (turnoJugador) {
-    turnoElemento.classList.add("turno-jugador");
-    turnoElemento.classList.remove("turno-maquina");
-  } else {
-    turnoElemento.classList.add("turno-maquina");
-    turnoElemento.classList.remove("turno-jugador");
-  }
-}
-
-// Actualiza las cartas acumuladas con orden y agrupación por escaleras
-function actualizarCartas(elementId, cartas) {
-  const contenedor = document.getElementById(elementId);
-  contenedor.innerHTML = "";
-
-  cartas.sort((a, b) => a - b);
-  const escaleras = [];
-  let escaleraActual = [cartas[0]];
-
-  for (let i = 1; i < cartas.length; i++) {
-    if (cartas[i] === escaleraActual[escaleraActual.length - 1] + 1) {
-      escaleraActual.push(cartas[i]);
-    } else {
-      escaleras.push(escaleraActual);
-      escaleraActual = [cartas[i]];
-    }
-  }
-  escaleras.push(escaleraActual);
-
-  escaleras.forEach((escalera) => {
-    const grupo = document.createElement("div");
-    grupo.style.display = "inline-block";
-    grupo.style.marginRight = "25px";
-
-    escalera.forEach((carta, index) => {
-      const cartaDiv = document.createElement("div");
-      cartaDiv.classList.add("card-small");
-      cartaDiv.innerText = carta;
-      cartaDiv.style.position = "relative";
-      cartaDiv.style.left = `${index * 20}px`;
-      grupo.appendChild(cartaDiv);
-    });
-
-    contenedor.appendChild(grupo);
-  });
-}
-
-// Listeners
-document.getElementById("rechazar").addEventListener("click", () => {
-  rechazarCarta(true);
-  setTimeout(turnoMaquina, 1000);
-});
-
-document.getElementById("tomar").addEventListener("click", () => {
-  tomarCarta(true);
-  setTimeout(turnoMaquina, 1000);
-});
 
 // Inicia el juego
 iniciarJuego();
