@@ -77,27 +77,29 @@ function agruparCartas(cartas) {
 // Actualizar las cartas acumuladas en pantalla
 function actualizarCartas(elementId, agrupaciones) {
   const contenedor = document.getElementById(elementId);
-  contenedor.innerHTML = "";
+  contenedor.innerHTML = ""; // Limpiar contenido previo
   agrupaciones.forEach((grupo) => {
-    const grupoDiv = document.createElement("div");
-    grupoDiv.classList.add("group");
+    if (grupo && grupo.length > 0) { // Verificar que el grupo no esté vacío
+      const grupoDiv = document.createElement("div");
+      grupoDiv.classList.add("group");
 
-    grupo.forEach((carta, index) => {
-      const cartaDiv = document.createElement("div");
-      cartaDiv.classList.add("card-small");
-      cartaDiv.innerText = carta;
+      grupo.forEach((carta, index) => {
+        const cartaDiv = document.createElement("div");
+        cartaDiv.classList.add("card-small");
+        cartaDiv.innerText = carta;
 
-      // Visualmente destacar la primera carta del grupo
-      if (index === 0) {
-        cartaDiv.style.fontWeight = "bold";
-      } else {
-        cartaDiv.style.opacity = "0.6"; // Cartas menores con menos énfasis
-      }
+        // Visualmente destacar la primera carta del grupo
+        if (index === 0) {
+          cartaDiv.style.fontWeight = "bold";
+        } else {
+          cartaDiv.style.opacity = "0.6"; // Cartas menores con menos énfasis
+        }
 
-      grupoDiv.appendChild(cartaDiv);
-    });
+        grupoDiv.appendChild(cartaDiv);
+      });
 
-    contenedor.appendChild(grupoDiv);
+      contenedor.appendChild(grupoDiv);
+    }
   });
 }
 
