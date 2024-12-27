@@ -45,8 +45,8 @@ function siguienteCarta() {
 
 // Muestra la carta actual en pantalla
 function mostrarCartaActual() {
-  document.getElementById("card-value").innerText = cartaActual;
-  actualizarFichasEnCarta();
+  const cardValueElement = document.getElementById("card-value");
+  cardValueElement.innerText = cartaActual || ""; // Mostrar carta o dejar vacío si no hay carta
 }
 
 // Actualiza las fichas en la carta
@@ -72,7 +72,7 @@ function actualizarMazoRestante() {
     cartaDiv.classList.add("mazo-carta");
 
     // Ajustar posición horizontal para simular apilamiento
-    cartaDiv.style.position = "relative";
+    cartaDiv.style.position = "absolute";
     cartaDiv.style.left = `${index * 15}px`; // Espaciado horizontal progresivo
     mazoContainer.appendChild(cartaDiv);
   });
