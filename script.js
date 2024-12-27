@@ -78,6 +78,7 @@ function tomarCarta() {
   }
   fichasEnCarta = 0; // Reiniciar las fichas acumuladas en la carta
   siguienteTurno();
+  siguienteCarta(); // Cambiar a la siguiente carta
 }
 
 // Rechazar la carta
