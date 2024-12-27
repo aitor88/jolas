@@ -45,30 +45,32 @@ h1 {
 
 #mazo-restante {
   position: relative;
-  width: 150px; /* Ajustar para mejorar la visibilidad */
-  height: 100px;
+  width: 200px; /* Ancho del mazo */
+  height: 120px; /* Altura del mazo */
+  background-color: transparent;
   display: flex;
   justify-content: flex-start;
   align-items: center;
   overflow: hidden; /* Evitar desbordamientos */
+  border: 1px dashed #ccc; /* Opcional para ver el contenedor */
 }
 
 .mazo-carta {
-  width: 25px; /* Tamaño reducido */
-  height: 90px;
-  background-color: #bbb; /* Gris claro */
-  border-radius: 8px;
+  width: 20px; /* Ancho reducido para apilamiento */
+  height: 100px; /* Altura consistente con la carta actual */
+  background-color: #ccc; /* Color de las cartas */
+  border-radius: 4px;
   box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
   margin-left: -15px; /* Superposición horizontal */
 }
 
 /* Alternar colores de las cartas */
 .mazo-carta:nth-child(odd) {
-  background-color: #888; /* Gris oscuro */
+  background-color: #aaa; /* Gris oscuro */
 }
 
 .mazo-carta:nth-child(even) {
-  background-color: #bbb; /* Gris claro */
+  background-color: #eee; /* Gris claro */
 }
 
 /* Carta actual */
@@ -144,4 +146,36 @@ button {
 
 button:hover {
   background-color: #45a049;
+}
+
+/* Cartas acumuladas */
+#cartas-jugador,
+#cartas-maquina {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 5px;
+  margin: 10px 0;
+}
+
+.card-small {
+  width: 50px;
+  height: 70px;
+  border: 1px solid #333;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1em;
+  color: #333;
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Contenedor de cartas acumuladas */
+.card-small-group {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-right: 20px;
 }
