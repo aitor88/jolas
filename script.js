@@ -25,6 +25,7 @@ function iniciarJuego() {
   mazo = mazo.slice(0, 24); // Retirar 9 cartas aleatorias
   turnoJugador = true;
   actualizarIndicadorTurno();
+  actualizarMazoRestante();
   siguienteCarta();
 }
 
@@ -38,19 +39,40 @@ function siguienteCarta() {
   fichasEnCarta = 0;
   mostrarCartaActual();
   actualizarEstado();
+  actualizarMazoRestante();
   habilitarBotones(turnoJugador);
-}
-
-// Actualiza el indicador de turno
-function actualizarIndicadorTurno() {
-  const turnoTexto = turnoJugador ? "Jugador" : "Máquina";
-  document.getElementById("turno-actual").innerText = turnoTexto;
 }
 
 // Muestra la carta actual en pantalla
 function mostrarCartaActual() {
   document.getElementById("card-value").innerText = cartaActual;
-  document.getElementById("chips-on-card").innerText = fichasEnCarta;
+  actualizarFichasEnCarta();
+}
+
+// Actualiza las fichas en la carta
+function actualizarFichasEnCarta() {
+  const chipContainer = document.getElementById("chip-container");
+  chipContainer.innerHTML = "";
+
+  for (let i = 0; i < fichasEnCarta; i++) {
+    const chip = document.createElement("div");
+    chip.classList.add("chip");
+    chipContainer.appendChild(chip);
+  }
+}
+
+// Actualiza el mazo restante
+function actualizarMazoRestante() {
+  const mazoContainer = document.getElementById("mazo-restante");
+  mazoContainer.innerHTML = "";
+
+  // Dibujar las cartas restantes en el mazo
+  mazo.forEach((_, index) => {
+    const cartaDiv = document.createElement("div");
+    cartaDiv.classList.add("mazo-carta");
+    cartaDiv.style.setProperty("--index", index);
+    mazoContainer.appendChild(cartaDiv);
+  });
 }
 
 // Toma la carta actual
@@ -83,6 +105,7 @@ function rechazarCarta(jugador) {
   turnoJugador = !jugador;
   actualizarIndicadorTurno();
   actualizarEstado();
+  actualizarFichasEnCarta();
   habilitarBotones(turnoJugador);
 }
 
@@ -161,7 +184,6 @@ function calcularPuntuacion(cartas, fichas) {
 function actualizarEstado() {
   document.getElementById("fichas-jugador").innerText = fichasJugador;
   document.getElementById("fichas-maquina").innerText = fichasMaquina;
-  document.getElementById("chips-on-card").innerText = fichasEnCarta;
 }
 
 // Finaliza el juego
