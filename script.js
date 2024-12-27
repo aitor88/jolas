@@ -104,7 +104,7 @@ function actualizarCartas(elementId, cartas) {
   let escaleraActual = [cartas[0]];
 
   for (let i = 1; i < cartas.length; i++) {
-    if (cartas[i] === cartas[i - 1] + 1) {
+    if (cartas[i] === escaleraActual[escaleraActual.length - 1] + 1) {
       escaleraActual.push(cartas[i]);
     } else {
       escaleras.push(escaleraActual);
@@ -115,6 +115,10 @@ function actualizarCartas(elementId, cartas) {
 
   // Visualizar las escaleras
   escaleras.forEach((escalera) => {
+    const grupo = document.createElement("div");
+    grupo.style.display = "inline-block";
+    grupo.style.marginRight = "10px"; // Espaciado entre grupos
+
     escalera.forEach((carta, index) => {
       const cartaDiv = document.createElement("div");
       cartaDiv.classList.add("card-small");
@@ -122,10 +126,12 @@ function actualizarCartas(elementId, cartas) {
 
       // Superposición visual: solo la carta inicial es completamente visible
       cartaDiv.style.position = "relative";
-      cartaDiv.style.left = `${index * 20}px`;
+      cartaDiv.style.left = `${index * 15}px`; // Ajustar la superposición
       cartaDiv.style.zIndex = escaleras.length - index; // Asegura que las cartas no se oculten
-      contenedor.appendChild(cartaDiv);
+      grupo.appendChild(cartaDiv);
     });
+
+    contenedor.appendChild(grupo);
   });
 }
 
@@ -151,4 +157,37 @@ function calcularPuntuacion(cartas, fichas) {
 // Actualiza el estado del juego
 function actualizarEstado() {
   document.getElementById("fichas-jugador").innerText = fichasJugador;
-  document.getElementById("fichas-maquina").innerText = fichas
+  document.getElementById("fichas-maquina").innerText = fichasMaquina;
+  document.getElementById("chips-on-card").innerText = fichasEnCarta;
+  actualizarPuntuacion();
+}
+
+// Finaliza el juego
+function finalizarJuego() {
+  const puntosJugador = calcularPuntuacion(cartasJugador, fichasJugador);
+  const puntosMaquina = calcularPuntuacion(cartasMaquina, fichasMaquina);
+  alert(`Juego terminado. 
+Jugador: ${puntosJugador} puntos. 
+Máquina: ${puntosMaquina} puntos.`);
+}
+
+// Habilita o deshabilita los botones según el turno
+function habilitarBotones(habilitar) {
+  document.getElementById("rechazar").disabled = !habilitar;
+  document.getElementById("tomar").disabled = !habilitar;
+}
+
+// Event Listeners
+document.getElementById("rechazar").addEventListener("click", () => {
+  rechazarCarta(true);
+  habilitarBotones(false);
+  setTimeout(turnoMaquina, 1000);
+});
+document.getElementById("tomar").addEventListener("click", () => {
+  tomarCarta(true);
+  habilitarBotones(false);
+  setTimeout(turnoMaquina, 1000);
+});
+
+// Inicia el juego al cargar la página
+iniciarJuego();
