@@ -39,6 +39,7 @@ function siguienteCarta() {
   fichasEnCarta = 0; // Reiniciar las fichas en la carta
   actualizarCartaActual();
   habilitarBotones(turnoJugador);
+  actualizarCartasRestantes(); // Actualizar las cartas restantes
 }
 
 // Actualizar la carta actual en pantalla
@@ -98,6 +99,11 @@ function actualizarCartas(elementId, agrupaciones) {
 
     contenedor.appendChild(grupoDiv);
   });
+}
+
+// Actualizar el contador de cartas restantes en el mazo
+function actualizarCartasRestantes() {
+  document.getElementById("cartas-restantes").innerText = `Cartas restantes en el mazo: ${mazo.length}`;
 }
 
 // Tomar la carta
