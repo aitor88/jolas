@@ -46,10 +46,10 @@ function siguienteCarta() {
 // Muestra la carta actual en pantalla
 function mostrarCartaActual() {
   const cardValueElement = document.getElementById("card-value");
-  if (cartaActual) {
+  if (cartaActual !== null) {
     cardValueElement.innerText = cartaActual;
   } else {
-    cardValueElement.innerText = ""; // Si no hay carta, dejar vacío
+    cardValueElement.innerText = ""; // Si no hay carta actual
   }
 }
 
@@ -68,14 +68,14 @@ function actualizarFichasEnCarta() {
 // Actualiza el mazo restante
 function actualizarMazoRestante() {
   const mazoContainer = document.getElementById("mazo-restante");
-  mazoContainer.innerHTML = "";
+  mazoContainer.innerHTML = ""; // Limpiar contenido previo
 
   // Dibujar las cartas restantes en el mazo
   mazo.forEach((_, index) => {
     const cartaDiv = document.createElement("div");
     cartaDiv.classList.add("mazo-carta");
 
-    // Ajustar posición horizontal para simular apilamiento
+    // Posición horizontal para simular apilamiento
     cartaDiv.style.position = "absolute";
     cartaDiv.style.left = `${index * 10}px`; // Espaciado horizontal progresivo
     mazoContainer.appendChild(cartaDiv);
