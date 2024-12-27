@@ -3,6 +3,7 @@ let mazo = Array.from({ length: 33 }, (_, i) => i + 3); // Cartas del 3 al 35
 let fichas = 11;
 let cartasAcumuladas = [];
 let cartaActual = null;
+let fichasAcumuladas = 0; // Fichas acumuladas junto a la carta actual
 
 // Barajar el mazo
 function barajar(array) {
@@ -27,31 +28,28 @@ function siguienteCarta() {
     return;
   }
   cartaActual = mazo.pop();
+  fichasAcumuladas = 0; // Reiniciar las fichas acumuladas para la nueva carta
   document.getElementById("card-value").innerText = cartaActual;
+  actualizarEstado();
 }
 
 // Toma la carta actual
 function tomarCarta() {
   cartasAcumuladas.push(cartaActual);
-  fichas += fichasAcumuladas(); // Recuperar las fichas acumuladas
-  actualizarEstado();
+  fichas += fichasAcumuladas; // Recuperar las fichas acumuladas junto a la carta
   siguienteCarta();
 }
 
 // Rechaza la carta actual
 function rechazarCarta() {
   if (fichas > 0) {
-    fichas -= 1;
+    fichas -= 1; // Gasta una ficha
+    fichasAcumuladas += 1; // Añade una ficha a las acumuladas junto a la carta
     actualizarEstado();
   } else {
     alert("No tienes fichas suficientes. Debes tomar la carta.");
     tomarCarta();
   }
-}
-
-// Calcula las fichas acumuladas junto a la carta actual
-function fichasAcumuladas() {
-  return Math.floor(Math.random() * 5); // Simula fichas acumuladas (opcional)
 }
 
 // Actualiza el estado del juego
