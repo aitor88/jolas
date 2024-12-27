@@ -40,7 +40,7 @@ h1 {
   border: 2px solid #333;
   border-radius: 10px;
   background-color: #f9f9f9;
-  display: -webkit-flex; /* Para Safari */
+  display: -webkit-flex;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -85,11 +85,15 @@ button:hover {
   border: 1px solid #333;
   border-radius: 5px;
   background-color: #f9f9f9;
-  margin: 5px;
-  display: -webkit-flex; /* Para Safari */
+  margin: 0;
+  display: -webkit-flex;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 1.2em;
   color: #333;
+  z-index: 1;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+  position: relative;
+  transition: all 0.2s ease-in-out;
 }
