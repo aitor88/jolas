@@ -15,9 +15,7 @@ let turnoJugador = true;
 function barajar(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    const temp = array[i];
-    array[i] = array[j];
-    array[j] = temp;
+    [array[i], array[j]] = [array[j], array[i]];
   }
 }
 
@@ -76,7 +74,7 @@ function rechazarCarta(jugador) {
   }
   turnoJugador = !jugador; // Cambiar turno
   actualizarEstado();
-  if (!jugador) habilitarBotones(true); // Habilitar botones tras turno de la máquina
+  habilitarBotones(turnoJugador);
 }
 
 // Turno de la máquina
@@ -177,8 +175,10 @@ Máquina: ${puntosMaquina} puntos.`);
 
 // Habilita o deshabilita los botones según el turno
 function habilitarBotones(habilitar) {
-  document.getElementById("rechazar").disabled = !habilitar;
-  document.getElementById("tomar").disabled = !habilitar;
+  const botonRechazar = document.getElementById("rechazar");
+  const botonTomar = document.getElementById("tomar");
+  botonRechazar.disabled = !habilitar;
+  botonTomar.disabled = !habilitar;
 }
 
 // Event Listeners
@@ -187,6 +187,7 @@ document.getElementById("rechazar").addEventListener("click", () => {
   habilitarBotones(false);
   setTimeout(turnoMaquina, 1000);
 });
+
 document.getElementById("tomar").addEventListener("click", () => {
   tomarCarta(true);
   habilitarBotones(false);
