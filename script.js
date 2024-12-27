@@ -51,20 +51,52 @@ function actualizarCartaActual() {
 function actualizarEstado() {
   document.getElementById("fichas-jugador").innerText = fichasJugador;
   document.getElementById("fichas-maquina").innerText = fichasMaquina;
-  actualizarCartas("cartas-jugador", cartasJugador);
-  actualizarCartas("cartas-maquina", cartasMaquina);
+  actualizarCartas("cartas-jugador", agruparCartas(cartasJugador));
+  actualizarCartas("cartas-maquina", agruparCartas(cartasMaquina));
 }
 
-// Actualizar las cartas acumuladas
-function actualizarCartas(elementId, cartas) {
+// Agrupar cartas consecutivas
+function agruparCartas(cartas) {
+  cartas.sort((a, b) => a - b);
+  const agrupaciones = [];
+  let escalera = [cartas[0]];
+
+  for (let i = 1; i < cartas.length; i++) {
+    if (cartas[i] === escalera[escalera.length - 1] + 1) {
+      escalera.push(cartas[i]);
+    } else {
+      agrupaciones.push([...escalera]); // Guardar la escalera anterior
+      escalera = [cartas[i]];
+    }
+  }
+  agrupaciones.push([...escalera]); // Agregar la última escalera o carta
+  return agrupaciones;
+}
+
+// Actualizar las cartas acumuladas en pantalla
+function actualizarCartas(elementId, agrupaciones) {
   const contenedor = document.getElementById(elementId);
   contenedor.innerHTML = "";
-  cartas.sort((a, b) => a - b); // Ordenar cartas de menor a mayor
-  cartas.forEach((carta) => {
-    const cartaDiv = document.createElement("div");
-    cartaDiv.classList.add("card-small");
-    cartaDiv.innerText = carta;
-    contenedor.appendChild(cartaDiv);
+  agrupaciones.forEach((grupo) => {
+    const grupoDiv = document.createElement("div");
+    grupoDiv.classList.add("group");
+
+    grupo.forEach((carta, index) => {
+      const cartaDiv = document.createElement("div");
+      cartaDiv.classList.add("card-small");
+      cartaDiv.innerText = carta;
+
+      // Visualmente destacar la primera carta del grupo
+      if (index === 0) {
+        cartaDiv.style.fontWeight = "bold";
+      } else {
+        cartaDiv.style.opacity = "0.6"; // Cartas menores con menos énfasis
+      }
+
+      grupoDiv.appendChild(cartaDiv);
+    });
+
+    contenedor.appendChild(grupoDiv);
   });
 }
 
@@ -119,26 +151,17 @@ function siguienteTurno() {
 
 // Finalizar el juego
 function finalizarJuego() {
-  const puntosJugador = calcularPuntuacion(cartasJugador, fichasJugador);
-  const puntosMaquina = calcularPuntuacion(cartasMaquina, fichasMaquina);
+  const puntosJugador = calcularPuntuacion(agruparCartas(cartasJugador), fichasJugador);
+  const puntosMaquina = calcularPuntuacion(agruparCartas(cartasMaquina), fichasMaquina);
   alert(`Juego terminado. Jugador: ${puntosJugador} puntos. Máquina: ${puntosMaquina} puntos.`);
 }
 
 // Calcular la puntuación
-function calcularPuntuacion(cartas, fichas) {
+function calcularPuntuacion(agrupaciones, fichas) {
   let puntos = 0;
-  cartas.sort((a, b) => a - b);
-
-  let escalera = [cartas[0]];
-  for (let i = 1; i < cartas.length; i++) {
-    if (cartas[i] === escalera[escalera.length - 1] + 1) {
-      escalera.push(cartas[i]);
-    } else {
-      puntos += escalera[0];
-      escalera = [cartas[i]];
-    }
-  }
-  puntos += escalera[0]; // Añadir la última escalera o carta
+  agrupaciones.forEach((grupo) => {
+    puntos += grupo[0]; // Solo sumar la carta menor de cada grupo
+  });
   return puntos - fichas;
 }
 
