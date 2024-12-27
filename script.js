@@ -24,6 +24,7 @@ function iniciarJuego() {
   barajar(mazo);
   mazo = mazo.slice(0, 24); // Retirar 9 cartas aleatorias
   turnoJugador = true;
+  actualizarIndicadorTurno();
   siguienteCarta();
 }
 
@@ -38,6 +39,12 @@ function siguienteCarta() {
   mostrarCartaActual();
   actualizarEstado();
   habilitarBotones(turnoJugador);
+}
+
+// Actualiza el indicador de turno
+function actualizarIndicadorTurno() {
+  const turnoTexto = turnoJugador ? "Jugador" : "Máquina";
+  document.getElementById("turno-actual").innerText = turnoTexto;
 }
 
 // Muestra la carta actual en pantalla
@@ -58,6 +65,7 @@ function tomarCarta(jugador) {
     actualizarCartas("cartas-maquina", cartasMaquina);
   }
   turnoJugador = !jugador;
+  actualizarIndicadorTurno();
   siguienteCarta();
 }
 
@@ -73,6 +81,7 @@ function rechazarCarta(jugador) {
     tomarCarta(jugador);
   }
   turnoJugador = !jugador;
+  actualizarIndicadorTurno();
   actualizarEstado();
   habilitarBotones(turnoJugador);
 }
