@@ -27,7 +27,6 @@ function iniciarJuego() {
   mazo = mazo.slice(0, 24); // Retirar 9 cartas aleatorias
   turnoJugador = true;
   siguienteCarta();
-  actualizarPuntuacion();
 }
 
 // Muestra la siguiente carta
@@ -60,6 +59,7 @@ function tomarCarta(jugador) {
     fichasMaquina += fichasEnCarta;
     actualizarCartas("cartas-maquina", cartasMaquina);
   }
+  turnoJugador = !jugador; // Cambiar turno
   siguienteCarta();
 }
 
@@ -74,23 +74,27 @@ function rechazarCarta(jugador) {
   } else {
     tomarCarta(jugador);
   }
+  turnoJugador = !jugador; // Cambiar turno
   actualizarEstado();
+  if (!jugador) habilitarBotones(true); // Habilitar botones tras turno de la máquina
 }
 
 // Turno de la máquina
 function turnoMaquina() {
+  habilitarBotones(false); // Deshabilitar botones durante el turno de la máquina
   const tomar =
     fichasEnCarta >= 3 || // Si hay suficientes fichas acumuladas.
     cartaActual <= 10 || // Si la carta tiene un valor bajo.
     cartasMaquina.includes(cartaActual - 1); // Si forma una escalera.
 
-  if (tomar) {
-    tomarCarta(false);
-  } else {
-    rechazarCarta(false);
-  }
-  turnoJugador = true;
-  habilitarBotones(true);
+  setTimeout(() => {
+    if (tomar) {
+      tomarCarta(false);
+    } else {
+      rechazarCarta(false);
+    }
+    habilitarBotones(true); // Habilitar botones tras turno de la máquina
+  }, 1000);
 }
 
 // Actualiza las cartas acumuladas con agrupación por escaleras
