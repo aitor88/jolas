@@ -52,7 +52,6 @@ h1 {
   justify-content: flex-start;
   align-items: center;
   overflow: hidden; /* Evitar desbordamientos */
-  border: 1px dashed #ccc; /* Opcional para ver el contenedor */
 }
 
 .mazo-carta {
@@ -61,7 +60,7 @@ h1 {
   background-color: #ccc; /* Color de las cartas */
   border-radius: 4px;
   box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
-  margin-left: -15px; /* Superposición horizontal */
+  margin-left: -10px; /* Superposición horizontal */
 }
 
 /* Alternar colores de las cartas */
@@ -170,12 +169,4 @@ button:hover {
   font-size: 1em;
   color: #333;
   box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
-}
-
-/* Contenedor de cartas acumuladas */
-.card-small-group {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  margin-right: 20px;
 }
