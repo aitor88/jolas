@@ -24,12 +24,29 @@ h1 {
   padding: 20px;
 }
 
-/* Carta actual */
+/* Sección principal de carta actual y mazo */
+#current-card-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+}
+
+#mazo-restante-container,
+#current-card {
+  width: 45%;
+  text-align: center;
+}
+
+#mazo-restante-container h3,
+#current-card h3 {
+  margin-bottom: 10px;
+}
+
 #card-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 20px auto;
   position: relative;
 }
 
@@ -52,7 +69,7 @@ h1 {
 
 /* Fichas */
 #chips-on-card {
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 #chip-container {
@@ -60,7 +77,6 @@ h1 {
   flex-wrap: wrap;
   justify-content: center;
   gap: 5px;
-  margin-top: 10px;
 }
 
 .chip {
@@ -72,16 +88,11 @@ h1 {
 }
 
 /* Mazo restante */
-#mazo-restante-container {
-  margin-top: 20px;
-  text-align: center;
-}
-
 #mazo-restante {
   position: relative;
   width: 80px;
   height: 120px;
-  display: inline-block;
+  margin: 0 auto;
 }
 
 .mazo-carta {
@@ -94,4 +105,34 @@ h1 {
   transform: rotate(calc(-5deg + var(--index) * 0.5deg));
   top: calc(var(--index) * -2px);
   z-index: calc(var(--index));
+}
+
+/* Turno */
+#turno-indicador {
+  margin-top: 20px;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.turno-jugador {
+  color: #4CAF50; /* Verde */
+}
+
+.turno-maquina {
+  color: #F44336; /* Rojo */
+}
+
+/* Botones */
+button {
+  margin: 10px;
+  padding: 10px 20px;
+  border: none;
+  background-color: #4CAF50;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button:hover {
+  background-color: #45a049;
 }
