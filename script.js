@@ -179,34 +179,36 @@ function siguienteTurno() {
   }
 }
 
-// Finalizar el juego
+// Finalizar el juego con modal
 function finalizarJuego() {
   const puntosJugador = calcularPuntuacion(agruparCartas(cartasJugador), fichasJugador);
   const puntosMaquina = calcularPuntuacion(agruparCartas(cartasMaquina), fichasMaquina);
-  alert(`Juego terminado. Jugador: ${puntosJugador} puntos. Máquina: ${puntosMaquina} puntos.`);
+
+  const modal = document.getElementById("resultado-modal");
+  const titulo = document.getElementById("resultado-titulo");
+  const mensaje = document.getElementById("resultado-mensaje");
+
+  if (puntosJugador < puntosMaquina) {
+    titulo.textContent = "¡Victoria!";
+    mensaje.textContent = `Has ganado con ${puntosJugador} puntos negativos. La máquina terminó con ${puntosMaquina} puntos. ¡Gran trabajo!`;
+  } else if (puntosJugador > puntosMaquina) {
+    titulo.textContent = "Derrota";
+    mensaje.textContent = `La máquina ganó con ${puntosMaquina} puntos negativos, mientras tú obtuviste ${puntosJugador}. ¡Sigue intentándolo!`;
+  } else {
+    titulo.textContent = "Empate";
+    mensaje.textContent = `Ambos terminaron con ${puntosJugador} puntos. ¡Qué partida tan igualada!`;
+  }
+
+  modal.classList.remove("hidden");
 }
 
-// Calcular la puntuación
-function calcularPuntuacion(agrupaciones, fichas) {
-  let puntos = 0;
-  agrupaciones.forEach((grupo) => {
-    puntos += grupo[0]; // Solo sumar la carta menor de cada grupo
-  });
-  return puntos - fichas;
-}
-
-// Habilitar o deshabilitar botones
-function habilitarBotones(habilitar) {
-  document.getElementById("rechazar").disabled = !habilitar;
-  document.getElementById("tomar").disabled = !habilitar;
-}
-
-// Listener para reiniciar el juego
-document.getElementById("resetear").addEventListener("click", () => {
+// Listener para reiniciar el juego desde el modal
+document.getElementById("reiniciar").addEventListener("click", () => {
+  document.getElementById("resultado-modal").classList.add("hidden");
   iniciarJuego();
 });
 
-// Listeners para botones de acción
+// Listener para botones de acción
 document.getElementById("rechazar").addEventListener("click", () => {
   rechazarCarta();
 });
