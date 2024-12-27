@@ -50,8 +50,15 @@ function actualizarCartaActual() {
 
 // Actualizar el estado del juego
 function actualizarEstado() {
+  const puntosJugador = calcularPuntuacion(agruparCartas(cartasJugador), fichasJugador);
+  const puntosMaquina = calcularPuntuacion(agruparCartas(cartasMaquina), fichasMaquina);
+
   document.getElementById("fichas-jugador").innerText = fichasJugador;
   document.getElementById("fichas-maquina").innerText = fichasMaquina;
+
+  document.getElementById("cartas-jugador-title").innerText = `Cartas acumuladas (Jugador): ${puntosJugador}`;
+  document.getElementById("cartas-maquina-title").innerText = `Cartas acumuladas (Máquina): ${puntosMaquina}`;
+
   actualizarCartas("cartas-jugador", agruparCartas(cartasJugador));
   actualizarCartas("cartas-maquina", agruparCartas(cartasMaquina));
 }
