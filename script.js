@@ -24,7 +24,7 @@ function iniciarJuego() {
   }
   barajar(mazo);
   mazo = mazo.slice(0, 24); // Retirar 9 cartas aleatorias
-  turnoJugador = true;
+  turnoJugador = Math.random() < 0.5; // Elegir jugador inicial al azar
   siguienteCarta();
   actualizarEstado();
 }
@@ -38,6 +38,7 @@ function siguienteCarta() {
   cartaActual = mazo.pop();
   fichasEnCarta = 0;
   document.getElementById("card-value").innerText = cartaActual;
+  document.getElementById("chips-on-card").innerText = fichasEnCarta;
   habilitarBotones(turnoJugador);
 }
 
@@ -70,29 +71,20 @@ function tomarCarta() {
     cartasMaquina.push(cartaActual);
     fichasMaquina += fichasEnCarta;
   }
-  fichasEnCarta = 0; // Limpiar las fichas acumuladas en la carta
   siguienteTurno();
 }
 
 // Rechazar la carta
 function rechazarCarta() {
-  if (turnoJugador) {
-    if (fichasJugador > 0) {
-      fichasJugador--;
-      fichasEnCarta++;
-    } else {
-      alert("No tienes fichas suficientes. Debes tomar la carta.");
-      tomarCarta();
-      return;
-    }
+  if (turnoJugador && fichasJugador > 0) {
+    fichasJugador--;
+    fichasEnCarta++;
+  } else if (!turnoJugador && fichasMaquina > 0) {
+    fichasMaquina--;
+    fichasEnCarta++;
   } else {
-    if (fichasMaquina > 0) {
-      fichasMaquina--;
-      fichasEnCarta++;
-    } else {
-      tomarCarta();
-      return;
-    }
+    tomarCarta();
+    return;
   }
   siguienteTurno();
 }
@@ -100,19 +92,13 @@ function rechazarCarta() {
 // Pasar al siguiente turno
 function siguienteTurno() {
   turnoJugador = !turnoJugador;
-  document.getElementById("turno-actual").className = turnoJugador
-    ? "turno-jugador"
-    : "turno-maquina";
   document.getElementById("turno-actual").innerText = turnoJugador ? "Jugador" : "Máquina";
-
   habilitarBotones(turnoJugador);
   actualizarEstado();
-
   if (!turnoJugador) {
     setTimeout(() => {
-      const decisionMaquina =
-        Math.random() < 0.5 && fichasMaquina > 0; // Decisión aleatoria para rechazar
-      if (decisionMaquina) {
+      const decisionMaquina = Math.random() < 0.5; // Decisión aleatoria de la máquina
+      if (decisionMaquina && fichasMaquina > 0) {
         rechazarCarta();
       } else {
         tomarCarta();
