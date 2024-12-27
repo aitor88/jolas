@@ -36,10 +36,15 @@ function siguienteCarta() {
     return;
   }
   cartaActual = mazo.shift(); // Extraer la primera carta del mazo
-  fichasEnCarta = 0;
+  fichasEnCarta = 0; // Reiniciar las fichas en la carta
+  actualizarCartaActual();
+  habilitarBotones(turnoJugador);
+}
+
+// Actualizar la carta actual en pantalla
+function actualizarCartaActual() {
   document.getElementById("card-value").innerText = cartaActual;
   document.getElementById("chips-on-card").innerText = fichasEnCarta;
-  habilitarBotones(turnoJugador);
 }
 
 // Actualizar el estado del juego
@@ -71,6 +76,7 @@ function tomarCarta() {
     cartasMaquina.push(cartaActual);
     fichasMaquina += fichasEnCarta;
   }
+  fichasEnCarta = 0; // Reiniciar las fichas acumuladas en la carta
   siguienteTurno();
 }
 
@@ -83,9 +89,10 @@ function rechazarCarta() {
     fichasMaquina--;
     fichasEnCarta++;
   } else {
-    tomarCarta();
+    tomarCarta(); // Si no hay fichas suficientes, el jugador toma la carta
     return;
   }
+  actualizarCartaActual(); // Actualizar las fichas en la carta
   siguienteTurno();
 }
 
@@ -117,8 +124,20 @@ function finalizarJuego() {
 
 // Calcular la puntuación
 function calcularPuntuacion(cartas, fichas) {
-  const puntosCartas = cartas.reduce((total, carta) => total + carta, 0);
-  return puntosCartas - fichas;
+  let puntos = 0;
+  cartas.sort((a, b) => a - b);
+
+  let escalera = [cartas[0]];
+  for (let i = 1; i < cartas.length; i++) {
+    if (cartas[i] === escalera[escalera.length - 1] + 1) {
+      escalera.push(cartas[i]);
+    } else {
+      puntos += escalera[0];
+      escalera = [cartas[i]];
+    }
+  }
+  puntos += escalera[0]; // Añadir la última escalera o carta
+  return puntos - fichas;
 }
 
 // Habilitar o deshabilitar botones
