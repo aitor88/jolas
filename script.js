@@ -60,6 +60,7 @@ function tomarCarta(jugador) {
     fichasMaquina += fichasEnCarta;
     actualizarCartas("cartas-maquina", cartasMaquina);
   }
+  turnoJugador = !jugador; // Cambia el turno
   siguienteCarta();
 }
 
@@ -74,12 +75,13 @@ function rechazarCarta(jugador) {
   } else {
     tomarCarta(jugador);
   }
+  turnoJugador = !jugador; // Cambia el turno
   actualizarEstado();
 }
 
 // Turno de la máquina
 function turnoMaquina() {
-  const tomar = 
+  const tomar =
     fichasEnCarta >= 3 || // Si hay suficientes fichas acumuladas.
     cartaActual <= 10 || // Si la carta tiene un valor bajo.
     cartasMaquina.includes(cartaActual - 1); // Si forma una escalera.
@@ -108,6 +110,12 @@ function actualizarCartas(elementId, cartas) {
     cartaDiv.style.left = `${index * 20}px`; // Superposición parcial
     contenedor.appendChild(cartaDiv);
   });
+}
+
+// Habilita o deshabilita los botones según el turno
+function habilitarBotones(habilitar) {
+  document.getElementById("rechazar").disabled = !habilitar;
+  document.getElementById("tomar").disabled = !habilitar;
 }
 
 // Actualiza el estado del juego
@@ -151,13 +159,11 @@ Máquina: ${puntosMaquina} puntos.`);
 // Event Listeners
 document.getElementById("rechazar").addEventListener("click", () => {
   rechazarCarta(true);
-  turnoJugador = false;
   habilitarBotones(false);
   setTimeout(turnoMaquina, 1000);
 });
 document.getElementById("tomar").addEventListener("click", () => {
   tomarCarta(true);
-  turnoJugador = false;
   habilitarBotones(false);
   setTimeout(turnoMaquina, 1000);
 });
