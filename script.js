@@ -70,7 +70,10 @@ function actualizarMazoRestante() {
   mazo.forEach((_, index) => {
     const cartaDiv = document.createElement("div");
     cartaDiv.classList.add("mazo-carta");
-    cartaDiv.style.setProperty("--index", index);
+
+    // Ajustar posición horizontal para simular apilamiento
+    cartaDiv.style.position = "relative";
+    cartaDiv.style.left = `${index * 15}px`; // Espaciado horizontal progresivo
     mazoContainer.appendChild(cartaDiv);
   });
 }
@@ -125,6 +128,61 @@ function turnoMaquina() {
   }, 1000);
 }
 
+// Actualiza las cartas acumuladas con orden y agrupación por escaleras
+function actualizarCartas(elementId, cartas) {
+  const contenedor = document.getElementById(elementId);
+  contenedor.innerHTML = "";
+
+  cartas.sort((a, b) => a - b);
+  const escaleras = [];
+  let escaleraActual = [cartas[0]];
+
+  for (let i = 1; i < cartas.length; i++) {
+    if (cartas[i] === escaleraActual[escaleraActual.length - 1] + 1) {
+      escaleraActual.push(cartas[i]);
+    } else {
+      escaleras.push(escaleraActual);
+      escaleraActual = [cartas[i]];
+    }
+  }
+  escaleras.push(escaleraActual);
+
+  escaleras.forEach((escalera) => {
+    const grupo = document.createElement("div");
+    grupo.style.display = "inline-block";
+    grupo.style.marginRight = "25px";
+
+    escalera.forEach((carta, index) => {
+      const cartaDiv = document.createElement("div");
+      cartaDiv.classList.add("card-small");
+      cartaDiv.innerText = carta;
+      cartaDiv.style.position = "relative";
+      cartaDiv.style.left = `${index * 20}px`;
+      grupo.appendChild(cartaDiv);
+    });
+
+    contenedor.appendChild(grupo);
+  });
+}
+
+// Calcula la puntuación
+function calcularPuntuacion(cartas, fichas) {
+  let puntos = 0;
+  const ordenadas = [...cartas].sort((a, b) => a - b);
+  let escaleraActual = [ordenadas[0]];
+
+  for (let i = 1; i < ordenadas.length; i++) {
+    if (ordenadas[i] === escaleraActual[escaleraActual.length - 1] + 1) {
+      escaleraActual.push(ordenadas[i]);
+    } else {
+      puntos += escaleraActual[0];
+      escaleraActual = [ordenadas[i]];
+    }
+  }
+  puntos += escaleraActual[0];
+  return puntos - fichas;
+}
+
 // Actualiza el estado del juego
 function actualizarEstado() {
   document.getElementById("fichas-jugador").innerText = fichasJugador;
@@ -143,6 +201,17 @@ function habilitarBotones(habilitar) {
   document.getElementById("rechazar").disabled = !habilitar;
   document.getElementById("tomar").disabled = !habilitar;
 }
+
+// Listeners
+document.getElementById("rechazar").addEventListener("click", () => {
+  rechazarCarta(true);
+  setTimeout(turnoMaquina, 1000);
+});
+
+document.getElementById("tomar").addEventListener("click", () => {
+  tomarCarta(true);
+  setTimeout(turnoMaquina, 1000);
+});
 
 // Inicia el juego
 iniciarJuego();
