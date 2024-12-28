@@ -242,9 +242,20 @@ button:disabled {
   background-color: #ffffff;
   padding: 20px;
   border-radius: 15px;
-  text-align: center;
+  text-align: left; /* Alinear texto a la izquierda */
   max-width: 400px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  font-size: 14px; /* Reducir tamaño de letra */
+  line-height: 1.6; /* Espaciado entre líneas */
+}
+
+.modal-content ul {
+  padding-left: 20px; /* Espaciado en las listas */
+  margin: 10px 0;
+}
+
+.modal-content ul li {
+  margin-bottom: 5px; /* Espaciado entre los puntos de la lista */
 }
 
 .boton-reiniciar {
