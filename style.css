@@ -25,79 +25,107 @@ h1 {
   margin: 10px 0;
 }
 
-/* Game Container */
-#game {
-  background-color: #ffffff;
-  border-radius: 20px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
-  padding: 10px; /* Reducir padding interno */
-  position: relative;
-  flex: 1;
+/* Game Layout */
+#layout {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+/* Carta actual */
+#current-card-section {
+  width: 35%;
+  text-align: left;
+}
+
+.card {
+  width: 80px;
+  height: 120px;
+  border-radius: 15px;
+  background-color: #f9f9f9;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid #e5e5ea;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 24px;
+  font-weight: bold;
+  color: #1c1c1e;
+  margin-bottom: 10px;
+}
+
+#chips-on-card {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+#chips-on-card .chip {
+  width: 12px;
+  height: 12px;
+  background-color: #ff3b30;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Cartas acumuladas */
+#accumulated-cards {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  gap: 10px;
+  width: 60%;
 }
 
-/* Botón Reset */
-.boton-reset {
-  background-color: #ff3b30;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  width: 100px;
-  height: 30px;
-  font-size: 12px;
-  font-weight: bold;
+#cartas-jugador-section,
+#cartas-maquina-section {
+  text-align: left;
+}
+
+.cartas-container {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 10px auto 0;
-  cursor: pointer;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-  text-transform: uppercase;
+  flex-wrap: wrap;
+  gap: 5px;
 }
 
-.boton-reset:hover {
-  background-color: #d32f2f;
-}
-
-.boton-reset:active {
-  background-color: #b71c1c;
-  transform: scale(0.95);
+.card-small {
+  width: 30px;
+  height: 45px;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  text-align: center;
+  line-height: 45px;
+  font-size: 12px;
+  border: 1px solid #e5e5ea;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  color: #1c1c1e;
 }
 
 /* Indicador de turno */
 #turno-indicador {
   font-size: 14px;
   font-weight: bold;
-  margin: 0; /* Sin margen */
-  line-height: 1.2; /* Reducir el espacio entre líneas */
+  margin: 10px 0;
 }
 
 /* Botones de acción */
 #actions {
   display: flex;
   justify-content: center;
-  gap: 5px; /* Reducir espacio entre botones */
-  margin: 0; /* Sin margen adicional */
-  flex-wrap: wrap; /* Permite que los botones se adapten en pantallas pequeñas */
+  gap: 10px;
+  margin: 10px 0;
 }
 
 button {
   width: 130px;
-  padding: 5px; /* Reducir padding */
+  padding: 10px;
   border: none;
   border-radius: 20px;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-button:disabled {
-  background-color: #e5e5ea;
-  color: #8e8e93;
-  cursor: not-allowed;
 }
 
 #rechazar {
@@ -110,131 +138,41 @@ button:disabled {
   color: white;
 }
 
-button:hover:enabled {
+button:hover {
   transform: translateY(-2px);
 }
 
-/* Fichas restantes y Cartas restantes */
-#scoreboard,
+button:disabled {
+  background-color: #e5e5ea;
+  color: #8e8e93;
+  cursor: not-allowed;
+}
+
+/* Cartas restantes */
 #cartas-restantes {
   font-size: 12px;
-  margin: 0; /* Sin margen */
-  line-height: 1.2; /* Reducir espacio entre líneas */
+  margin: 10px 0;
 }
 
-/* Board Layout */
-#board {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.cartas-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-#cartas-jugador-section,
-#cartas-maquina-section {
-  width: 20%;
-}
-
-#current-card-section {
-  width: 60%;
-  text-align: center;
-}
-
-/* Small Titles */
-.small-title {
-  font-size: 14px;
-  font-weight: bold;
-  margin: 5px 0; /* Reducir margen */
-}
-
-/* Carta actual */
-.card {
-  width: 80px;
-  height: 120px;
-  border-radius: 15px;
-  background-color: #f9f9f9;
-  text-align: center;
-  margin: auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 2px solid #e5e5ea;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  font-size: 24px;
-  font-weight: bold;
-  color: #1c1c1e;
-}
-
-/* Chips en la carta */
-#chips-on-card .chip {
-  width: 12px;
-  height: 12px;
+/* Reset Button */
+.boton-reset {
   background-color: #ff3b30;
-  border-radius: 50%;
-  display: inline-block;
-  margin: 3px; /* Reducir margen */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-/* Cartas acumuladas */
-.card-small {
-  width: 30px;
-  height: 45px;
-  border-radius: 8px;
-  background-color: #f9f9f9;
-  margin: 3px; /* Reducir margen */
-  text-align: center;
-  line-height: 45px;
-  font-size: 12px;
-  border: 1px solid #e5e5ea;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  color: #1c1c1e;
-}
-
-/* Modal */
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.4);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-.modal.hidden {
-  display: none;
-}
-
-.modal-content {
-  background-color: #ffffff;
-  padding: 20px;
-  border-radius: 15px;
-  text-align: center;
-  max-width: 400px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-}
-
-.boton-reiniciar {
-  background-color: #007aff; /* Azul típico de iOS */
-  padding: 10px 20px;
-  border-radius: 25px;
-  cursor: pointer;
   color: white;
   border: none;
-  font-size: 14px; /* Reducir tamaño */
-  font-weight: 600;
+  border-radius: 10px;
+  width: 100px;
+  height: 30px;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  margin: 10px auto 0;
 }
 
-.boton-reiniciar:hover {
-  background-color: #005bb5;
+.boton-reset:hover {
+  background-color: #d32f2f;
+}
+
+.boton-reset:active {
+  background-color: #b71c1c;
 }
