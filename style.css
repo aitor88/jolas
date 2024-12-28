@@ -25,15 +25,9 @@ body {
   flex-direction: column;
   justify-content: flex-start;
   padding: 20px;
-  background-color: #f9f9f9; /* Fondo blanco exterior */
+  background-color: #ffffff; /* Fondo blanco */
   border-radius: 15px; /* Esquinas redondeadas */
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra exterior */
-}
-
-#game-inner {
-  background-color: #f2f2f7; /* Fondo gris interior */
-  padding: 15px;
-  border-radius: 10px;
 }
 
 /* Título del juego */
