@@ -36,19 +36,22 @@ h1 {
   top: 10px;
   right: 10px;
   background-color: #ff3b30; /* Rojo típico de iOS */
-  color: #fff;
   border: none;
   border-radius: 50%;
-  width: 50px; /* Tamaño más grande para móviles */
-  height: 50px; /* Tamaño más grande para móviles */
-  font-size: 20px; /* Fuente más grande */
-  font-weight: bold; /* Asegurar visibilidad */
-  cursor: pointer;
+  width: 50px;
+  height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-  z-index: 100; /* Asegura que esté encima de otros elementos */
+  z-index: 100;
+}
+
+.boton-reset svg {
+  fill: white; /* Color del icono */
+  width: 24px; /* Tamaño del icono */
+  height: 24px;
 }
 
 .boton-reset:hover {
@@ -60,15 +63,17 @@ h1 {
   transform: scale(0.95); /* Efecto de "pulsación" */
 }
 
-/* Responsive para ajustar en pantallas más pequeñas */
 @media (max-width: 768px) {
   .boton-reset {
-    width: 45px; /* Reducir un poco para pantallas pequeñas */
+    width: 45px;
     height: 45px;
-    font-size: 18px;
+  }
+
+  .boton-reset svg {
+    width: 20px;
+    height: 20px;
   }
 }
-
 
 /* Carta actual */
 .card {
@@ -139,16 +144,6 @@ button:hover:enabled {
   font-weight: 500;
 }
 
-.turno-jugador {
-  color: #007aff; /* Azul para el jugador */
-  font-weight: bold;
-}
-
-.turno-maquina {
-  color: #ff3b30; /* Rojo para la máquina */
-  font-weight: bold;
-}
-
 /* Cartas acumuladas */
 #cartas-jugador,
 #cartas-maquina {
@@ -208,34 +203,4 @@ button:hover:enabled {
   border: none;
   font-size: 16px;
   font-weight: 600;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  #game {
-    padding: 10px;
-    font-size: 14px;
-  }
-
-  .card {
-    width: 80px;
-    height: 120px;
-  }
-
-  .chip {
-    width: 10px;
-    height: 10px;
-  }
-
-  button {
-    width: 120px;
-    padding: 8px;
-    font-size: 14px;
-  }
-
-  .card-small {
-    width: 30px;
-    height: 45px;
-    font-size: 12px;
-  }
 }
