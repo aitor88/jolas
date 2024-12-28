@@ -31,9 +31,12 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function actualizarCartaActual() {
+    // Mostrar el valor de la carta actual
     document.getElementById("card-value").innerText = cartaActual || "";
+
+    // Mostrar las fichas como círculos rojos
     const chipsContainer = document.getElementById("chips-on-card");
-    chipsContainer.innerHTML = "";
+    chipsContainer.innerHTML = ""; // Limpiar el contenedor antes de renderizar las fichas
     for (let i = 0; i < fichasEnCarta; i++) {
       const chip = document.createElement("div");
       chip.classList.add("chip");
@@ -51,6 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (fichasJugador > 0) {
         fichasJugador--;
         fichasEnCarta++;
+        actualizarCartaActual(); // Actualizar las fichas en la carta
         siguienteTurno();
       } else {
         alert("No tienes fichas suficientes. Debes tomar la carta.");
@@ -69,7 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (mazo.length > 0) {
       cartaActual = mazo.shift();
       fichasEnCarta = 0;
-      actualizarCartaActual();
+      actualizarCartaActual(); // Actualizar la carta actual
       actualizarCartas();
     } else {
       finalizarJuego();
@@ -94,6 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
       // Rechazar carta
       fichasMaquina--;
       fichasEnCarta++;
+      actualizarCartaActual(); // Actualizar las fichas en la carta
     } else {
       // Tomar carta
       cartasMaquina.push(cartaActual);
