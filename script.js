@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
     fichasEnCarta = 0;
     turnoJugador = true;
     document.getElementById("resultado-modal").classList.add("hidden");
-    document.getElementById("como-jugar-modal").classList.add("hidden"); // Asegúrate de ocultar el modal
+    document.getElementById("como-jugar-modal").classList.add("hidden");
     actualizarCartaActual();
     actualizarCartasRestantes();
     actualizarEstado();
@@ -60,11 +60,12 @@ document.addEventListener("DOMContentLoaded", () => {
     turnoElemento.innerText = turnoJugador ? "Jugador" : "Máquina";
   }
 
+  // Rechazar carta
   function rechazarCarta() {
-    if (turnoJugador) {
+    if (turnoJugador) { // Solo permite rechazar si es el turno del jugador
       if (fichasJugador > 0) {
-        fichasJugador--;
-        fichasEnCarta++;
+        fichasJugador--; // Reduce una ficha al jugador
+        fichasEnCarta++; // Incrementa las fichas en la carta actual
         actualizarEstado();
         actualizarCartaActual();
         siguienteTurno();
