@@ -1,8 +1,8 @@
 /* General Styles */
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  background-color: #f2f2f7;
-  color: #1c1c1e;
+  background-color: #f2f2f7; /* Fondo típico de iOS */
+  color: #1c1c1e; /* Texto oscuro */
   margin: 0;
   padding: 0;
   text-align: center;
@@ -11,11 +11,11 @@ body {
 #app {
   margin: 0 auto;
   max-width: 800px;
-  height: 100vh;
+  height: 100vh; /* Ocupar toda la altura de la ventana */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 0 10px;
+  padding: 0 10px; /* Ajustar solo el padding lateral */
 }
 
 /* Marco del juego */
@@ -25,17 +25,17 @@ body {
   flex-direction: column;
   justify-content: flex-start;
   padding: 20px;
-  background-color: #ffffff;
-  border-radius: 15px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff; /* Fondo blanco */
+  border-radius: 15px; /* Esquinas redondeadas */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra exterior */
 }
 
 /* Título del juego */
 h1 {
   font-size: 24px;
   font-weight: 600;
-  color: #007aff;
-  margin: 5px 0;
+  color: #007aff; /* Azul típico de iOS */
+  margin: 5px 0; /* Reducir margen superior e inferior */
 }
 
 /* Layout del juego */
@@ -44,7 +44,7 @@ h1 {
   justify-content: space-between;
   align-items: flex-start;
   gap: 20px;
-  margin-top: 10px;
+  margin-top: 10px; /* Reducir espacio */
 }
 
 /* Carta actual */
@@ -89,6 +89,18 @@ h1 {
 }
 
 /* Cartas acumuladas */
+#accumulated-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 60%;
+}
+
+#cartas-jugador-section,
+#cartas-maquina-section {
+  text-align: left;
+}
+
 .cartas-container {
   display: flex;
   flex-wrap: wrap;
@@ -108,20 +120,16 @@ h1 {
   color: #1c1c1e;
 }
 
-/* Cartas agrupadas */
+/* Cartas agrupadas (no puntúan) */
 .card-small.grouped {
-  opacity: 0.5; /* Reducir visibilidad de cartas agrupadas */
-}
-
-.card-small.grouped.active {
-  opacity: 1; /* La carta que puntúa mantiene su visibilidad */
+  opacity: 0.5; /* Reducir visibilidad */
 }
 
 /* Indicador de turno */
 #turno-indicador {
   font-size: 14px;
   font-weight: bold;
-  margin: 5px 0;
+  margin: 5px 0; /* Reducir margen */
 }
 
 /* Botones de acción */
@@ -129,7 +137,7 @@ h1 {
   display: flex;
   justify-content: center;
   gap: 10px;
-  margin: 5px 0;
+  margin: 5px 0; /* Reducir margen */
 }
 
 button {
@@ -166,7 +174,7 @@ button:disabled {
 /* Cartas restantes */
 #cartas-restantes {
   font-size: 12px;
-  margin: 5px 0;
+  margin: 5px 0; /* Reducir margen */
 }
 
 /* Reset y Cómo jugar */
