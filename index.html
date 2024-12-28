@@ -13,14 +13,29 @@
       <!-- Botón Reset -->
       <button id="resetear" class="boton-reset">Reset</button>
 
-      <!-- Carta actual -->
-      <div id="current-card-section">
-        <h3>Carta actual:</h3>
-        <div class="card">
-          <div class="card-value" id="card-value"></div>
+      <!-- Tablero -->
+      <div id="board">
+        <!-- Cartas del jugador -->
+        <div id="cartas-jugador-section">
+          <h4 class="small-title" id="cartas-jugador-title">Tus cartas acumuladas: 0</h4>
+          <div id="cartas-jugador" class="cartas-container"></div>
         </div>
-        <h4>Fichas en la carta:</h4>
-        <div id="chips-on-card" class="chips-container"></div>
+
+        <!-- Carta actual -->
+        <div id="current-card-section">
+          <h4 class="small-title">Carta actual:</h4>
+          <div class="card">
+            <div class="card-value" id="card-value"></div>
+          </div>
+          <h4 class="small-title">Fichas en la carta:</h4>
+          <div id="chips-on-card" class="chips-container"></div>
+        </div>
+
+        <!-- Cartas de la máquina -->
+        <div id="cartas-maquina-section">
+          <h4 class="small-title" id="cartas-maquina-title">Cartas de tu oponente: 0</h4>
+          <div id="cartas-maquina" class="cartas-container"></div>
+        </div>
       </div>
 
       <!-- Indicador de turno -->
@@ -41,14 +56,6 @@
 
       <!-- Cartas restantes en el mazo -->
       <div id="cartas-restantes">Cartas restantes en el mazo: 24</div>
-
-      <!-- Cartas acumuladas -->
-      <div id="cartas-acumuladas">
-        <h2 id="cartas-jugador-title">Tus cartas acumuladas: 0</h2>
-        <div id="cartas-jugador"></div>
-        <h2 id="cartas-maquina-title">Cartas de tu oponente: 0</h2>
-        <div id="cartas-maquina"></div>
-      </div>
     </div>
   </div>
 
