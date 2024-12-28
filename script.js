@@ -23,6 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
     actualizarCartasRestantes();
     actualizarEstado();
     habilitarBotones(turnoJugador);
+    actualizarTurnoVisual();
   }
 
   function limpiarEstado() {
@@ -51,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("tomar").disabled = !habilitar;
   }
 
-  function actualizarTurno() {
+  function actualizarTurnoVisual() {
     const turnoElemento = document.getElementById("turno-actual");
     turnoElemento.innerText = turnoJugador ? "Jugador" : "Máquina";
     turnoElemento.className = turnoJugador ? "turno-jugador" : "turno-maquina";
@@ -76,11 +77,12 @@ document.addEventListener("DOMContentLoaded", () => {
       cartasMaquina.push(cartaActual);
       fichasMaquina += fichasEnCarta;
     }
+
     if (mazo.length > 0) {
       cartaActual = mazo.shift();
       fichasEnCarta = 0;
       actualizarCartaActual();
-      actualizarCartasRestantes(); // Actualizar número de cartas restantes
+      actualizarCartasRestantes();
       actualizarCartas();
     } else {
       finalizarJuego();
@@ -90,15 +92,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function siguienteTurno() {
     turnoJugador = !turnoJugador;
-    actualizarTurno();
+    actualizarTurnoVisual();
     habilitarBotones(turnoJugador);
-    actualizarEstado();
 
     if (!turnoJugador) {
       setTimeout(() => {
         jugadaMaquina();
       }, Math.random() * (3000 - 2000) + 2000); // Entre 2 y 3 segundos
     }
+
+    actualizarEstado();
   }
 
   function jugadaMaquina() {
@@ -140,7 +143,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function actualizarEstado() {
     document.getElementById("fichas-jugador").innerText = fichasJugador;
-    document.getElementById("fichas-maquina").innerText = fichasMaquina;
 
     const puntosJugador = calcularPuntuacion(cartasJugador, fichasJugador);
     const puntosMaquina = calcularPuntuacion(cartasMaquina, fichasMaquina);
