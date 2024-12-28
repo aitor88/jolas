@@ -12,8 +12,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // Inicializar el juego
   function iniciarJuego() {
     limpiarEstado();
-    mazo = Array.from({ length: 33 }, (_, i) => i + 3).sort(() => Math.random() - 0.5).slice(0, 24);
-    cartaActual = mazo.shift();
+    mazo = Array.from({ length: 33 }, (_, i) => i + 3); // Crear cartas del 3 al 35
+    mazo = barajarMazo(mazo).slice(0, 24); // Barajar y tomar las primeras 24 cartas
+    cartaActual = mazo.shift(); // Extraer la primera carta
     fichasJugador = 11;
     fichasMaquina = 11;
     cartasJugador = [];
@@ -21,11 +22,19 @@ document.addEventListener("DOMContentLoaded", () => {
     fichasEnCarta = 0;
     turnoJugador = true;
     document.getElementById("resultado-modal").classList.add("hidden");
-    document.getElementById("como-jugar-modal").classList.add("hidden"); // Ocultar modal de "Cómo jugar"
     actualizarCartaActual();
     actualizarCartasRestantes();
     actualizarEstado();
     habilitarBotones(turnoJugador);
+  }
+
+  // Barajar el mazo usando el algoritmo de Fisher-Yates
+  function barajarMazo(mazo) {
+    for (let i = mazo.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [mazo[i], mazo[j]] = [mazo[j], mazo[i]];
+    }
+    return mazo;
   }
 
   // Limpiar elementos visuales
@@ -33,16 +42,6 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("chips-on-card").innerHTML = "";
     document.getElementById("cartas-jugador").innerHTML = "";
     document.getElementById("cartas-maquina").innerHTML = "";
-  }
-
-  // Mostrar modal de "Cómo jugar"
-  function mostrarModalComoJugar() {
-    document.getElementById("como-jugar-modal").classList.remove("hidden");
-  }
-
-  // Cerrar modal de "Cómo jugar"
-  function cerrarModalComoJugar() {
-    document.getElementById("como-jugar-modal").classList.add("hidden");
   }
 
   // Actualizar la carta actual
@@ -117,7 +116,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!turnoJugador) {
       setTimeout(() => {
         jugadaMaquina();
-      }, Math.random() * (3000 - 2000) + 2000);
+      }, Math.random() * (3000 - 2000) + 2000); // Entre 2 y 3 segundos
     }
     actualizarEstado();
   }
@@ -198,8 +197,6 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("rechazar").addEventListener("click", rechazarCarta);
   document.getElementById("tomar").addEventListener("click", tomarCarta);
   document.getElementById("resetear").addEventListener("click", iniciarJuego);
-  document.getElementById("como-jugar").addEventListener("click", mostrarModalComoJugar);
-  document.getElementById("cerrar-ayuda").addEventListener("click", cerrarModalComoJugar);
 
   // Inicializar el juego al cargar
   iniciarJuego();
