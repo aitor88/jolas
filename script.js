@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let mazo = [];
   let cartaActual = null;
   let fichasJugador = 11;
-  let fichasMaquina = 11;
+  let fichasMaquina = 11; // Solo se usa internamente
   let cartasJugador = [];
   let cartasMaquina = [];
   let fichasEnCarta = 0;
@@ -18,16 +18,11 @@ document.addEventListener("DOMContentLoaded", () => {
     cartasMaquina = [];
     fichasEnCarta = 0;
     turnoJugador = true;
-
-    document.getElementById("cartas-jugador-title").innerText = "Tus cartas acumuladas: 0";
-    document.getElementById("cartas-maquina-title").innerText = "Cartas de tu oponente: 0";
-
     document.getElementById("resultado-modal").classList.add("hidden");
     actualizarCartaActual();
     actualizarCartasRestantes();
     actualizarEstado();
     habilitarBotones(turnoJugador);
-    actualizarTurnoVisual();
   }
 
   function limpiarEstado() {
@@ -56,10 +51,10 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("tomar").disabled = !habilitar;
   }
 
-  function actualizarTurnoVisual() {
+  function actualizarTurno() {
     const turnoElemento = document.getElementById("turno-actual");
-    turnoElemento.innerText = turnoJugador ? "Jugador" : "Máquina";
     turnoElemento.className = turnoJugador ? "turno-jugador" : "turno-maquina";
+    turnoElemento.innerText = turnoJugador ? "Jugador" : "Máquina";
   }
 
   function rechazarCarta() {
@@ -79,9 +74,8 @@ document.addEventListener("DOMContentLoaded", () => {
       fichasJugador += fichasEnCarta;
     } else {
       cartasMaquina.push(cartaActual);
-      fichasMaquina += fichasEnCarta;
+      fichasMaquina += fichasEnCarta; // Interno, no visual
     }
-
     if (mazo.length > 0) {
       cartaActual = mazo.shift();
       fichasEnCarta = 0;
@@ -96,22 +90,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function siguienteTurno() {
     turnoJugador = !turnoJugador;
-    actualizarTurnoVisual();
+    actualizarTurno();
     habilitarBotones(turnoJugador);
-
     if (!turnoJugador) {
       setTimeout(() => {
         jugadaMaquina();
       }, Math.random() * (3000 - 2000) + 2000); // Entre 2 y 3 segundos
     }
-
-    actualizarEstado();
+    actualizarEstado(); // Actualiza únicamente lo visible
   }
 
   function jugadaMaquina() {
     const completarEscalera = puedeCompletarEscalera(cartaActual, cartasMaquina);
     const puntuacionActual = cartaActual - fichasEnCarta;
-
     if (fichasMaquina === 0 || completarEscalera || puntuacionActual <= 5) {
       tomarCarta();
     } else {
@@ -135,7 +126,6 @@ document.addEventListener("DOMContentLoaded", () => {
   function renderizarCartas(elementId, cartas) {
     const contenedor = document.getElementById(elementId);
     contenedor.innerHTML = "";
-
     cartas.sort((a, b) => a - b);
     cartas.forEach((carta) => {
       const cartaDiv = document.createElement("div");
@@ -146,24 +136,18 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function actualizarEstado() {
-    document.getElementById("fichas-jugador").innerText = fichasJugador;
+    // Puntos solo por cartas, sin fichas
+    const puntosCartasJugador = calcularPuntuacionCartas(cartasJugador);
+    const puntosCartasMaquina = calcularPuntuacionCartas(cartasMaquina);
 
-    const puntosJugador = calcularPuntuacion(cartasJugador, fichasJugador);
-    const puntosMaquina = calcularPuntuacion(cartasMaquina, fichasMaquina);
-
-    document.getElementById("cartas-jugador-title").innerText = `Tus cartas acumuladas: ${puntosJugador}`;
-    document.getElementById("cartas-maquina-title").innerText = `Cartas de tu oponente: ${puntosMaquina}`;
+    document.getElementById("cartas-jugador-title").innerText = `Tus cartas acumuladas: ${puntosCartasJugador}`;
+    document.getElementById("cartas-maquina-title").innerText = `Cartas de tu oponente: ${puntosCartasMaquina}`;
   }
 
-  function calcularPuntuacion(cartas, fichas) {
-    if (cartas.length === 0) {
-      return -fichas; // Si no hay cartas, la puntuación solo es negativa por las fichas
-    }
-
-    cartas.sort((a, b) => a - b); // Ordenar las cartas
+  function calcularPuntuacionCartas(cartas) {
+    cartas.sort((a, b) => a - b);
     let puntos = 0;
     let escalera = [cartas[0]];
-
     for (let i = 1; i < cartas.length; i++) {
       if (cartas[i] === escalera[escalera.length - 1] + 1) {
         escalera.push(cartas[i]);
@@ -172,21 +156,31 @@ document.addEventListener("DOMContentLoaded", () => {
         escalera = [cartas[i]];
       }
     }
-
     if (escalera.length > 0) {
       puntos += escalera[0];
     }
-
-    return puntos - fichas;
+    return puntos;
   }
 
   function finalizarJuego() {
-    const puntosJugador = calcularPuntuacion(cartasJugador, fichasJugador);
-    const puntosMaquina = calcularPuntuacion(cartasMaquina, fichasMaquina);
+    const puntosCartasJugador = calcularPuntuacionCartas(cartasJugador);
+    const puntosCartasMaquina = calcularPuntuacionCartas(cartasMaquina);
 
-    document.getElementById("resultado-titulo").innerText =
-      puntosJugador < puntosMaquina ? "¡Ganaste!" : "¡Perdiste!";
-    document.getElementById("resultado-mensaje").innerText = `Puntos Jugador: ${puntosJugador} | Puntos Máquina: ${puntosMaquina}`;
+    const puntosFichasJugador = fichasJugador;
+    const puntosFichasMaquina = fichasMaquina;
+
+    const resultadoJugador = puntosCartasJugador - puntosFichasJugador;
+    const resultadoMaquina = puntosCartasMaquina - puntosFichasMaquina;
+
+    document.getElementById("resultado-titulo").innerText = resultadoJugador < resultadoMaquina ? "¡Ganaste!" : "¡Perdiste!";
+    document.getElementById("resultado-mensaje").innerText = `
+      Puntos por cartas (Jugador): ${puntosCartasJugador}\n
+      Puntos por fichas (Jugador): ${puntosFichasJugador}\n
+      Resultado final (Jugador): ${resultadoJugador}\n\n
+      Puntos por cartas (Máquina): ${puntosCartasMaquina}\n
+      Puntos por fichas (Máquina): ${puntosFichasMaquina}\n
+      Resultado final (Máquina): ${resultadoMaquina}
+    `;
     document.getElementById("resultado-modal").classList.remove("hidden");
   }
 
