@@ -18,6 +18,10 @@ document.addEventListener("DOMContentLoaded", () => {
     cartasMaquina = [];
     fichasEnCarta = 0;
     turnoJugador = true;
+
+    document.getElementById("cartas-jugador-title").innerText = "Tus cartas acumuladas: 0";
+    document.getElementById("cartas-maquina-title").innerText = "Cartas de tu oponente: 0";
+
     document.getElementById("resultado-modal").classList.add("hidden");
     actualizarCartaActual();
     actualizarCartasRestantes();
@@ -147,12 +151,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const puntosJugador = calcularPuntuacion(cartasJugador, fichasJugador);
     const puntosMaquina = calcularPuntuacion(cartasMaquina, fichasMaquina);
 
-    document.getElementById("cartas-jugador-title").innerText = `Cartas acumuladas (Jugador): ${puntosJugador}`;
-    document.getElementById("cartas-maquina-title").innerText = `Cartas acumuladas (Máquina): ${puntosMaquina}`;
+    document.getElementById("cartas-jugador-title").innerText = `Tus cartas acumuladas: ${puntosJugador}`;
+    document.getElementById("cartas-maquina-title").innerText = `Cartas de tu oponente: ${puntosMaquina}`;
   }
 
   function calcularPuntuacion(cartas, fichas) {
-    cartas.sort((a, b) => a - b);
+    if (cartas.length === 0) {
+      return -fichas; // Si no hay cartas, la puntuación solo es negativa por las fichas
+    }
+
+    cartas.sort((a, b) => a - b); // Ordenar las cartas
     let puntos = 0;
     let escalera = [cartas[0]];
 
