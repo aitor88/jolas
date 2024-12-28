@@ -46,6 +46,12 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("tomar").disabled = !habilitar;
   }
 
+  function actualizarTurno() {
+    const turnoElemento = document.getElementById("turno-actual");
+    turnoElemento.innerText = turnoJugador ? "Jugador" : "Máquina";
+    turnoElemento.className = turnoJugador ? "turno-jugador" : "turno-maquina";
+  }
+
   function rechazarCarta() {
     if (turnoJugador) {
       if (fichasJugador > 0) {
@@ -78,13 +84,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function siguienteTurno() {
     turnoJugador = !turnoJugador;
+    actualizarTurno();
     habilitarBotones(turnoJugador);
     actualizarEstado();
 
     if (!turnoJugador) {
       setTimeout(() => {
         jugadaMaquina();
-      }, 1000);
+      }, Math.random() * (3000 - 2000) + 2000); // Entre 2 y 3 segundos
     }
   }
 
