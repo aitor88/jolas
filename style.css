@@ -113,7 +113,16 @@ button:hover:enabled {
   font-size: 18px;
   margin: 20px 0;
   font-weight: 500;
-  color: #007aff; /* Azul típico de iOS */
+}
+
+.turno-jugador {
+  color: #007aff; /* Azul para el jugador */
+  font-weight: bold;
+}
+
+.turno-maquina {
+  color: #ff3b30; /* Rojo para la máquina */
+  font-weight: bold;
 }
 
 /* Cartas acumuladas */
@@ -175,4 +184,34 @@ button:hover:enabled {
   border: none;
   font-size: 16px;
   font-weight: 600;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  #game {
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .card {
+    width: 80px;
+    height: 120px;
+  }
+
+  .chip {
+    width: 10px;
+    height: 10px;
+  }
+
+  button {
+    width: 120px;
+    padding: 8px;
+    font-size: 14px;
+  }
+
+  .card-small {
+    width: 30px;
+    height: 45px;
+    font-size: 12px;
+  }
 }
