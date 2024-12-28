@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
     cartasMaquina = [];
     fichasEnCarta = 0;
     turnoJugador = true;
-    document.getElementById("resultado-modal").classList.add("hidden");
+    document.getElementById("resultado-modal").classList.add("hidden"); // Oculta el modal
     actualizarCartaActual();
     actualizarEstado();
     habilitarBotones(turnoJugador);
@@ -129,7 +129,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function finalizarJuego(puntosJugador, puntosMaquina) {
     document.getElementById("resultado-titulo").innerText = puntosJugador < puntosMaquina ? "¡Ganaste!" : "¡Perdiste!";
     document.getElementById("resultado-mensaje").innerText = `Puntos Jugador: ${puntosJugador} | Puntos Máquina: ${puntosMaquina}`;
-    document.getElementById("resultado-modal").classList.remove("hidden");
+    document.getElementById("resultado-modal").classList.remove("hidden"); // Muestra el modal
   }
 
   document.getElementById("rechazar").addEventListener("click", rechazarCarta);
