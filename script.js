@@ -9,11 +9,6 @@ document.addEventListener("DOMContentLoaded", () => {
   let fichasEnCarta = 0;
   let turnoJugador = true;
 
-  // Modales
-  const modalAyuda = document.getElementById("como-jugar-modal");
-  const botonAyuda = document.getElementById("como-jugar");
-  const botonCerrarAyuda = document.getElementById("cerrar-ayuda");
-
   // Inicializar el juego
   function iniciarJuego() {
     limpiarEstado();
@@ -158,7 +153,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const puntosCartasJugador = calcularPuntuacionCartas(cartasJugador);
     const puntosCartasMaquina = calcularPuntuacionCartas(cartasMaquina);
 
-    document.getElementById("cartas-jugador-title").innerText = `Tus cartas acumuladas: ${puntosCartasJugador || 0}`;
+    document.getElementById("cartas-jugador-title").innerText = `Tu mano de cartas: ${puntosCartasJugador || 0}`;
     document.getElementById("cartas-maquina-title").innerText = `Cartas de tu oponente: ${puntosCartasMaquina || 0}`;
   }
 
@@ -206,16 +201,9 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("resultado-modal").classList.remove("hidden");
   }
 
-  // Modal de "Cómo jugar"
-  botonAyuda.addEventListener("click", () => {
-    modalAyuda.classList.remove("hidden");
-  });
-
-  botonCerrarAyuda.addEventListener("click", () => {
-    modalAyuda.classList.add("hidden");
-  });
-
-  // Resetear juego
+  // Eventos
+  document.getElementById("rechazar").addEventListener("click", rechazarCarta);
+  document.getElementById("tomar").addEventListener("click", tomarCarta);
   document.getElementById("resetear").addEventListener("click", iniciarJuego);
 
   // Inicializar el juego al cargar
