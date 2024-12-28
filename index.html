@@ -10,53 +10,56 @@
   <div id="app">
     <h1>No Gracias</h1>
     <div id="game">
-      <div id="layout">
-        <!-- Carta actual -->
-        <div id="current-card-section">
-          <h4 class="small-title">Carta actual:</h4>
-          <div class="card">
-            <div class="card-value" id="card-value"></div>
+      <div id="game-inner">
+        <!-- Carta actual y cartas acumuladas -->
+        <div id="layout">
+          <!-- Carta actual -->
+          <div id="current-card-section">
+            <h4 class="small-title">Carta actual:</h4>
+            <div class="card">
+              <div class="card-value" id="card-value"></div>
+            </div>
+            <h4 class="small-title">Fichas en la carta:</h4>
+            <div id="chips-on-card" class="chips-container"></div>
           </div>
-          <h4 class="small-title">Fichas en la carta:</h4>
-          <div id="chips-on-card" class="chips-container"></div>
+          <!-- Cartas acumuladas -->
+          <div id="accumulated-cards">
+            <div id="cartas-jugador-section">
+              <h4 class="small-title" id="cartas-jugador-title">Tus cartas acumuladas:</h4>
+              <div id="cartas-jugador" class="cartas-container"></div>
+            </div>
+            <div id="cartas-maquina-section">
+              <h4 class="small-title" id="cartas-maquina-title">Cartas de tu oponente:</h4>
+              <div id="cartas-maquina" class="cartas-container"></div>
+            </div>
+          </div>
         </div>
 
-        <!-- Cartas acumuladas -->
-        <div id="accumulated-cards">
-          <!-- Cartas del jugador -->
-          <div id="cartas-jugador-section">
-            <h4 class="small-title" id="cartas-jugador-title">Tus cartas acumuladas:</h4>
-            <div id="cartas-jugador" class="cartas-container"></div>
-          </div>
-          <!-- Cartas de la máquina -->
-          <div id="cartas-maquina-section">
-            <h4 class="small-title" id="cartas-maquina-title">Cartas de tu oponente:</h4>
-            <div id="cartas-maquina" class="cartas-container"></div>
-          </div>
+        <!-- Indicador de turno -->
+        <div id="turno-indicador">
+          Turno de: <span id="turno-actual" class="turno-jugador">Jugador</span>
+        </div>
+
+        <!-- Botones de acción -->
+        <div id="actions">
+          <button id="rechazar">Rechazar</button>
+          <button id="tomar">Tomar</button>
+        </div>
+
+        <!-- Fichas restantes del jugador -->
+        <div id="scoreboard">
+          <div>Fichas restantes (Jugador): <span id="fichas-jugador">11</span></div>
+        </div>
+
+        <!-- Cartas restantes en el mazo -->
+        <div id="cartas-restantes">Cartas restantes en el mazo: 24</div>
+
+        <!-- Botones Reset y Cómo jugar -->
+        <div id="footer-buttons">
+          <button id="resetear" class="boton-reset">Reset</button>
+          <button id="como-jugar" class="boton-ayuda">Cómo jugar</button>
         </div>
       </div>
-
-      <!-- Indicador de turno -->
-      <div id="turno-indicador">
-        Turno de: <span id="turno-actual" class="turno-jugador">Jugador</span>
-      </div>
-
-      <!-- Botones de acción -->
-      <div id="actions">
-        <button id="rechazar">Rechazar</button>
-        <button id="tomar">Tomar</button>
-      </div>
-
-      <!-- Fichas restantes del jugador -->
-      <div id="scoreboard">
-        <div>Fichas restantes (Jugador): <span id="fichas-jugador">11</span></div>
-      </div>
-
-      <!-- Cartas restantes en el mazo -->
-      <div id="cartas-restantes">Cartas restantes en el mazo: 24</div>
-
-      <!-- Botón Reset -->
-      <button id="resetear" class="boton-reset">Reset</button>
     </div>
 
     <!-- Modal de resultado -->
@@ -67,8 +70,28 @@
         <button id="reiniciar" class="boton-reiniciar">Jugar de nuevo</button>
       </div>
     </div>
-  </div>
 
-  <script src="script.js"></script>
+    <!-- Modal de "Cómo jugar" -->
+    <div id="como-jugar-modal" class="modal hidden">
+      <div class="modal-content">
+        <h2>Cómo jugar</h2>
+        <p>
+          <strong>Idea del juego:</strong> Una carta se pone bocarriba en la mesa. En su turno, cada jugador decide si toma la carta (puntos negativos) o si gasta uno de sus chips (puntos positivos) para pasar el turno.
+          <br><br>
+          <strong>Reglas:</strong>
+          <ul>
+            <li>Cada jugador empieza con 11 fichas.</li>
+            <li>Las cartas tienen valores del 3 al 35.</li>
+            <li>Las cartas consecutivas (escaleras) solo cuentan como la de menor valor.</li>
+            <li>Las fichas sobrantes al final son puntos positivos.</li>
+          </ul>
+          ¡El jugador con menos puntos negativos gana!
+        </p>
+        <button id="cerrar-ayuda" class="boton-reiniciar">Cerrar</button>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </div>
 </body>
 </html>
