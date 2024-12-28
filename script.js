@@ -41,61 +41,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  function habilitarBotones(habilitar) {
-    document.getElementById("rechazar").disabled = !habilitar;
-    document.getElementById("tomar").disabled = !habilitar;
-  }
-
-  function rechazarCarta() {
-    if (turnoJugador && fichasJugador > 0) {
-      fichasJugador--;
-      fichasEnCarta++;
-      siguienteTurno();
-    }
-  }
-
-  function tomarCarta() {
-    if (turnoJugador) {
-      cartasJugador.push(cartaActual);
-      fichasJugador += fichasEnCarta;
-    } else {
-      cartasMaquina.push(cartaActual);
-      fichasMaquina += fichasEnCarta;
-    }
-    cartaActual = mazo.shift();
-    fichasEnCarta = 0;
-    actualizarCartaActual();
-    actualizarCartas();
-    siguienteTurno();
-  }
-
-  function siguienteTurno() {
-    turnoJugador = !turnoJugador;
-    habilitarBotones(turnoJugador);
-    actualizarEstado();
-
-    if (!turnoJugador) {
-      setTimeout(() => {
-        jugadaMaquina();
-      }, 1000);
-    }
-  }
-
-  function jugadaMaquina() {
-    if (fichasMaquina > 0 && Math.random() < 0.5) {
-      fichasMaquina--;
-      fichasEnCarta++;
-    } else {
-      cartasMaquina.push(cartaActual);
-      fichasMaquina += fichasEnCarta;
-      cartaActual = mazo.shift();
-      fichasEnCarta = 0;
-      actualizarCartaActual();
-    }
-    actualizarCartas();
-    siguienteTurno();
-  }
-
   function actualizarCartas() {
     renderizarCartas("cartas-jugador", cartasJugador);
     renderizarCartas("cartas-maquina", cartasMaquina);
@@ -105,76 +50,37 @@ document.addEventListener("DOMContentLoaded", () => {
     const contenedor = document.getElementById(elementId);
     contenedor.innerHTML = "";
 
-    // Ordenar las cartas y agruparlas en escaleras
-    const agrupaciones = agruparEscaleras(cartas);
-
-    agrupaciones.forEach((escalera) => {
+    cartas.sort((a, b) => a - b);
+    cartas.forEach((carta) => {
       const cartaDiv = document.createElement("div");
       cartaDiv.classList.add("card-small");
-      cartaDiv.innerText = escalera.join("-");
+      cartaDiv.innerText = carta;
       contenedor.appendChild(cartaDiv);
     });
   }
 
-  function agruparEscaleras(cartas) {
-    cartas.sort((a, b) => a - b);
-    const agrupaciones = [];
-    let escaleraActual = [];
-
-    cartas.forEach((carta, i) => {
-      if (escaleraActual.length === 0 || carta === escaleraActual[escaleraActual.length - 1] + 1) {
-        escaleraActual.push(carta);
-      } else {
-        agrupaciones.push([...escaleraActual]);
-        escaleraActual = [carta];
-      }
-    });
-
-    if (escaleraActual.length > 0) {
-      agrupaciones.push([...escaleraActual]);
-    }
-
-    return agrupaciones;
+  function habilitarBotones(habilitar) {
+    document.getElementById("rechazar").disabled = !habilitar;
+    document.getElementById("tomar").disabled = !habilitar;
   }
 
   function actualizarEstado() {
     document.getElementById("fichas-jugador").innerText = fichasJugador;
     document.getElementById("fichas-maquina").innerText = fichasMaquina;
-
-    const puntosJugador = calcularPuntuacion(cartasJugador, fichasJugador);
-    const puntosMaquina = calcularPuntuacion(cartasMaquina, fichasMaquina);
-
-    document.getElementById("cartas-jugador-title").innerText = `Cartas acumuladas (Jugador): ${puntosJugador}`;
-    document.getElementById("cartas-maquina-title").innerText = `Cartas acumuladas (Máquina): ${puntosMaquina}`;
-
-    if (mazo.length === 0) {
-      finalizarJuego(puntosJugador, puntosMaquina);
-    }
+    actualizarCartas();
   }
 
-  function calcularPuntuacion(cartas, fichas) {
-    const agrupaciones = agruparEscaleras(cartas);
-    let puntos = 0;
-
-    agrupaciones.forEach((escalera) => {
-      puntos += escalera[0]; // Solo cuenta la carta menor de cada escalera
-    });
-
-    return puntos - fichas;
-  }
-
-  function finalizarJuego(puntosJugador, puntosMaquina) {
-    document.getElementById("resultado-titulo").innerText = puntosJugador < puntosMaquina ? "¡Ganaste!" : "¡Perdiste!";
-    document.getElementById("resultado-mensaje").innerText = `Puntos Jugador: ${puntosJugador} | Puntos Máquina: ${puntosMaquina}`;
-    document.getElementById("resultado-modal").classList.remove("hidden");
-  }
-
-  document.getElementById("rechazar").addEventListener("click", rechazarCarta);
-  document.getElementById("tomar").addEventListener("click", tomarCarta);
-  document.getElementById("resetear").addEventListener("click", iniciarJuego);
-  document.getElementById("reiniciar").addEventListener("click", () => {
-    iniciarJuego();
+  document.getElementById("rechazar").addEventListener("click", () => {
+    fichasJugador--;
+    fichasEnCarta++;
+    actualizarCartaActual();
   });
 
+  document.getElementById("tomar").addEventListener("click", () => {
+    cartasJugador.push(cartaActual);
+    actualizarEstado();
+  });
+
+  document.getElementById("resetear").addEventListener("click", iniciarJuego);
   iniciarJuego();
 });
