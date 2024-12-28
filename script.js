@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // Variables principales
   let mazo = [];
   let cartaActual = null;
   let fichasJugador = 11;
@@ -8,6 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let fichasEnCarta = 0;
   let turnoJugador = true;
 
+  // Inicializar el juego
   function iniciarJuego() {
     limpiarEstado();
     mazo = Array.from({ length: 33 }, (_, i) => i + 3).sort(() => Math.random() - 0.5).slice(0, 24);
@@ -19,6 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
     fichasEnCarta = 0;
     turnoJugador = true;
     document.getElementById("resultado-modal").classList.add("hidden");
+    document.getElementById("como-jugar-modal").classList.add("hidden"); // Asegúrate de ocultar el modal
     actualizarCartaActual();
     actualizarCartasRestantes();
     actualizarEstado();
@@ -170,9 +173,19 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("resultado-modal").classList.remove("hidden");
   }
 
+  function mostrarModalComoJugar() {
+    document.getElementById("como-jugar-modal").classList.remove("hidden");
+  }
+
+  function cerrarModalComoJugar() {
+    document.getElementById("como-jugar-modal").classList.add("hidden");
+  }
+
   document.getElementById("rechazar").addEventListener("click", rechazarCarta);
   document.getElementById("tomar").addEventListener("click", tomarCarta);
   document.getElementById("resetear").addEventListener("click", iniciarJuego);
+  document.getElementById("como-jugar").addEventListener("click", mostrarModalComoJugar);
+  document.getElementById("cerrar-ayuda").addEventListener("click", cerrarModalComoJugar);
 
   iniciarJuego();
 });
