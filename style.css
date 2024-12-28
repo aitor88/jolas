@@ -15,28 +15,38 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 10px;
+  padding: 0 10px; /* Ajustar solo el padding lateral */
 }
 
 h1 {
   font-size: 24px;
   font-weight: 600;
   color: #007aff; /* Azul típico de iOS */
-  margin: 10px 0;
+  margin: 5px 0; /* Reducir margen superior e inferior */
 }
 
 /* Game Layout */
+#game {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 0; /* Eliminar padding interno */
+}
+
+/* Layout dentro del juego */
 #layout {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   gap: 20px;
+  margin-top: 10px; /* Reducir el espacio entre el layout y el título */
 }
 
 /* Carta actual */
 #current-card-section {
   width: 35%;
-  text-align: center; /* Centrar el texto */
+  text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -110,17 +120,7 @@ h1 {
 #turno-indicador {
   font-size: 14px;
   font-weight: bold;
-  margin: 10px 0;
-}
-
-.turno-jugador {
-  color: #34c759; /* Verde para el jugador */
-  font-weight: bold;
-}
-
-.turno-maquina {
-  color: #ff3b30; /* Rojo para la máquina */
-  font-weight: bold;
+  margin: 5px 0; /* Reducir margen */
 }
 
 /* Botones de acción */
@@ -128,7 +128,7 @@ h1 {
   display: flex;
   justify-content: center;
   gap: 10px;
-  margin: 10px 0;
+  margin: 5px 0; /* Reducir margen */
 }
 
 button {
@@ -165,7 +165,7 @@ button:disabled {
 /* Cartas restantes */
 #cartas-restantes {
   font-size: 12px;
-  margin: 10px 0;
+  margin: 5px 0; /* Reducir margen */
 }
 
 /* Reset Button */
