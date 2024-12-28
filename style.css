@@ -39,12 +39,36 @@ h1 {
   color: #fff;
   border: none;
   border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  font-size: 16px;
+  width: 50px; /* Tamaño más grande para móviles */
+  height: 50px; /* Tamaño más grande para móviles */
+  font-size: 20px; /* Fuente más grande */
+  font-weight: bold; /* Asegurar visibilidad */
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  z-index: 100; /* Asegura que esté encima de otros elementos */
 }
+
+.boton-reset:hover {
+  background-color: #d32f2f;
+}
+
+.boton-reset:active {
+  background-color: #b71c1c;
+  transform: scale(0.95); /* Efecto de "pulsación" */
+}
+
+/* Responsive para ajustar en pantallas más pequeñas */
+@media (max-width: 768px) {
+  .boton-reset {
+    width: 45px; /* Reducir un poco para pantallas pequeñas */
+    height: 45px;
+    font-size: 18px;
+  }
+}
+
 
 /* Carta actual */
 .card {
