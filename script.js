@@ -21,6 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
     fichasEnCarta = 0;
     turnoJugador = true;
     document.getElementById("resultado-modal").classList.add("hidden");
+    document.getElementById("como-jugar-modal").classList.add("hidden"); // Ocultar modal de "Cómo jugar"
     actualizarCartaActual();
     actualizarCartasRestantes();
     actualizarEstado();
@@ -32,6 +33,16 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("chips-on-card").innerHTML = "";
     document.getElementById("cartas-jugador").innerHTML = "";
     document.getElementById("cartas-maquina").innerHTML = "";
+  }
+
+  // Mostrar modal de "Cómo jugar"
+  function mostrarModalComoJugar() {
+    document.getElementById("como-jugar-modal").classList.remove("hidden");
+  }
+
+  // Cerrar modal de "Cómo jugar"
+  function cerrarModalComoJugar() {
+    document.getElementById("como-jugar-modal").classList.add("hidden");
   }
 
   // Actualizar la carta actual
@@ -70,7 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (fichasJugador > 0) {
         fichasJugador--;
         fichasEnCarta++;
-        actualizarEstado(); // Asegurarse de actualizar visualmente las fichas
+        actualizarEstado();
         actualizarCartaActual();
         siguienteTurno();
       }
@@ -84,7 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
       fichasJugador += fichasEnCarta;
     } else {
       cartasMaquina.push(cartaActual);
-      fichasMaquina += fichasEnCarta; // Interno, no visual
+      fichasMaquina += fichasEnCarta;
     }
     if (mazo.length > 0) {
       cartaActual = mazo.shift();
@@ -106,9 +117,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!turnoJugador) {
       setTimeout(() => {
         jugadaMaquina();
-      }, Math.random() * (3000 - 2000) + 2000); // Entre 2 y 3 segundos
+      }, Math.random() * (3000 - 2000) + 2000);
     }
-    actualizarEstado(); // Actualiza únicamente lo visible
+    actualizarEstado();
   }
 
   // Lógica de la máquina
@@ -156,27 +167,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.getElementById("cartas-jugador-title").innerText = `Tu mano de cartas: ${puntosCartasJugador || 0}`;
     document.getElementById("cartas-maquina-title").innerText = `Cartas de tu oponente: ${puntosCartasMaquina || 0}`;
-    document.getElementById("fichas-jugador").innerText = fichasJugador; // Actualización visual de las fichas
-  }
-
-  // Calcular puntuación solo por cartas
-  function calcularPuntuacionCartas(cartas) {
-    if (cartas.length === 0) return 0;
-    cartas.sort((a, b) => a - b);
-    let puntos = 0;
-    let escalera = [cartas[0]];
-    for (let i = 1; i < cartas.length; i++) {
-      if (cartas[i] === escalera[escalera.length - 1] + 1) {
-        escalera.push(cartas[i]);
-      } else {
-        puntos += escalera[0];
-        escalera = [cartas[i]];
-      }
-    }
-    if (escalera.length > 0) {
-      puntos += escalera[0];
-    }
-    return puntos;
+    document.getElementById("fichas-jugador").innerText = fichasJugador;
   }
 
   // Finalizar juego
@@ -207,6 +198,8 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("rechazar").addEventListener("click", rechazarCarta);
   document.getElementById("tomar").addEventListener("click", tomarCarta);
   document.getElementById("resetear").addEventListener("click", iniciarJuego);
+  document.getElementById("como-jugar").addEventListener("click", mostrarModalComoJugar);
+  document.getElementById("cerrar-ayuda").addEventListener("click", cerrarModalComoJugar);
 
   // Inicializar el juego al cargar
   iniciarJuego();
