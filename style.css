@@ -30,47 +30,43 @@ h1 {
   position: relative;
 }
 
+/* Botón Reset */
 .boton-reset {
   position: absolute;
   top: 10px;
   right: 10px;
   background-color: #ff3b30; /* Rojo típico de iOS */
+  color: white; /* Texto blanco */
   border: none;
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
+  border-radius: 12px; /* Bordes redondeados */
+  width: auto;
+  height: 40px;
+  padding: 0 15px; /* Espaciado interno */
+  font-size: 16px; /* Tamaño del texto */
+  font-weight: bold; /* Texto destacado */
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
   z-index: 100;
-}
-
-.boton-reset svg {
-  fill: white; /* Color del icono */
-  width: 24px; /* Tamaño del icono */
-  height: 24px;
+  text-transform: uppercase; /* Texto en mayúsculas */
 }
 
 .boton-reset:hover {
-  background-color: #d32f2f;
+  background-color: #d32f2f; /* Rojo más oscuro */
 }
 
 .boton-reset:active {
-  background-color: #b71c1c;
+  background-color: #b71c1c; /* Rojo aún más oscuro */
   transform: scale(0.95); /* Efecto de "pulsación" */
 }
 
 @media (max-width: 768px) {
   .boton-reset {
-    width: 45px;
-    height: 45px;
-  }
-
-  .boton-reset svg {
-    width: 20px;
-    height: 20px;
+    font-size: 14px; /* Reducir tamaño en móviles */
+    height: 35px;
+    padding: 0 10px;
   }
 }
 
@@ -141,6 +137,17 @@ button:hover:enabled {
   font-size: 18px;
   margin: 20px 0;
   font-weight: 500;
+}
+
+/* Estilo para el texto del turno */
+.turno-jugador {
+  color: #34c759; /* Verde para el jugador */
+  font-weight: bold;
+}
+
+.turno-maquina {
+  color: #ff3b30; /* Rojo para la máquina */
+  font-weight: bold;
 }
 
 /* Fichas restantes (Jugador) */
