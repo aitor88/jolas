@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let turnoJugador = true;
 
   function iniciarJuego() {
+    limpiarEstado(); // Limpia elementos de UI
     mazo = Array.from({ length: 33 }, (_, i) => i + 3).sort(() => Math.random() - 0.5).slice(0, 24);
     cartaActual = mazo.shift();
     fichasJugador = 11;
@@ -17,10 +18,17 @@ document.addEventListener("DOMContentLoaded", () => {
     cartasJugador = [];
     cartasMaquina = [];
     fichasEnCarta = 0;
-    turnoJugador = true; // Inicia el jugador
+    turnoJugador = true;
+    document.getElementById("resultado-modal").classList.add("hidden");
     actualizarCartaActual();
     actualizarEstado();
     habilitarBotones(turnoJugador);
+  }
+
+  function limpiarEstado() {
+    document.getElementById("chips-on-card").innerHTML = ""; // Limpia las fichas
+    document.getElementById("cartas-jugador").innerHTML = ""; // Limpia las cartas del jugador
+    document.getElementById("cartas-maquina").innerHTML = ""; // Limpia las cartas de la máquina
   }
 
   function actualizarCartaActual() {
@@ -75,18 +83,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function jugadaMaquina() {
     if (fichasMaquina > 0 && Math.random() < 0.5) {
-      // La máquina decide rechazar la carta con un 50% de probabilidad
       fichasMaquina--;
       fichasEnCarta++;
     } else {
-      // La máquina toma la carta
       cartasMaquina.push(cartaActual);
       fichasMaquina += fichasEnCarta;
       cartaActual = mazo.shift();
       fichasEnCarta = 0;
       actualizarCartaActual();
     }
-    siguienteTurno(); // Vuelve el turno al jugador
+    siguienteTurno();
   }
 
   function actualizarEstado() {
@@ -109,18 +115,21 @@ document.addEventListener("DOMContentLoaded", () => {
       if (cartas[i] === escalera[escalera.length - 1] + 1) {
         escalera.push(cartas[i]);
       } else {
-        puntos += escalera[0]; // Cuenta solo la carta menor de la escalera
+        puntos += escalera[0];
         escalera = [cartas[i]];
       }
     }
-    puntos += escalera[0]; // Agregar la última escalera o carta suelta
-    return puntos - fichas; // Los fichas son positivos
+    puntos += escalera[0];
+    return puntos - fichas;
   }
 
-  // Listeners
   document.getElementById("rechazar").addEventListener("click", rechazarCarta);
   document.getElementById("tomar").addEventListener("click", tomarCarta);
   document.getElementById("resetear").addEventListener("click", iniciarJuego);
+  document.getElementById("reiniciar").addEventListener("click", () => {
+    document.getElementById("resultado-modal").classList.add("hidden");
+    iniciarJuego();
+  });
 
   iniciarJuego();
 });
