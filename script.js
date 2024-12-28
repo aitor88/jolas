@@ -28,12 +28,14 @@ document.addEventListener("DOMContentLoaded", () => {
     habilitarBotones(turnoJugador);
   }
 
+  // Limpiar el estado visual del juego
   function limpiarEstado() {
     document.getElementById("chips-on-card").innerHTML = "";
     document.getElementById("cartas-jugador").innerHTML = "";
     document.getElementById("cartas-maquina").innerHTML = "";
   }
 
+  // Actualizar la carta actual
   function actualizarCartaActual() {
     document.getElementById("card-value").innerText = cartaActual || "";
     const chipsContainer = document.getElementById("chips-on-card");
@@ -45,27 +47,30 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  // Actualizar el número de cartas restantes
   function actualizarCartasRestantes() {
     document.getElementById("cartas-restantes").innerText = `Cartas restantes en el mazo: ${mazo.length}`;
   }
 
+  // Habilitar o deshabilitar botones según el turno
   function habilitarBotones(habilitar) {
     document.getElementById("rechazar").disabled = !habilitar;
     document.getElementById("tomar").disabled = !habilitar;
   }
 
+  // Actualizar el turno visual
   function actualizarTurno() {
     const turnoElemento = document.getElementById("turno-actual");
     turnoElemento.className = turnoJugador ? "turno-jugador" : "turno-maquina";
     turnoElemento.innerText = turnoJugador ? "Jugador" : "Máquina";
   }
 
-  // Rechazar carta
+  // Función para rechazar la carta
   function rechazarCarta() {
-    if (turnoJugador) { // Solo permite rechazar si es el turno del jugador
+    if (turnoJugador) { // Solo se permite rechazar si es el turno del jugador
       if (fichasJugador > 0) {
-        fichasJugador--; // Reduce una ficha al jugador
-        fichasEnCarta++; // Incrementa las fichas en la carta actual
+        fichasJugador--; // Resta una ficha al jugador
+        fichasEnCarta++; // Añade una ficha a la carta actual
         actualizarEstado();
         actualizarCartaActual();
         siguienteTurno();
@@ -75,6 +80,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  // Función para tomar la carta
   function tomarCarta() {
     if (turnoJugador) {
       cartasJugador.push(cartaActual);
@@ -95,6 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
     siguienteTurno();
   }
 
+  // Cambiar turno
   function siguienteTurno() {
     turnoJugador = !turnoJugador;
     actualizarTurno();
@@ -107,6 +114,7 @@ document.addEventListener("DOMContentLoaded", () => {
     actualizarEstado();
   }
 
+  // Lógica para la jugada de la máquina
   function jugadaMaquina() {
     const completarEscalera = puedeCompletarEscalera(cartaActual, cartasMaquina);
     const puntuacionActual = cartaActual - fichasEnCarta;
@@ -120,16 +128,19 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  // Verificar si la máquina puede completar una escalera
   function puedeCompletarEscalera(carta, cartas) {
     const cartasOrdenadas = [...cartas].sort((a, b) => a - b);
     return cartasOrdenadas.some((valor) => carta === valor - 1 || carta === valor + 1);
   }
 
+  // Actualizar las cartas acumuladas
   function actualizarCartas() {
     renderizarCartas("cartas-jugador", cartasJugador);
     renderizarCartas("cartas-maquina", cartasMaquina);
   }
 
+  // Renderizar las cartas en el contenedor correspondiente
   function renderizarCartas(elementId, cartas) {
     const contenedor = document.getElementById(elementId);
     contenedor.innerHTML = "";
@@ -142,15 +153,32 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // Actualizar el estado del juego
   function actualizarEstado() {
-    const puntosCartasJugador = calcularPuntuacionCartas(cartasJugador);
-    const puntosCartasMaquina = calcularPuntuacionCartas(cartasMaquina);
-
-    document.getElementById("cartas-jugador-title").innerText = `Tu mano de cartas: ${puntosCartasJugador || 0}`;
-    document.getElementById("cartas-maquina-title").innerText = `Cartas de tu oponente: ${puntosCartasMaquina || 0}`;
+    document.getElementById("cartas-jugador-title").innerText = `Tu mano de cartas: ${calcularPuntuacionCartas(cartasJugador) || 0}`;
+    document.getElementById("cartas-maquina-title").innerText = `Cartas de tu oponente: ${calcularPuntuacionCartas(cartasMaquina) || 0}`;
     document.getElementById("fichas-jugador").innerText = fichasJugador;
   }
 
+  // Calcular puntuación de las cartas acumuladas
+  function calcularPuntuacionCartas(cartas) {
+    if (cartas.length === 0) return 0;
+    cartas.sort((a, b) => a - b);
+    let puntos = 0;
+    let escalera = [cartas[0]];
+    for (let i = 1; i < cartas.length; i++) {
+      if (cartas[i] === escalera[escalera.length - 1] + 1) {
+        escalera.push(cartas[i]);
+      } else {
+        puntos += escalera[0];
+        escalera = [cartas[i]];
+      }
+    }
+    puntos += escalera[0];
+    return puntos;
+  }
+
+  // Finalizar el juego
   function finalizarJuego() {
     const puntosCartasJugador = calcularPuntuacionCartas(cartasJugador);
     const puntosCartasMaquina = calcularPuntuacionCartas(cartasMaquina);
@@ -174,6 +202,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("resultado-modal").classList.remove("hidden");
   }
 
+  // Mostrar y cerrar el modal "Cómo jugar"
   function mostrarModalComoJugar() {
     document.getElementById("como-jugar-modal").classList.remove("hidden");
   }
@@ -182,11 +211,13 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("como-jugar-modal").classList.add("hidden");
   }
 
+  // Eventos de los botones
   document.getElementById("rechazar").addEventListener("click", rechazarCarta);
   document.getElementById("tomar").addEventListener("click", tomarCarta);
   document.getElementById("resetear").addEventListener("click", iniciarJuego);
   document.getElementById("como-jugar").addEventListener("click", mostrarModalComoJugar);
   document.getElementById("cerrar-ayuda").addEventListener("click", cerrarModalComoJugar);
 
+  // Iniciar el juego al cargar la página
   iniciarJuego();
 });
