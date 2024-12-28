@@ -183,8 +183,16 @@ button:disabled {
   margin: 5px 0; /* Reducir margen */
 }
 
-/* Reset Button */
-.boton-reset {
+/* Reset y Cómo jugar */
+#footer-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.boton-reset,
+.boton-ayuda {
   background-color: #ff3b30;
   color: white;
   border: none;
@@ -195,15 +203,27 @@ button:disabled {
   font-weight: bold;
   cursor: pointer;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-  margin: 10px auto 0;
 }
 
-.boton-reset:hover {
+.boton-ayuda {
+  background-color: #007aff;
+}
+
+.boton-reset:hover,
+.boton-ayuda:hover {
   background-color: #d32f2f;
+}
+
+.boton-ayuda:hover {
+  background-color: #005bb5;
 }
 
 .boton-reset:active {
   background-color: #b71c1c;
+}
+
+.boton-ayuda:active {
+  background-color: #003f91;
 }
 
 /* Modal */
@@ -240,7 +260,7 @@ button:disabled {
   cursor: pointer;
   color: white;
   border: none;
-  font-size: 14px; /* Reducir tamaño */
+  font-size: 14px;
   font-weight: 600;
 }
 
