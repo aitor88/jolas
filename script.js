@@ -41,6 +41,74 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  function habilitarBotones(habilitar) {
+    document.getElementById("rechazar").disabled = !habilitar;
+    document.getElementById("tomar").disabled = !habilitar;
+  }
+
+  function rechazarCarta() {
+    if (turnoJugador) {
+      if (fichasJugador > 0) {
+        fichasJugador--;
+        fichasEnCarta++;
+        siguienteTurno();
+      } else {
+        alert("No tienes fichas suficientes. Debes tomar la carta.");
+      }
+    }
+  }
+
+  function tomarCarta() {
+    if (turnoJugador) {
+      cartasJugador.push(cartaActual);
+      fichasJugador += fichasEnCarta;
+    } else {
+      cartasMaquina.push(cartaActual);
+      fichasMaquina += fichasEnCarta;
+    }
+    if (mazo.length > 0) {
+      cartaActual = mazo.shift();
+      fichasEnCarta = 0;
+      actualizarCartaActual();
+      actualizarCartas();
+    } else {
+      finalizarJuego();
+    }
+    siguienteTurno();
+  }
+
+  function siguienteTurno() {
+    turnoJugador = !turnoJugador;
+    habilitarBotones(turnoJugador);
+    actualizarEstado();
+
+    if (!turnoJugador) {
+      setTimeout(() => {
+        jugadaMaquina();
+      }, 1000);
+    }
+  }
+
+  function jugadaMaquina() {
+    if (fichasMaquina > 0 && Math.random() < 0.5) {
+      // Rechazar carta
+      fichasMaquina--;
+      fichasEnCarta++;
+    } else {
+      // Tomar carta
+      cartasMaquina.push(cartaActual);
+      fichasMaquina += fichasEnCarta;
+      if (mazo.length > 0) {
+        cartaActual = mazo.shift();
+        fichasEnCarta = 0;
+        actualizarCartaActual();
+      } else {
+        finalizarJuego();
+      }
+    }
+    siguienteTurno();
+  }
+
   function actualizarCartas() {
     renderizarCartas("cartas-jugador", cartasJugador);
     renderizarCartas("cartas-maquina", cartasMaquina);
@@ -59,28 +127,54 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  function habilitarBotones(habilitar) {
-    document.getElementById("rechazar").disabled = !habilitar;
-    document.getElementById("tomar").disabled = !habilitar;
-  }
-
   function actualizarEstado() {
     document.getElementById("fichas-jugador").innerText = fichasJugador;
     document.getElementById("fichas-maquina").innerText = fichasMaquina;
-    actualizarCartas();
+
+    const puntosJugador = calcularPuntuacion(cartasJugador, fichasJugador);
+    const puntosMaquina = calcularPuntuacion(cartasMaquina, fichasMaquina);
+
+    document.getElementById("cartas-jugador-title").innerText = `Cartas acumuladas (Jugador): ${puntosJugador}`;
+    document.getElementById("cartas-maquina-title").innerText = `Cartas acumuladas (Máquina): ${puntosMaquina}`;
   }
 
-  document.getElementById("rechazar").addEventListener("click", () => {
-    fichasJugador--;
-    fichasEnCarta++;
-    actualizarCartaActual();
-  });
+  function calcularPuntuacion(cartas, fichas) {
+    cartas.sort((a, b) => a - b);
+    let puntos = 0;
+    let escalera = [cartas[0]];
 
-  document.getElementById("tomar").addEventListener("click", () => {
-    cartasJugador.push(cartaActual);
-    actualizarEstado();
-  });
+    for (let i = 1; i < cartas.length; i++) {
+      if (cartas[i] === escalera[escalera.length - 1] + 1) {
+        escalera.push(cartas[i]);
+      } else {
+        puntos += escalera[0];
+        escalera = [cartas[i]];
+      }
+    }
 
+    if (escalera.length > 0) {
+      puntos += escalera[0];
+    }
+
+    return puntos - fichas;
+  }
+
+  function finalizarJuego() {
+    const puntosJugador = calcularPuntuacion(cartasJugador, fichasJugador);
+    const puntosMaquina = calcularPuntuacion(cartasMaquina, fichasMaquina);
+
+    document.getElementById("resultado-titulo").innerText =
+      puntosJugador < puntosMaquina ? "¡Ganaste!" : "¡Perdiste!";
+    document.getElementById("resultado-mensaje").innerText = `Puntos Jugador: ${puntosJugador} | Puntos Máquina: ${puntosMaquina}`;
+    document.getElementById("resultado-modal").classList.remove("hidden");
+  }
+
+  document.getElementById("rechazar").addEventListener("click", rechazarCarta);
+  document.getElementById("tomar").addEventListener("click", tomarCarta);
   document.getElementById("resetear").addEventListener("click", iniciarJuego);
+  document.getElementById("reiniciar").addEventListener("click", () => {
+    iniciarJuego();
+  });
+
   iniciarJuego();
 });
