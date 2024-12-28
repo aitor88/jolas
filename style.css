@@ -1,3 +1,4 @@
+/* General styles */
 body {
   font-family: Arial, sans-serif;
   text-align: center;
@@ -38,6 +39,7 @@ h1 {
   cursor: pointer;
 }
 
+/* Carta actual */
 .card {
   width: 100px;
   height: 150px;
@@ -51,6 +53,7 @@ h1 {
   border: 2px solid #ccc;
 }
 
+/* Botones de acción */
 button {
   margin: 10px;
   padding: 10px 20px;
@@ -66,6 +69,7 @@ button:disabled {
   cursor: not-allowed;
 }
 
+/* Chips en la carta */
 #chips-on-card .chip {
   width: 15px;
   height: 15px;
@@ -75,6 +79,7 @@ button:disabled {
   margin: 5px;
 }
 
+/* Modal */
 .modal {
   position: fixed;
   top: 0;
@@ -108,4 +113,25 @@ button:disabled {
   color: white;
   border: none;
   font-size: 16px;
+}
+
+/* Cartas acumuladas */
+#cartas-jugador,
+#cartas-maquina {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.card-small {
+  width: 40px;
+  height: 60px;
+  border-radius: 5px;
+  background-color: #e0e0e0;
+  margin: 5px;
+  text-align: center;
+  line-height: 60px;
+  font-size: 14px;
+  border: 1px solid #ccc;
 }
