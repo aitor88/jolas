@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Variables principales
   let mazo = [];
   let cartaActual = null;
   let fichasJugador = 11;
@@ -9,12 +8,10 @@ document.addEventListener("DOMContentLoaded", () => {
   let fichasEnCarta = 0;
   let turnoJugador = true;
 
-  // Inicializar el juego
   function iniciarJuego() {
     limpiarEstado();
-    mazo = Array.from({ length: 33 }, (_, i) => i + 3); // Crear cartas del 3 al 35
-    mazo = barajarMazo(mazo).slice(0, 24); // Barajar y tomar las primeras 24 cartas
-    cartaActual = mazo.shift(); // Extraer la primera carta
+    mazo = Array.from({ length: 33 }, (_, i) => i + 3).sort(() => Math.random() - 0.5).slice(0, 24);
+    cartaActual = mazo.shift();
     fichasJugador = 11;
     fichasMaquina = 11;
     cartasJugador = [];
@@ -28,23 +25,12 @@ document.addEventListener("DOMContentLoaded", () => {
     habilitarBotones(turnoJugador);
   }
 
-  // Barajar el mazo usando el algoritmo de Fisher-Yates
-  function barajarMazo(mazo) {
-    for (let i = mazo.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [mazo[i], mazo[j]] = [mazo[j], mazo[i]];
-    }
-    return mazo;
-  }
-
-  // Limpiar elementos visuales
   function limpiarEstado() {
     document.getElementById("chips-on-card").innerHTML = "";
     document.getElementById("cartas-jugador").innerHTML = "";
     document.getElementById("cartas-maquina").innerHTML = "";
   }
 
-  // Actualizar la carta actual
   function actualizarCartaActual() {
     document.getElementById("card-value").innerText = cartaActual || "";
     const chipsContainer = document.getElementById("chips-on-card");
@@ -56,25 +42,21 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Actualizar cartas restantes en el mazo
   function actualizarCartasRestantes() {
     document.getElementById("cartas-restantes").innerText = `Cartas restantes en el mazo: ${mazo.length}`;
   }
 
-  // Habilitar o deshabilitar botones
   function habilitarBotones(habilitar) {
     document.getElementById("rechazar").disabled = !habilitar;
     document.getElementById("tomar").disabled = !habilitar;
   }
 
-  // Actualizar turno visual
   function actualizarTurno() {
     const turnoElemento = document.getElementById("turno-actual");
     turnoElemento.className = turnoJugador ? "turno-jugador" : "turno-maquina";
     turnoElemento.innerText = turnoJugador ? "Jugador" : "Máquina";
   }
 
-  // Rechazar carta
   function rechazarCarta() {
     if (turnoJugador) {
       if (fichasJugador > 0) {
@@ -83,11 +65,12 @@ document.addEventListener("DOMContentLoaded", () => {
         actualizarEstado();
         actualizarCartaActual();
         siguienteTurno();
+      } else {
+        alert("No tienes más fichas para rechazar la carta.");
       }
     }
   }
 
-  // Tomar carta
   function tomarCarta() {
     if (turnoJugador) {
       cartasJugador.push(cartaActual);
@@ -108,7 +91,6 @@ document.addEventListener("DOMContentLoaded", () => {
     siguienteTurno();
   }
 
-  // Cambiar turno
   function siguienteTurno() {
     turnoJugador = !turnoJugador;
     actualizarTurno();
@@ -116,12 +98,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!turnoJugador) {
       setTimeout(() => {
         jugadaMaquina();
-      }, Math.random() * (3000 - 2000) + 2000); // Entre 2 y 3 segundos
+      }, Math.random() * (3000 - 2000) + 2000);
     }
     actualizarEstado();
   }
 
-  // Lógica de la máquina
   function jugadaMaquina() {
     const completarEscalera = puedeCompletarEscalera(cartaActual, cartasMaquina);
     const puntuacionActual = cartaActual - fichasEnCarta;
@@ -135,13 +116,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Verificar si la máquina puede completar una escalera
   function puedeCompletarEscalera(carta, cartas) {
     const cartasOrdenadas = [...cartas].sort((a, b) => a - b);
     return cartasOrdenadas.some((valor) => carta === valor - 1 || carta === valor + 1);
   }
 
-  // Actualizar cartas acumuladas
   function actualizarCartas() {
     renderizarCartas("cartas-jugador", cartasJugador);
     renderizarCartas("cartas-maquina", cartasMaquina);
@@ -159,7 +138,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Actualizar estado del juego
   function actualizarEstado() {
     const puntosCartasJugador = calcularPuntuacionCartas(cartasJugador);
     const puntosCartasMaquina = calcularPuntuacionCartas(cartasMaquina);
@@ -169,7 +147,6 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("fichas-jugador").innerText = fichasJugador;
   }
 
-  // Finalizar juego
   function finalizarJuego() {
     const puntosCartasJugador = calcularPuntuacionCartas(cartasJugador);
     const puntosCartasMaquina = calcularPuntuacionCartas(cartasMaquina);
@@ -193,23 +170,9 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("resultado-modal").classList.remove("hidden");
   }
 
-  // Mostrar modal de "Cómo jugar"
-  function mostrarModalComoJugar() {
-    document.getElementById("como-jugar-modal").classList.remove("hidden");
-  }
-
-  // Cerrar modal de "Cómo jugar"
-  function cerrarModalComoJugar() {
-    document.getElementById("como-jugar-modal").classList.add("hidden");
-  }
-
-  // Eventos
   document.getElementById("rechazar").addEventListener("click", rechazarCarta);
   document.getElementById("tomar").addEventListener("click", tomarCarta);
   document.getElementById("resetear").addEventListener("click", iniciarJuego);
-  document.getElementById("como-jugar").addEventListener("click", mostrarModalComoJugar);
-  document.getElementById("cerrar-ayuda").addEventListener("click", cerrarModalComoJugar);
 
-  // Inicializar el juego al cargar
   iniciarJuego();
 });
