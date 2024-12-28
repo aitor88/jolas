@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
     cartasMaquina = [];
     fichasEnCarta = 0;
     turnoJugador = true;
-    document.getElementById("resultado-modal").classList.add("hidden"); // Oculta el modal
+    document.getElementById("resultado-modal").classList.add("hidden");
     actualizarCartaActual();
     actualizarEstado();
     habilitarBotones(turnoJugador);
@@ -31,12 +31,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function actualizarCartaActual() {
-    // Mostrar el valor de la carta actual
     document.getElementById("card-value").innerText = cartaActual || "";
-
-    // Mostrar las fichas como círculos rojos
     const chipsContainer = document.getElementById("chips-on-card");
-    chipsContainer.innerHTML = ""; // Limpiar el contenedor antes de renderizar las fichas
+    chipsContainer.innerHTML = "";
     for (let i = 0; i < fichasEnCarta; i++) {
       const chip = document.createElement("div");
       chip.classList.add("chip");
@@ -54,10 +51,8 @@ document.addEventListener("DOMContentLoaded", () => {
       if (fichasJugador > 0) {
         fichasJugador--;
         fichasEnCarta++;
-        actualizarCartaActual(); // Actualizar las fichas en la carta
+        actualizarCartaActual();
         siguienteTurno();
-      } else {
-        alert("No tienes fichas suficientes. Debes tomar la carta.");
       }
     }
   }
@@ -73,7 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (mazo.length > 0) {
       cartaActual = mazo.shift();
       fichasEnCarta = 0;
-      actualizarCartaActual(); // Actualizar la carta actual
+      actualizarCartaActual();
       actualizarCartas();
     } else {
       finalizarJuego();
@@ -94,24 +89,22 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function jugadaMaquina() {
-    if (fichasMaquina > 0 && Math.random() < 0.5) {
-      // Rechazar carta
+    const completarEscalera = puedeCompletarEscalera(cartaActual, cartasMaquina);
+    const puntuacionActual = cartaActual - fichasEnCarta;
+
+    if (fichasMaquina === 0 || completarEscalera || puntuacionActual <= 5) {
+      tomarCarta();
+    } else {
       fichasMaquina--;
       fichasEnCarta++;
-      actualizarCartaActual(); // Actualizar las fichas en la carta
-    } else {
-      // Tomar carta
-      cartasMaquina.push(cartaActual);
-      fichasMaquina += fichasEnCarta;
-      if (mazo.length > 0) {
-        cartaActual = mazo.shift();
-        fichasEnCarta = 0;
-        actualizarCartaActual();
-      } else {
-        finalizarJuego();
-      }
+      actualizarCartaActual();
+      siguienteTurno();
     }
-    siguienteTurno();
+  }
+
+  function puedeCompletarEscalera(carta, cartas) {
+    const cartasOrdenadas = [...cartas].sort((a, b) => a - b);
+    return cartasOrdenadas.some((valor) => carta === valor - 1 || carta === valor + 1);
   }
 
   function actualizarCartas() {
@@ -135,33 +128,6 @@ document.addEventListener("DOMContentLoaded", () => {
   function actualizarEstado() {
     document.getElementById("fichas-jugador").innerText = fichasJugador;
     document.getElementById("fichas-maquina").innerText = fichasMaquina;
-
-    const puntosJugador = calcularPuntuacion(cartasJugador, fichasJugador);
-    const puntosMaquina = calcularPuntuacion(cartasMaquina, fichasMaquina);
-
-    document.getElementById("cartas-jugador-title").innerText = `Cartas acumuladas (Jugador): ${puntosJugador}`;
-    document.getElementById("cartas-maquina-title").innerText = `Cartas acumuladas (Máquina): ${puntosMaquina}`;
-  }
-
-  function calcularPuntuacion(cartas, fichas) {
-    cartas.sort((a, b) => a - b);
-    let puntos = 0;
-    let escalera = [cartas[0]];
-
-    for (let i = 1; i < cartas.length; i++) {
-      if (cartas[i] === escalera[escalera.length - 1] + 1) {
-        escalera.push(cartas[i]);
-      } else {
-        puntos += escalera[0];
-        escalera = [cartas[i]];
-      }
-    }
-
-    if (escalera.length > 0) {
-      puntos += escalera[0];
-    }
-
-    return puntos - fichas;
   }
 
   function finalizarJuego() {
@@ -177,9 +143,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("rechazar").addEventListener("click", rechazarCarta);
   document.getElementById("tomar").addEventListener("click", tomarCarta);
   document.getElementById("resetear").addEventListener("click", iniciarJuego);
-  document.getElementById("reiniciar").addEventListener("click", () => {
-    iniciarJuego();
-  });
+  document.getElementById("reiniciar").addEventListener("click", iniciarJuego);
 
   iniciarJuego();
 });
