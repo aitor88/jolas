@@ -161,11 +161,18 @@ button:disabled {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
+#chips-on-card {
+  display: flex;
+  flex-wrap: wrap; /* Permite que las fichas se ajusten si no caben en una línea */
+  gap: 5px; /* Espaciado entre fichas */
+  justify-content: center; /* Centrar las fichas horizontalmente */
+  align-items: center; /* Alinear las fichas verticalmente */
+}
+
 #chips-on-card .chip {
   width: 12px;
   height: 12px;
   background-color: #ff3b30;
   border-radius: 50%;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  margin: 2px;
 }
