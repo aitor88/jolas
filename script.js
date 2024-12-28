@@ -20,6 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
     turnoJugador = true;
     document.getElementById("resultado-modal").classList.add("hidden");
     actualizarCartaActual();
+    actualizarCartasRestantes();
     actualizarEstado();
     habilitarBotones(turnoJugador);
   }
@@ -39,6 +40,10 @@ document.addEventListener("DOMContentLoaded", () => {
       chip.classList.add("chip");
       chipsContainer.appendChild(chip);
     }
+  }
+
+  function actualizarCartasRestantes() {
+    document.getElementById("cartas-restantes").innerText = `Cartas restantes en el mazo: ${mazo.length}`;
   }
 
   function habilitarBotones(habilitar) {
@@ -75,6 +80,7 @@ document.addEventListener("DOMContentLoaded", () => {
       cartaActual = mazo.shift();
       fichasEnCarta = 0;
       actualizarCartaActual();
+      actualizarCartasRestantes(); // Actualizar número de cartas restantes
       actualizarCartas();
     } else {
       finalizarJuego();
