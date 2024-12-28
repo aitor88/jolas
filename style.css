@@ -36,7 +36,11 @@ h1 {
 /* Carta actual */
 #current-card-section {
   width: 35%;
-  text-align: left;
+  text-align: center; /* Centrar el texto */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
 }
 
 .card {
@@ -107,6 +111,16 @@ h1 {
   font-size: 14px;
   font-weight: bold;
   margin: 10px 0;
+}
+
+.turno-jugador {
+  color: #34c759; /* Verde para el jugador */
+  font-weight: bold;
+}
+
+.turno-maquina {
+  color: #ff3b30; /* Rojo para la máquina */
+  font-weight: bold;
 }
 
 /* Botones de acción */
