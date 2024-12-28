@@ -272,3 +272,14 @@ button:disabled {
 .boton-reiniciar:hover {
   background-color: #005bb5;
 }
+
+#footer {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+  color: #8e8e93; /* Gris típico de iOS */
+}
+
+#footer p {
+  margin: 0;
+}
