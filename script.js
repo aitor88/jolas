@@ -128,6 +128,33 @@ document.addEventListener("DOMContentLoaded", () => {
   function actualizarEstado() {
     document.getElementById("fichas-jugador").innerText = fichasJugador;
     document.getElementById("fichas-maquina").innerText = fichasMaquina;
+
+    const puntosJugador = calcularPuntuacion(cartasJugador, fichasJugador);
+    const puntosMaquina = calcularPuntuacion(cartasMaquina, fichasMaquina);
+
+    document.getElementById("cartas-jugador-title").innerText = `Cartas acumuladas (Jugador): ${puntosJugador}`;
+    document.getElementById("cartas-maquina-title").innerText = `Cartas acumuladas (Máquina): ${puntosMaquina}`;
+  }
+
+  function calcularPuntuacion(cartas, fichas) {
+    cartas.sort((a, b) => a - b);
+    let puntos = 0;
+    let escalera = [cartas[0]];
+
+    for (let i = 1; i < cartas.length; i++) {
+      if (cartas[i] === escalera[escalera.length - 1] + 1) {
+        escalera.push(cartas[i]);
+      } else {
+        puntos += escalera[0];
+        escalera = [cartas[i]];
+      }
+    }
+
+    if (escalera.length > 0) {
+      puntos += escalera[0];
+    }
+
+    return puntos - fichas;
   }
 
   function finalizarJuego() {
