@@ -160,3 +160,12 @@ button:disabled {
   max-width: 400px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
+
+#chips-on-card .chip {
+  width: 12px;
+  height: 12px;
+  background-color: #ff3b30;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  margin: 2px;
+}
