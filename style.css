@@ -135,3 +135,12 @@ button:disabled {
   font-size: 14px;
   border: 1px solid #ccc;
 }
+
+#chips-on-card .chip {
+  width: 15px;
+  height: 15px;
+  background-color: red;
+  border-radius: 50%;
+  display: inline-block;
+  margin: 5px;
+}
