@@ -30,12 +30,12 @@ h1 {
   background-color: #ffffff;
   border-radius: 20px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
-  padding: 15px; /* Reducir padding interno */
+  padding: 10px; /* Reducir padding interno */
   position: relative;
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
 }
 
 /* Botón Reset */
@@ -43,15 +43,15 @@ h1 {
   background-color: #ff3b30;
   color: white;
   border: none;
-  border-radius: 10px; /* Bordes más pequeños */
-  width: 100px; /* Tamaño más pequeño */
-  height: 30px; /* Reducir altura */
-  font-size: 12px; /* Tamaño de texto más pequeño */
+  border-radius: 10px;
+  width: 100px;
+  height: 30px;
+  font-size: 12px;
   font-weight: bold;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 10px auto; /* Centrar el botón */
+  margin: 10px auto 0;
   cursor: pointer;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
   text-transform: uppercase;
@@ -64,6 +64,62 @@ h1 {
 .boton-reset:active {
   background-color: #b71c1c;
   transform: scale(0.95);
+}
+
+/* Indicador de turno */
+#turno-indicador {
+  font-size: 14px;
+  font-weight: bold;
+  margin: 0; /* Sin margen */
+  line-height: 1.2; /* Reducir el espacio entre líneas */
+}
+
+/* Botones de acción */
+#actions {
+  display: flex;
+  justify-content: center;
+  gap: 5px; /* Reducir espacio entre botones */
+  margin: 0; /* Sin margen adicional */
+  flex-wrap: wrap; /* Permite que los botones se adapten en pantallas pequeñas */
+}
+
+button {
+  width: 130px;
+  padding: 5px; /* Reducir padding */
+  border: none;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:disabled {
+  background-color: #e5e5ea;
+  color: #8e8e93;
+  cursor: not-allowed;
+}
+
+#rechazar {
+  background-color: #ff3b30; /* Rojo de iOS */
+  color: white;
+}
+
+#tomar {
+  background-color: #34c759; /* Verde de iOS */
+  color: white;
+}
+
+button:hover:enabled {
+  transform: translateY(-2px);
+}
+
+/* Fichas restantes y Cartas restantes */
+#scoreboard,
+#cartas-restantes {
+  font-size: 12px;
+  margin: 0; /* Sin margen */
+  line-height: 1.2; /* Reducir espacio entre líneas */
 }
 
 /* Board Layout */
@@ -126,52 +182,6 @@ h1 {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-/* Botones de acción */
-#actions {
-  display: flex;
-  justify-content: center;
-  gap: 10px; /* Reducir espacio entre botones */
-  margin: 10px 0; /* Reducir márgenes */
-}
-
-button {
-  width: 130px;
-  padding: 8px; /* Reducir padding */
-  margin: 0; /* Quitar margen adicional */
-  border: none;
-  border-radius: 20px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-button:disabled {
-  background-color: #e5e5ea;
-  color: #8e8e93;
-  cursor: not-allowed;
-}
-
-#rechazar {
-  background-color: #ff3b30; /* Rojo de iOS */
-  color: white;
-}
-
-#tomar {
-  background-color: #34c759; /* Verde de iOS */
-  color: white;
-}
-
-button:hover:enabled {
-  transform: translateY(-2px);
-}
-
-/* Indicador de turno */
-#turno-indicador {
-  font-size: 14px; /* Reducir tamaño */
-  margin: 5px 0; /* Reducir margen */
-}
-
 /* Cartas acumuladas */
 .card-small {
   width: 30px;
@@ -185,12 +195,6 @@ button:hover:enabled {
   border: 1px solid #e5e5ea;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   color: #1c1c1e;
-}
-
-/* Cartas restantes */
-#cartas-restantes {
-  font-size: 12px;
-  margin: 5px 0; /* Reducir margen */
 }
 
 /* Modal */
