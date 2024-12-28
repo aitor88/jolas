@@ -1,8 +1,8 @@
 /* General Styles */
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  background-color: #f2f2f7;
-  color: #1c1c1e;
+  background-color: #f2f2f7; /* Fondo típico de iOS */
+  color: #1c1c1e; /* Texto oscuro */
   margin: 0;
   padding: 0;
   text-align: center;
@@ -11,11 +11,11 @@ body {
 #app {
   margin: 0 auto;
   max-width: 800px;
-  height: 100vh;
+  height: 100vh; /* Ocupar toda la altura de la ventana */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 0 10px;
+  padding: 0 10px; /* Ajustar solo el padding lateral */
 }
 
 /* Marco del juego */
@@ -25,17 +25,17 @@ body {
   flex-direction: column;
   justify-content: flex-start;
   padding: 20px;
-  background-color: #ffffff;
-  border-radius: 15px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff; /* Fondo blanco */
+  border-radius: 15px; /* Esquinas redondeadas */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra exterior */
 }
 
 /* Título del juego */
 h1 {
   font-size: 24px;
   font-weight: 600;
-  color: #007aff;
-  margin: 5px 0;
+  color: #007aff; /* Azul típico de iOS */
+  margin: 5px 0; /* Reducir margen superior e inferior */
 }
 
 /* Layout del juego */
@@ -44,19 +44,22 @@ h1 {
   justify-content: space-between;
   align-items: flex-start;
   gap: 20px;
-  margin-top: 10px;
+  margin-top: 10px; /* Reducir espacio */
 }
 
 /* Carta actual */
 #current-card-section {
   width: 35%;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
 }
 
 .card {
   width: 80px;
   height: 120px;
-  margin: 0 auto;
   border-radius: 15px;
   background-color: #f9f9f9;
   text-align: center;
@@ -71,8 +74,32 @@ h1 {
   margin-bottom: 10px;
 }
 
+#chips-on-card {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  justify-content: center;
+  align-items: center;
+}
+
+#chips-on-card .chip {
+  width: 12px;
+  height: 12px;
+  background-color: #ff3b30;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
 /* Cartas acumuladas */
-#cartas-jugador-section, #cartas-maquina-section {
+#accumulated-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 60%;
+}
+
+#cartas-jugador-section,
+#cartas-maquina-section {
   text-align: left;
 }
 
@@ -95,14 +122,26 @@ h1 {
   color: #1c1c1e;
 }
 
+/* Cartas agrupadas (no puntúan) */
+.card-small.grouped {
+  opacity: 0.5; /* Reducir visibilidad */
+}
+
 /* Indicador de turno */
 #turno-indicador {
   font-size: 14px;
   font-weight: bold;
-  margin: 5px 0;
+  margin: 5px 0; /* Reducir margen */
 }
 
 /* Botones de acción */
+#actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 15px; /* Espacio adicional debajo de los botones */
+}
+
 button {
   width: 130px;
   padding: 10px;
@@ -115,12 +154,12 @@ button {
 }
 
 #rechazar {
-  background-color: #ff3b30;
+  background-color: #ff3b30; /* Rojo de iOS */
   color: white;
 }
 
 #tomar {
-  background-color: #34c759;
+  background-color: #34c759; /* Verde de iOS */
   color: white;
 }
 
@@ -134,6 +173,55 @@ button:disabled {
   cursor: not-allowed;
 }
 
+/* Cartas restantes */
+#cartas-restantes {
+  font-size: 12px;
+  margin-bottom: 20px; /* Espacio adicional antes de Reset y Cómo jugar */
+}
+
+/* Reset y Cómo jugar */
+#footer-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.boton-reset,
+.boton-ayuda {
+  background-color: #ff3b30;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  width: 100px;
+  height: 30px;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.boton-ayuda {
+  background-color: #007aff;
+}
+
+.boton-reset:hover,
+.boton-ayuda:hover {
+  background-color: #d32f2f;
+}
+
+.boton-ayuda:hover {
+  background-color: #005bb5;
+}
+
+.boton-reset:active {
+  background-color: #b71c1c;
+}
+
+.boton-ayuda:active {
+  background-color: #003f91;
+}
+
 /* Modal */
 .modal {
   position: fixed;
@@ -141,7 +229,7 @@ button:disabled {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.4);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -161,18 +249,17 @@ button:disabled {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
-#chips-on-card {
-  display: flex;
-  flex-wrap: wrap; /* Permite que las fichas se ajusten si no caben en una línea */
-  gap: 5px; /* Espaciado entre fichas */
-  justify-content: center; /* Centrar las fichas horizontalmente */
-  align-items: center; /* Alinear las fichas verticalmente */
+.boton-reiniciar {
+  background-color: #007aff; /* Azul típico de iOS */
+  padding: 10px 20px;
+  border-radius: 25px;
+  cursor: pointer;
+  color: white;
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
 }
 
-#chips-on-card .chip {
-  width: 12px;
-  height: 12px;
-  background-color: #ff3b30;
-  border-radius: 50%;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+.boton-reiniciar:hover {
+  background-color: #005bb5;
 }
