@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let mazo = [];
   let cartaActual = null;
   let fichasJugador = 11;
-  let fichasMaquina = 11; // Mantener oculto
+  let fichasMaquina = 11;
   let cartasJugador = [];
   let cartasMaquina = [];
   let fichasEnCarta = 0;
@@ -66,7 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
       actualizarCartaActual();
       siguienteTurno();
     } else if (!turnoJugador && fichasMaquina > 0) {
-      fichasMaquina--; // Fichas internas de la máquina
+      fichasMaquina--;
       fichasEnCarta++;
       actualizarCartaActual();
       siguienteTurno();
@@ -102,7 +102,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!turnoJugador) {
       setTimeout(() => {
         jugadaMaquina();
-      }, Math.random() * (3000 - 2000) + 2000); // Entre 2 y 3 segundos
+      }, Math.random() * (3000 - 2000) + 2000);
     }
     actualizarEstado();
   }
