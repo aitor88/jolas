@@ -18,6 +18,25 @@ body {
   padding: 0 10px; /* Ajustar solo el padding lateral */
 }
 
+/* Marco del juego */
+#game {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 20px;
+  background-color: #f9f9f9; /* Fondo blanco exterior */
+  border-radius: 15px; /* Esquinas redondeadas */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra exterior */
+}
+
+#game-inner {
+  background-color: #f2f2f7; /* Fondo gris interior */
+  padding: 15px;
+  border-radius: 10px;
+}
+
+/* Título del juego */
 h1 {
   font-size: 24px;
   font-weight: 600;
@@ -25,22 +44,13 @@ h1 {
   margin: 5px 0; /* Reducir margen superior e inferior */
 }
 
-/* Game Layout */
-#game {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  padding: 0; /* Eliminar padding interno */
-}
-
-/* Layout dentro del juego */
+/* Layout del juego */
 #layout {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   gap: 20px;
-  margin-top: 10px; /* Reducir el espacio entre el layout y el título */
+  margin-top: 10px; /* Reducir espacio */
 }
 
 /* Carta actual */
@@ -114,6 +124,11 @@ h1 {
   border: 1px solid #e5e5ea;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   color: #1c1c1e;
+}
+
+/* Cartas agrupadas (no puntúan) */
+.card-small.grouped {
+  opacity: 0.5; /* Reducir visibilidad */
 }
 
 /* Indicador de turno */
