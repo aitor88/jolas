@@ -120,7 +120,6 @@ h1 {
   color: #1c1c1e;
 }
 
-/* Cartas agrupadas (no puntúan) */
 .card-small.grouped {
   opacity: 0.5; /* Reducir visibilidad */
 }
@@ -152,12 +151,12 @@ button {
 }
 
 #rechazar {
-  background-color: #ff3b30; /* Rojo de iOS */
+  background-color: #ff3b30;
   color: white;
 }
 
 #tomar {
-  background-color: #34c759; /* Verde de iOS */
+  background-color: #34c759;
   color: white;
 }
 
@@ -174,7 +173,7 @@ button:disabled {
 /* Cartas restantes */
 #cartas-restantes {
   font-size: 12px;
-  margin: 5px 0; /* Reducir margen */
+  margin: 5px 0;
 }
 
 /* Reset y Cómo jugar */
@@ -212,72 +211,12 @@ button:disabled {
   background-color: #005bb5;
 }
 
-.boton-reset:active {
-  background-color: #b71c1c;
-}
-
-.boton-ayuda:active {
-  background-color: #003f91;
-}
-
-/* Modal */
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.4);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-.modal.hidden {
-  display: none;
-}
-
-.modal-content {
-  background-color: #ffffff;
-  padding: 20px;
-  border-radius: 15px;
-  text-align: left; /* Alinear texto a la izquierda */
-  max-width: 400px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-  font-size: 14px; /* Reducir tamaño de letra */
-  line-height: 1.6; /* Espaciado entre líneas */
-}
-
-.modal-content ul {
-  padding-left: 20px; /* Espaciado en las listas */
-  margin: 10px 0;
-}
-
-.modal-content ul li {
-  margin-bottom: 5px; /* Espaciado entre los puntos de la lista */
-}
-
-.boton-reiniciar {
-  background-color: #007aff; /* Azul típico de iOS */
-  padding: 10px 20px;
-  border-radius: 25px;
-  cursor: pointer;
-  color: white;
-  border: none;
-  font-size: 14px;
-  font-weight: 600;
-}
-
-.boton-reiniciar:hover {
-  background-color: #005bb5;
-}
-
+/* Footer */
 #footer {
   text-align: center;
   margin-top: 20px;
   font-size: 14px;
-  color: #8e8e93; /* Gris típico de iOS */
+  color: #8e8e93;
 }
 
 #footer p {
