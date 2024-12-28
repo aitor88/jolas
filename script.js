@@ -193,10 +193,22 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("resultado-modal").classList.remove("hidden");
   }
 
+  // Mostrar modal de "Cómo jugar"
+  function mostrarModalComoJugar() {
+    document.getElementById("como-jugar-modal").classList.remove("hidden");
+  }
+
+  // Cerrar modal de "Cómo jugar"
+  function cerrarModalComoJugar() {
+    document.getElementById("como-jugar-modal").classList.add("hidden");
+  }
+
   // Eventos
   document.getElementById("rechazar").addEventListener("click", rechazarCarta);
   document.getElementById("tomar").addEventListener("click", tomarCarta);
   document.getElementById("resetear").addEventListener("click", iniciarJuego);
+  document.getElementById("como-jugar").addEventListener("click", mostrarModalComoJugar);
+  document.getElementById("cerrar-ayuda").addEventListener("click", cerrarModalComoJugar);
 
   // Inicializar el juego al cargar
   iniciarJuego();
