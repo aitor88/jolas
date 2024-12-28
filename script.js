@@ -140,11 +140,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const puntosCartasJugador = calcularPuntuacionCartas(cartasJugador);
     const puntosCartasMaquina = calcularPuntuacionCartas(cartasMaquina);
 
-    document.getElementById("cartas-jugador-title").innerText = `Tus cartas acumuladas: ${puntosCartasJugador}`;
-    document.getElementById("cartas-maquina-title").innerText = `Cartas de tu oponente: ${puntosCartasMaquina}`;
+    document.getElementById("cartas-jugador-title").innerText = `Tus cartas acumuladas: ${puntosCartasJugador || 0}`;
+    document.getElementById("cartas-maquina-title").innerText = `Cartas de tu oponente: ${puntosCartasMaquina || 0}`;
   }
 
   function calcularPuntuacionCartas(cartas) {
+    if (cartas.length === 0) return 0;
     cartas.sort((a, b) => a - b);
     let puntos = 0;
     let escalera = [cartas[0]];
