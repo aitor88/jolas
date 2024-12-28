@@ -70,6 +70,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (fichasJugador > 0) {
         fichasJugador--;
         fichasEnCarta++;
+        actualizarEstado(); // Asegurarse de actualizar visualmente las fichas
         actualizarCartaActual();
         siguienteTurno();
       }
@@ -155,6 +156,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.getElementById("cartas-jugador-title").innerText = `Tu mano de cartas: ${puntosCartasJugador || 0}`;
     document.getElementById("cartas-maquina-title").innerText = `Cartas de tu oponente: ${puntosCartasMaquina || 0}`;
+    document.getElementById("fichas-jugador").innerText = fichasJugador; // Actualización visual de las fichas
   }
 
   // Calcular puntuación solo por cartas
