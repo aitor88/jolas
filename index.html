@@ -5,19 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>No Gracias - Juego</title>
   <link rel="stylesheet" href="style.css">
+  <!-- iOS-specific meta tags -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="No Gracias">
+  <link rel="apple-touch-icon" href="icon-192.png">
 </head>
 <body>
   <div id="app">
-    <h1>No Gracias - Juego</h1>
+    <h1>No Gracias</h1>
     <div id="game">
       <!-- Botón de resetear arriba a la derecha -->
       <button id="resetear" class="boton-reset">⭮</button>
 
+      <!-- Sección de fichas restantes -->
       <div id="scoreboard">
         <div>Fichas restantes (Jugador): <span id="fichas-jugador">11</span></div>
         <div>Fichas restantes (Máquina): <span id="fichas-maquina">11</span></div>
       </div>
 
+      <!-- Carta actual -->
       <div id="current-card-section">
         <h3>Carta actual:</h3>
         <div class="card">
@@ -27,17 +34,21 @@
         <div id="chips-on-card" class="chips-container"></div>
       </div>
 
+      <!-- Indicador de turno -->
       <div id="turno-indicador">
         Turno de: <span id="turno-actual" class="turno-jugador">Jugador</span>
       </div>
 
+      <!-- Botones de acción -->
       <div id="actions">
-        <button id="rechazar">Rechazar (gastar ficha)</button>
-        <button id="tomar">Tomar carta</button>
+        <button id="rechazar" aria-label="Rechazar la carta">Rechazar</button>
+        <button id="tomar" aria-label="Tomar la carta">Tomar</button>
       </div>
 
+      <!-- Cartas restantes en el mazo -->
       <div id="cartas-restantes">Cartas restantes en el mazo: 24</div>
 
+      <!-- Cartas acumuladas -->
       <div id="cartas-acumuladas">
         <h2 id="cartas-jugador-title">Cartas acumuladas (Jugador): 0</h2>
         <div id="cartas-jugador"></div>
