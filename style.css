@@ -10,15 +10,19 @@ body {
 
 #app {
   margin: 0 auto;
-  max-width: 600px;
-  padding: 20px;
+  max-width: 800px;
+  height: 100vh; /* Ocupar toda la altura de la ventana */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10px;
 }
 
 h1 {
   font-size: 24px;
   font-weight: 600;
   color: #007aff; /* Azul típico de iOS */
-  margin-bottom: 20px;
+  margin: 10px 0;
 }
 
 /* Game Container */
@@ -28,6 +32,10 @@ h1 {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
   padding: 20px;
   position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 /* Botón Reset */
@@ -35,45 +43,68 @@ h1 {
   position: absolute;
   top: 10px;
   right: 10px;
-  background-color: #ff3b30; /* Rojo típico de iOS */
-  color: white; /* Texto blanco */
+  background-color: #ff3b30;
+  color: white;
   border: none;
-  border-radius: 12px; /* Bordes redondeados */
+  border-radius: 12px;
   width: auto;
   height: 40px;
-  padding: 0 15px; /* Espaciado interno */
-  font-size: 16px; /* Tamaño del texto */
-  font-weight: bold; /* Texto destacado */
+  padding: 0 15px;
+  font-size: 16px;
+  font-weight: bold;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
   z-index: 100;
-  text-transform: uppercase; /* Texto en mayúsculas */
+  text-transform: uppercase;
 }
 
 .boton-reset:hover {
-  background-color: #d32f2f; /* Rojo más oscuro */
+  background-color: #d32f2f;
 }
 
 .boton-reset:active {
-  background-color: #b71c1c; /* Rojo aún más oscuro */
-  transform: scale(0.95); /* Efecto de "pulsación" */
+  background-color: #b71c1c;
+  transform: scale(0.95);
 }
 
-@media (max-width: 768px) {
-  .boton-reset {
-    font-size: 14px; /* Reducir tamaño en móviles */
-    height: 35px;
-    padding: 0 10px;
-  }
+/* Board Layout */
+#board {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cartas-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#cartas-jugador-section,
+#cartas-maquina-section {
+  width: 20%;
+}
+
+#current-card-section {
+  width: 60%;
+  text-align: center;
+}
+
+/* Small Titles */
+.small-title {
+  font-size: 14px;
+  font-weight: bold;
+  margin: 5px 0;
 }
 
 /* Carta actual */
 .card {
-  width: 100px;
-  height: 150px;
+  width: 80px;
+  height: 120px;
   border-radius: 15px;
   background-color: #f9f9f9;
   text-align: center;
@@ -81,7 +112,7 @@ h1 {
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 2px solid #e5e5ea; /* Gris claro */
+  border: 2px solid #e5e5ea;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   font-size: 24px;
   font-weight: bold;
@@ -90,74 +121,38 @@ h1 {
 
 /* Chips en la carta */
 #chips-on-card .chip {
-  width: 15px;
-  height: 15px;
-  background-color: #ff3b30; /* Rojo típico de iOS */
+  width: 12px;
+  height: 12px;
+  background-color: #ff3b30;
   border-radius: 50%;
   display: inline-block;
-  margin: 5px;
+  margin: 3px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-/* Botones de acción */
-button {
-  width: 140px;
-  padding: 10px;
-  margin: 10px;
-  border: none;
-  border-radius: 25px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-button:disabled {
-  background-color: #e5e5ea;
-  color: #8e8e93;
-  cursor: not-allowed;
-}
-
-#rechazar {
-  background-color: #ff3b30; /* Rojo de iOS */
-  color: white;
-}
-
-#tomar {
-  background-color: #34c759; /* Verde de iOS */
-  color: white;
-}
-
-button:hover:enabled {
-  transform: translateY(-2px);
 }
 
 /* Indicador de turno */
 #turno-indicador {
-  font-size: 18px;
-  margin: 20px 0;
-  font-weight: 500;
+  font-size: 16px;
+  margin: 10px 0;
 }
 
 /* Cartas acumuladas */
-#cartas-jugador,
-#cartas-maquina {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-top: 10px;
-}
-
 .card-small {
-  width: 40px;
-  height: 60px;
+  width: 30px;
+  height: 45px;
   border-radius: 8px;
   background-color: #f9f9f9;
   margin: 5px;
   text-align: center;
-  line-height: 60px;
-  font-size: 14px;
+  line-height: 45px;
+  font-size: 12px;
   border: 1px solid #e5e5ea;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   color: #1c1c1e;
+}
+
+/* Cartas restantes */
+#cartas-restantes {
+  font-size: 12px;
+  margin: 10px 0;
 }
