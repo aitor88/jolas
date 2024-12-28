@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Variables iniciales
   let mazo = [];
   let cartaActual = null;
   let fichasJugador = 11;
@@ -10,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let turnoJugador = true;
 
   function iniciarJuego() {
-    limpiarEstado(); // Limpia elementos de UI
+    limpiarEstado();
     mazo = Array.from({ length: 33 }, (_, i) => i + 3).sort(() => Math.random() - 0.5).slice(0, 24);
     cartaActual = mazo.shift();
     fichasJugador = 11;
@@ -26,13 +25,13 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function limpiarEstado() {
-    document.getElementById("chips-on-card").innerHTML = ""; // Limpia las fichas
-    document.getElementById("cartas-jugador").innerHTML = ""; // Limpia las cartas del jugador
-    document.getElementById("cartas-maquina").innerHTML = ""; // Limpia las cartas de la máquina
+    document.getElementById("chips-on-card").innerHTML = "";
+    document.getElementById("cartas-jugador").innerHTML = "";
+    document.getElementById("cartas-maquina").innerHTML = "";
   }
 
   function actualizarCartaActual() {
-    document.getElementById("card-value").innerText = cartaActual;
+    document.getElementById("card-value").innerText = cartaActual || "";
     const chipsContainer = document.getElementById("chips-on-card");
     chipsContainer.innerHTML = "";
     for (let i = 0; i < fichasEnCarta; i++) {
@@ -104,6 +103,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.getElementById("cartas-jugador-title").innerText = `Cartas acumuladas (Jugador): ${puntosJugador}`;
     document.getElementById("cartas-maquina-title").innerText = `Cartas acumuladas (Máquina): ${puntosMaquina}`;
+
+    if (mazo.length === 0) {
+      finalizarJuego(puntosJugador, puntosMaquina);
+    }
   }
 
   function calcularPuntuacion(cartas, fichas) {
@@ -123,11 +126,16 @@ document.addEventListener("DOMContentLoaded", () => {
     return puntos - fichas;
   }
 
+  function finalizarJuego(puntosJugador, puntosMaquina) {
+    document.getElementById("resultado-titulo").innerText = puntosJugador < puntosMaquina ? "¡Ganaste!" : "¡Perdiste!";
+    document.getElementById("resultado-mensaje").innerText = `Puntos Jugador: ${puntosJugador} | Puntos Máquina: ${puntosMaquina}`;
+    document.getElementById("resultado-modal").classList.remove("hidden");
+  }
+
   document.getElementById("rechazar").addEventListener("click", rechazarCarta);
   document.getElementById("tomar").addEventListener("click", tomarCarta);
   document.getElementById("resetear").addEventListener("click", iniciarJuego);
   document.getElementById("reiniciar").addEventListener("click", () => {
-    document.getElementById("resultado-modal").classList.add("hidden");
     iniciarJuego();
   });
 
