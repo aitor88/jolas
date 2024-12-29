@@ -134,6 +134,18 @@ h1 {
   margin: 5px 0; /* Reducir margen */
 }
 
+/* Turno del jugador */
+.turno-jugador {
+  color: #34c759; /* Verde típico de iOS */
+  font-weight: bold;
+}
+
+/* Turno de la máquina */
+.turno-maquina {
+  color: #ff3b30; /* Rojo típico de iOS */
+  font-weight: bold;
+}
+
 /* Botones de acción */
 #actions {
   display: flex;
