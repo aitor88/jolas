@@ -27,21 +27,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Inicializar el juego
   function iniciarJuego() {
-    limpiarEstado();
-    mazo = Array.from({ length: 33 }, (_, i) => i + 3).sort(() => Math.random() - 0.5).slice(0, 24);
-    cartaActual = mazo.shift();
-    fichasJugador = 11;
-    fichasMaquina = 11;
-    cartasJugador = [];
-    cartasMaquina = [];
-    fichasEnCarta = 0;
-    turnoJugador = true;
-    resultadoModal.classList.add("hidden");
-    actualizarCartaActual();
-    actualizarCartasRestantes();
-    actualizarEstado();
-    habilitarBotones(turnoJugador);
-  }
+  limpiarEstado();
+  mazo = Array.from({ length: 33 }, (_, i) => i + 3); // Crear el mazo
+  barajar(mazo); // Barajar el mazo con Fisher-Yates
+  mazo = mazo.slice(0, 24); // Seleccionar las primeras 24 cartas
+  cartaActual = mazo.shift(); // Tomar la primera carta como la carta actual
+  fichasJugador = 11;
+  fichasMaquina = 11;
+  cartasJugador = [];
+  cartasMaquina = [];
+  fichasEnCarta = 0;
+  turnoJugador = true;
+  actualizarCartaActual();
+  actualizarCartasRestantes();
+  actualizarEstado();
+  habilitarBotones(turnoJugador);
+}
 
   // Limpiar elementos visuales
   function limpiarEstado() {
