@@ -261,6 +261,18 @@ button:disabled {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
+/* Alinear los elementos <li> del modal a la izquierda */
+#como-jugar-modal ul {
+  text-align: left; /* Alinear el contenido a la izquierda */
+  padding-left: 20px; /* Agregar espacio para sangría */
+  margin: 10px 0; /* Espaciado superior e inferior */
+}
+
+#como-jugar-modal ul li {
+  list-style-type: disc; /* Estilo de viñeta para los elementos */
+  margin-bottom: 5px; /* Espaciado entre elementos */
+}
+
 .boton-reiniciar {
   background-color: #007aff; /* Azul típico de iOS */
   padding: 10px 20px;
