@@ -24,6 +24,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const cartasMaquinaContainer = document.getElementById("cartas-maquina");
   const cartasJugadorTitle = document.getElementById("cartas-jugador-title");
   const cartasMaquinaTitle = document.getElementById("cartas-maquina-title");
+  const resetConfirmModal = document.getElementById("reset-confirm-modal");
+  const confirmResetButton = document.getElementById("confirm-reset");
+  const cancelResetButton = document.getElementById("cancel-reset");
+  const resetearButton = document.getElementById("resetear");
 
   // Inicializar el juego
   function iniciarJuego() {
@@ -219,6 +223,22 @@ document.addEventListener("DOMContentLoaded", () => {
   comoJugarButton.addEventListener("click", () => comoJugarModal.classList.remove("hidden"));
   cerrarAyuda.addEventListener("click", () => comoJugarModal.classList.add("hidden"));
 
+  // Mostrar el modal de confirmación al pulsar "Reset"
+  resetearButton.addEventListener("click", () => {
+    resetConfirmModal.classList.remove("hidden");
+  });
+
+  // Confirmar el reset y reiniciar el juego
+  confirmResetButton.addEventListener("click", () => {
+    resetConfirmModal.classList.add("hidden");
+    iniciarJuego(); // Llama a la función para reiniciar el juego
+  });
+
+  // Cancelar el reset y cerrar el modal
+  cancelResetButton.addEventListener("click", () => {
+    resetConfirmModal.classList.add("hidden");
+  });
+  
   // Inicializar el juego al cargar
   iniciarJuego();
 });
