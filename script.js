@@ -232,6 +232,10 @@ document.addEventListener("DOMContentLoaded", () => {
   resetearButton.addEventListener("click", iniciarJuego);
   comoJugarButton.addEventListener("click", () => comoJugarModal.classList.remove("hidden"));
   cerrarAyuda.addEventListener("click", () => comoJugarModal.classList.add("hidden"));
+  document.getElementById("reiniciar").addEventListener("click", () => {
+    resultadoModal.classList.add("hidden"); // Cierra el modal
+    iniciarJuego(); // Reinicia el juego
+  });
 
   // Inicializar el juego al cargar
   iniciarJuego();
