@@ -25,26 +25,33 @@ document.addEventListener("DOMContentLoaded", () => {
   const cartasJugadorTitle = document.getElementById("cartas-jugador-title");
   const cartasMaquinaTitle = document.getElementById("cartas-maquina-title");
 
-  // Inicializar el juego
- function iniciarJuego() {
-  limpiarEstado();
-  mazo = Array.from({ length: 33 }, (_, i) => i + 3); // Crear el mazo
-  barajar(mazo); // Barajar el mazo con Fisher-Yates
-  mazo = mazo.slice(0, 24); // Seleccionar las primeras 24 cartas
-  cartaActual = mazo.shift(); // Tomar la primera carta como carta actual
-  fichasJugador = 11;
-  fichasMaquina = 11;
-  cartasJugador = [];
-  cartasMaquina = [];
-  fichasEnCarta = 0;
-  turnoJugador = true;
+  // Barajar el mazo
+  function barajar(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+  }
 
-  // Actualizar la interfaz
-  actualizarCartaActual();
-  actualizarCartasRestantes();
-  actualizarEstado();
-  habilitarBotones(turnoJugador);
-}
+  // Inicializar el juego
+  function iniciarJuego() {
+    limpiarEstado();
+    mazo = Array.from({ length: 33 }, (_, i) => i + 3);
+    barajar(mazo);
+    mazo = mazo.slice(0, 24);
+    cartaActual = mazo.shift();
+    fichasJugador = 11;
+    fichasMaquina = 11;
+    cartasJugador = [];
+    cartasMaquina = [];
+    fichasEnCarta = 0;
+    turnoJugador = true;
+
+    actualizarCartaActual();
+    actualizarCartasRestantes();
+    actualizarEstado();
+    habilitarBotones(turnoJugador);
+  }
 
   // Limpiar elementos visuales
   function limpiarEstado() {
@@ -55,22 +62,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Actualizar la carta actual
   function actualizarCartaActual() {
-  const cardValueElement = document.getElementById("card-value");
-  if (cartaActual !== null) {
-    cardValueElement.innerText = cartaActual; // Mostrar el valor de la carta actual
-  } else {
-    cardValueElement.innerText = ""; // En caso de error, dejar vacío
-  }
+    if (cartaActual !== null) {
+      cardValue.innerText = cartaActual;
+    } else {
+      cardValue.innerText = "";
+    }
 
-  // Actualizar las fichas en la carta
-  const chipsContainer = document.getElementById("chips-on-card");
-  chipsContainer.innerHTML = ""; // Limpiar las fichas anteriores
-  for (let i = 0; i < fichasEnCarta; i++) {
-    const chip = document.createElement("div");
-    chip.classList.add("chip");
-    chipsContainer.appendChild(chip);
+    chipsOnCard.innerHTML = "";
+    for (let i = 0; i < fichasEnCarta; i++) {
+      const chip = document.createElement("div");
+      chip.classList.add("chip");
+      chipsOnCard.appendChild(chip);
+    }
   }
-}
 
   // Actualizar cartas restantes en el mazo
   function actualizarCartasRestantes() {
@@ -91,13 +95,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Rechazar carta
   function rechazarCarta() {
-    if (turnoJugador) {
-      if (fichasJugador > 0) {
-        fichasJugador--;
-        fichasEnCarta++;
-        actualizarCartaActual();
-        siguienteTurno();
-      }
+    if (turnoJugador && fichasJugador > 0) {
+      fichasJugador--;
+      fichasEnCarta++;
+      actualizarCartaActual();
+      siguienteTurno();
     }
   }
 
@@ -110,6 +112,7 @@ document.addEventListener("DOMContentLoaded", () => {
       cartasMaquina.push(cartaActual);
       fichasMaquina += fichasEnCarta;
     }
+
     if (mazo.length > 0) {
       cartaActual = mazo.shift();
       fichasEnCarta = 0;
@@ -127,10 +130,11 @@ document.addEventListener("DOMContentLoaded", () => {
     turnoJugador = !turnoJugador;
     actualizarTurno();
     habilitarBotones(turnoJugador);
+
     if (!turnoJugador) {
       setTimeout(() => {
         jugadaMaquina();
-      }, Math.random() * (2500 - 1500) + 1500); // Entre 2 y 3 segundos
+      }, Math.random() * (2500 - 1500) + 1500);
     }
     actualizarEstado();
   }
@@ -195,9 +199,7 @@ document.addEventListener("DOMContentLoaded", () => {
         escalera = [cartas[i]];
       }
     }
-    if (escalera.length > 0) {
-      puntos += escalera[0];
-    }
+    puntos += escalera[0];
     return puntos;
   }
 
@@ -207,6 +209,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const puntosCartasMaquina = calcularPuntuacionCartas(cartasMaquina);
     const puntosFichasJugador = fichasJugador;
     const puntosFichasMaquina = fichasMaquina;
+
     const resultadoJugador = puntosCartasJugador - puntosFichasJugador;
     const resultadoMaquina = puntosCartasMaquina - puntosFichasMaquina;
 
@@ -229,7 +232,7 @@ document.addEventListener("DOMContentLoaded", () => {
   resetearButton.addEventListener("click", iniciarJuego);
   comoJugarButton.addEventListener("click", () => comoJugarModal.classList.remove("hidden"));
   cerrarAyuda.addEventListener("click", () => comoJugarModal.classList.add("hidden"));
-  
+
   // Inicializar el juego al cargar
   iniciarJuego();
 });
