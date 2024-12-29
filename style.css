@@ -265,7 +265,7 @@ button:disabled {
 #como-jugar-modal ul {
   text-align: left; /* Alinear el contenido a la izquierda */
   padding-left: 20px; /* Agregar espacio para sangría */
-  margin: 10px 0; /* Espaciado superior e inferior */
+  margin: 10px 10px; /* Espaciado superior e inferior */
 }
 
 #como-jugar-modal ul li {
