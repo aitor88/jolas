@@ -26,18 +26,20 @@ document.addEventListener("DOMContentLoaded", () => {
   const cartasMaquinaTitle = document.getElementById("cartas-maquina-title");
 
   // Inicializar el juego
-  function iniciarJuego() {
+ function iniciarJuego() {
   limpiarEstado();
   mazo = Array.from({ length: 33 }, (_, i) => i + 3); // Crear el mazo
   barajar(mazo); // Barajar el mazo con Fisher-Yates
   mazo = mazo.slice(0, 24); // Seleccionar las primeras 24 cartas
-  cartaActual = mazo.shift(); // Tomar la primera carta como la carta actual
+  cartaActual = mazo.shift(); // Tomar la primera carta como carta actual
   fichasJugador = 11;
   fichasMaquina = 11;
   cartasJugador = [];
   cartasMaquina = [];
   fichasEnCarta = 0;
   turnoJugador = true;
+
+  // Actualizar la interfaz
   actualizarCartaActual();
   actualizarCartasRestantes();
   actualizarEstado();
@@ -53,14 +55,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Actualizar la carta actual
   function actualizarCartaActual() {
-    cardValue.innerText = cartaActual || "";
-    chipsOnCard.innerHTML = "";
-    for (let i = 0; i < fichasEnCarta; i++) {
-      const chip = document.createElement("div");
-      chip.classList.add("chip");
-      chipsOnCard.appendChild(chip);
-    }
+  const cardValueElement = document.getElementById("card-value");
+  if (cartaActual !== null) {
+    cardValueElement.innerText = cartaActual; // Mostrar el valor de la carta actual
+  } else {
+    cardValueElement.innerText = ""; // En caso de error, dejar vacío
   }
+
+  // Actualizar las fichas en la carta
+  const chipsContainer = document.getElementById("chips-on-card");
+  chipsContainer.innerHTML = ""; // Limpiar las fichas anteriores
+  for (let i = 0; i < fichasEnCarta; i++) {
+    const chip = document.createElement("div");
+    chip.classList.add("chip");
+    chipsContainer.appendChild(chip);
+  }
+}
 
   // Actualizar cartas restantes en el mazo
   function actualizarCartasRestantes() {
