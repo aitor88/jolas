@@ -120,7 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!turnoJugador) {
       setTimeout(() => {
         jugadaMaquina();
-      }, Math.random() * (2000 - 1000) + 1000); // Entre 2 y 3 segundos
+      }, Math.random() * (2500 - 1500) + 1500); // Entre 2 y 3 segundos
     }
     actualizarEstado();
   }
