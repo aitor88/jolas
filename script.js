@@ -153,19 +153,68 @@ document.addEventListener("DOMContentLoaded", () => {
     actualizarEstado();
   }
 
-  // Lógica de la máquina
   function jugadaMaquina() {
-    const completarEscalera = puedeCompletarEscalera(cartaActual, cartasMaquina);
-    const puntuacionActual = cartaActual - fichasEnCarta;
-    if (fichasMaquina === 0 || completarEscalera || puntuacionActual <= 5) {
-      tomarCarta();
-    } else {
-      fichasMaquina--;
-      fichasEnCarta++;
-      actualizarCartaActual();
-      siguienteTurno();
-    }
+  const completarEscalera = puedeCompletarEscalera(cartaActual, cartasMaquina);
+  const puntuacionActual = cartaActual - fichasEnCarta;
+
+  // Ajustar comportamiento según nivel de dificultad
+  switch (niveles[nivelActual].dificultad) {
+    case 1: // Fácil
+      if (fichasMaquina === 0 || completarEscalera || puntuacionActual <= 5) {
+        tomarCarta();
+      } else {
+        fichasMaquina--;
+        fichasEnCarta++;
+        actualizarCartaActual();
+        siguienteTurno();
+      }
+      break;
+
+    case 2: // Intermedio
+      if (
+        completarEscalera ||
+        (puntuacionActual <= 7 && fichasMaquina > 3) || // Más tolerancia al riesgo
+        cartaEsClaveParaJugador(cartaActual, cartasJugador)
+      ) {
+        tomarCarta();
+      } else {
+        fichasMaquina--;
+        fichasEnCarta++;
+        actualizarCartaActual();
+        siguienteTurno();
+      }
+      break;
+
+    case 3: // Difícil
+      const valorFuturo = simularFuturo(); // Simular turnos futuros
+      if (
+        completarEscalera ||
+        cartaEsClaveParaJugador(cartaActual, cartasJugador) ||
+        valorFuturo > puntuacionActual // Evaluar futuro
+      ) {
+        tomarCarta();
+      } else {
+        fichasMaquina--;
+        fichasEnCarta++;
+        actualizarCartaActual();
+        siguienteTurno();
+      }
+      break;
   }
+}
+
+// Verificar si la carta es clave para el jugador
+function cartaEsClaveParaJugador(carta, cartasJugador) {
+  const cartasOrdenadas = [...cartasJugador].sort((a, b) => a - b);
+  return cartasOrdenadas.some((valor) => carta === valor - 1 || carta === valor + 1);
+}
+
+// Simular turnos futuros
+function simularFuturo() {
+  const cartasSimuladas = [...cartasMaquina, cartaActual];
+  const puntosSimulados = calcularPuntuacionCartas(cartasSimuladas);
+  return puntosSimulados - (fichasMaquina - 1); // Evaluar impacto futuro
+}
 
   // Verificar si la máquina puede completar una escalera
   function puedeCompletarEscalera(carta, cartas) {
