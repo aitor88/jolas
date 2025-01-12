@@ -8,6 +8,13 @@ document.addEventListener("DOMContentLoaded", () => {
   let cartasMaquina = [];
   let fichasEnCarta = 0;
   let turnoJugador = true;
+  let nivelActual = 0;
+
+  const niveles = [
+    { nombre: "Fácil", dificultad: 1 },
+    { nombre: "Intermedio", dificultad: 2 },
+    { nombre: "Difícil", dificultad: 3 }
+  ];
 
   // Elementos del DOM
   const comoJugarModal = document.getElementById("como-jugar-modal");
@@ -24,6 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const cartasMaquinaContainer = document.getElementById("cartas-maquina");
   const cartasJugadorTitle = document.getElementById("cartas-jugador-title");
   const cartasMaquinaTitle = document.getElementById("cartas-maquina-title");
+  const nivelActualSpan = document.getElementById("nivel-numero");
 
   // Barajar el mazo
   function barajar(array) {
@@ -47,6 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
     fichasEnCarta = 0;
     turnoJugador = true;
 
+    actualizarNivel();
     actualizarCartaActual();
     actualizarCartasRestantes();
     actualizarEstado();
@@ -81,6 +90,11 @@ document.addEventListener("DOMContentLoaded", () => {
     cartasRestantes.innerText = `Cartas restantes en el mazo: ${mazo.length}`;
   }
 
+  // Actualizar el nivel actual
+  function actualizarNivel() {
+    nivelActualSpan.innerText = niveles[nivelActual].nombre;
+  }
+  
   // Habilitar o deshabilitar botones
   function habilitarBotones(habilitar) {
     document.getElementById("rechazar").disabled = !habilitar;
@@ -203,7 +217,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return puntos;
   }
 
-  // Finalizar juego
+  // Finalizar juego con progresión
   function finalizarJuego() {
     const puntosCartasJugador = calcularPuntuacionCartas(cartasJugador);
     const puntosCartasMaquina = calcularPuntuacionCartas(cartasMaquina);
@@ -213,19 +227,53 @@ document.addEventListener("DOMContentLoaded", () => {
     const resultadoJugador = puntosCartasJugador - puntosFichasJugador;
     const resultadoMaquina = puntosCartasMaquina - puntosFichasMaquina;
 
-    document.getElementById("resultado-titulo").innerText = resultadoJugador < resultadoMaquina ? "¡Ganaste!" : "¡Perdiste!";
-    document.getElementById("resultado-mensaje").innerText = `
-      Puntos por cartas (Jugador): ${puntosCartasJugador}
-      Puntos por fichas (Jugador): ${puntosFichasJugador}
-      Resultado final (Jugador): ${resultadoJugador}
+    const ganador = resultadoJugador < resultadoMaquina ? "Jugador" : "Máquina";
 
-      Puntos por cartas (Máquina): ${puntosCartasMaquina}
-      Puntos por fichas (Máquina): ${puntosFichasMaquina}
-      Resultado final (Máquina): ${resultadoMaquina}
-    `;
-    resultadoModal.classList.remove("hidden");
+    if (ganador === "Jugador" && nivelActual < niveles.length - 1) {
+      nivelActual++;
+      mostrarMensaje(
+        "¡Nivel superado!",
+        `Has avanzado al siguiente nivel: ${niveles[nivelActual].nombre}`,
+        () => {
+          iniciarJuego();
+        }
+      );
+    } else {
+      mostrarMensaje(
+        ganador === "Jugador" ? "¡Has ganado!" : "¡Perdiste!",
+        ganador === "Jugador"
+          ? "¡Felicidades! Completaste todos los niveles."
+          : "Intenta de nuevo.",
+        () => {
+          nivelActual = 0;
+          actualizarNivel();
+          iniciarJuego();
+        }
+      );
+    }
   }
 
+  // Mostrar mensajes en un modal
+  function mostrarMensaje(titulo, mensaje, callback) {
+    const modal = document.createElement("div");
+    modal.classList.add("modal");
+
+    modal.innerHTML = `
+      <div class="modal-content">
+        <h2>${titulo}</h2>
+        <p>${mensaje}</p>
+        <button id="cerrar-modal" class="boton-reiniciar">Cerrar</button>
+      </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    document.getElementById("cerrar-modal").addEventListener("click", () => {
+      modal.remove();
+      if (callback) callback();
+    });
+  }
+  
   // Eventos
   document.getElementById("rechazar").addEventListener("click", rechazarCarta);
   document.getElementById("tomar").addEventListener("click", tomarCarta);
@@ -233,8 +281,8 @@ document.addEventListener("DOMContentLoaded", () => {
   comoJugarButton.addEventListener("click", () => comoJugarModal.classList.remove("hidden"));
   cerrarAyuda.addEventListener("click", () => comoJugarModal.classList.add("hidden"));
   document.getElementById("reiniciar").addEventListener("click", () => {
-    resultadoModal.classList.add("hidden"); // Cierra el modal
-    iniciarJuego(); // Reinicia el juego
+    resultadoModal.classList.add("hidden");
+    iniciarJuego();
   });
 
   // Inicializar el juego al cargar
