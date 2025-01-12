@@ -9,6 +9,11 @@ document.addEventListener("DOMContentLoaded", () => {
   let fichasEnCarta = 0;
   let turnoJugador = true;
   let nivelActual = 0;
+  let niveles = [
+  { nombre: "Fácil", dificultad: 1 },
+  { nombre: "Intermedio", dificultad: 2 },
+  { nombre: "Difícil", dificultad: 3 }
+];
 
     // Configuración de niveles
   const niveles = [
@@ -41,32 +46,58 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+    // Actualiza el nivel actual en pantalla
+  function actualizarNivel() {
+    document.getElementById("nivel-numero").innerText = niveles[nivelActual].nombre;
+  }
+
   // Inicializar el juego
   function iniciarJuego() {
-    limpiarEstado();
-    mazo = Array.from({ length: 33 }, (_, i) => i + 3);
-    barajar(mazo);
-    mazo = mazo.slice(0, 24);
-    cartaActual = mazo.shift();
-    fichasJugador = 11;
-    fichasMaquina = 11;
-    cartasJugador = [];
-    cartasMaquina = [];
-    fichasEnCarta = 0;
-    turnoJugador = true;
+  limpiarEstado();
+  mazo = Array.from({ length: 33 }, (_, i) => i + 3);
+  barajar(mazo);
+  mazo = mazo.slice(0, 24);
+  cartaActual = mazo.shift();
+  fichasJugador = 11;
+  fichasMaquina = 11;
+  cartasJugador = [];
+  cartasMaquina = [];
+  fichasEnCarta = 0;
+  turnoJugador = true;
 
-    mostrarMensajeNivel();
-    actualizarCartaActual();
-    actualizarCartasRestantes();
-    actualizarEstado();
-    habilitarBotones(turnoJugador);
-  }
+  actualizarNivel(); // Actualiza el nivel en pantalla
+  actualizarCartaActual();
+  actualizarCartasRestantes();
+  actualizarEstado();
+  habilitarBotones(turnoJugador);
+}
 
   // Mostrar mensaje de inicio de nivel
   function mostrarMensajeNivel() {
     const nivel = niveles[nivelActual];
     alert(`Nivel ${nivelActual + 1}: ${nivel.nombre}\n${nivel.mensaje}`);
   }
+
+  // Mostrar mensajes en un modal
+function mostrarMensaje(titulo, mensaje, callback) {
+  const modal = document.createElement("div");
+  modal.classList.add("modal");
+
+  modal.innerHTML = `
+    <div class="modal-content">
+      <h2>${titulo}</h2>
+      <p>${mensaje}</p>
+      <button id="cerrar-modal" class="boton-reiniciar">Cerrar</button>
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+
+  document.getElementById("cerrar-modal").addEventListener("click", () => {
+    modal.remove();
+    if (callback) callback();
+  });
+}
   
   // Limpiar elementos visuales
   function limpiarEstado() {
@@ -258,12 +289,26 @@ function finalizarJuego() {
 
   if (ganador === "Jugador" && nivelActual < niveles.length - 1) {
     nivelActual++;
-    alert(`¡Nivel superado! Avanzas al siguiente nivel: ${niveles[nivelActual].nombre}`);
-    iniciarJuego(); // Reinicia el juego en el siguiente nivel
+    mostrarMensaje(
+      "¡Nivel superado!",
+      `Has avanzado al siguiente nivel: ${niveles[nivelActual].nombre}`,
+      () => {
+        actualizarNivel();
+        iniciarJuego();
+      }
+    );
   } else {
-    alert(ganador === "Jugador" ? "¡Has ganado el juego!" : "¡Perdiste! Intenta de nuevo.");
-    nivelActual = 0; // Reinicia el progreso del nivel
-    iniciarJuego(); // Reinicia el juego desde el nivel inicial
+    mostrarMensaje(
+      ganador === "Jugador" ? "¡Has ganado!" : "¡Perdiste!",
+      ganador === "Jugador"
+        ? "¡Felicidades! Completaste todos los niveles."
+        : "Intenta de nuevo.",
+      () => {
+        nivelActual = 0; // Reinicia el progreso
+        actualizarNivel();
+        iniciarJuego();
+      }
+    );
   }
 }
 
