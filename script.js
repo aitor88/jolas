@@ -157,7 +157,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const completarEscalera = puedeCompletarEscalera(cartaActual, cartasMaquina);
   const puntuacionActual = cartaActual - fichasEnCarta;
 
-  // Ajustar comportamiento según nivel de dificultad
   switch (niveles[nivelActual].dificultad) {
     case 1: // Fácil
       if (fichasMaquina === 0 || completarEscalera || puntuacionActual <= 5) {
@@ -178,28 +177,39 @@ document.addEventListener("DOMContentLoaded", () => {
       ) {
         tomarCarta();
       } else {
-        fichasMaquina--;
-        fichasEnCarta++;
-        actualizarCartaActual();
-        siguienteTurno();
+        if (fichasMaquina > 0) {
+          fichasMaquina--;
+          fichasEnCarta++;
+          actualizarCartaActual();
+          siguienteTurno();
+        } else {
+          tomarCarta(); // Tomar la carta si no quedan fichas
+        }
       }
       break;
 
     case 3: // Difícil
-      const valorFuturo = simularFuturo(); // Simular turnos futuros
+      const valorFuturo = simularFuturo(); // Simular el futuro
       if (
         completarEscalera ||
         cartaEsClaveParaJugador(cartaActual, cartasJugador) ||
-        valorFuturo > puntuacionActual // Evaluar futuro
+        valorFuturo > puntuacionActual // Evaluar turnos futuros
       ) {
         tomarCarta();
       } else {
-        fichasMaquina--;
-        fichasEnCarta++;
-        actualizarCartaActual();
-        siguienteTurno();
+        if (fichasMaquina > 0) {
+          fichasMaquina--;
+          fichasEnCarta++;
+          actualizarCartaActual();
+          siguienteTurno();
+        } else {
+          tomarCarta(); // Tomar la carta si no quedan fichas
+        }
       }
       break;
+
+    default:
+      tomarCarta(); // Comportamiento de fallback
   }
 }
 
