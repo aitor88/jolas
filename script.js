@@ -8,6 +8,14 @@ document.addEventListener("DOMContentLoaded", () => {
   let cartasMaquina = [];
   let fichasEnCarta = 0;
   let turnoJugador = true;
+  let nivelActual = 0;
+
+    // Configuración de niveles
+  const niveles = [
+    { nombre: "Novato Nico", dificultad: 1, mensaje: "¡Prepárate para un duelo sencillo con Nico!" },
+    { nombre: "Estratégico Esteban", dificultad: 2, mensaje: "Esteban sabe cómo presionarte. ¡Cuidado!" },
+    { nombre: "Maestro Mateo", dificultad: 3, mensaje: "Mateo es un experto. ¡Será un desafío difícil!" },
+  ];
 
   // Elementos del DOM
   const comoJugarModal = document.getElementById("como-jugar-modal");
@@ -47,12 +55,19 @@ document.addEventListener("DOMContentLoaded", () => {
     fichasEnCarta = 0;
     turnoJugador = true;
 
+    mostrarMensajeNivel();
     actualizarCartaActual();
     actualizarCartasRestantes();
     actualizarEstado();
     habilitarBotones(turnoJugador);
   }
 
+  // Mostrar mensaje de inicio de nivel
+  function mostrarMensajeNivel() {
+    const nivel = niveles[nivelActual];
+    alert(`Nivel ${nivelActual + 1}: ${nivel.nombre}\n${nivel.mensaje}`);
+  }
+  
   // Limpiar elementos visuales
   function limpiarEstado() {
     chipsOnCard.innerHTML = "";
@@ -139,17 +154,43 @@ document.addEventListener("DOMContentLoaded", () => {
     actualizarEstado();
   }
 
-  // Lógica de la máquina
+  // Ajustar lógica de la IA según dificultad
   function jugadaMaquina() {
+    const nivel = niveles[nivelActual];
     const completarEscalera = puedeCompletarEscalera(cartaActual, cartasMaquina);
     const puntuacionActual = cartaActual - fichasEnCarta;
-    if (fichasMaquina === 0 || completarEscalera || puntuacionActual <= 5) {
-      tomarCarta();
+
+    if (nivel.dificultad === 1) {
+      // Fácil: Juega de manera básica
+      if (fichasMaquina === 0 || completarEscalera || puntuacionActual <= 5) {
+        tomarCarta();
+      } else {
+        fichasMaquina--;
+        fichasEnCarta++;
+        actualizarCartaActual();
+        siguienteTurno();
+      }
+    } else if (nivel.dificultad === 2) {
+      // Media: Más probabilidades de optimizar
+      const decision = Math.random() < 0.7 ? "rechazar" : "tomar";
+      if (decision === "rechazar" && fichasMaquina > 0) {
+        fichasMaquina--;
+        fichasEnCarta++;
+        actualizarCartaActual();
+        siguienteTurno();
+      } else {
+        tomarCarta();
+      }
     } else {
-      fichasMaquina--;
-      fichasEnCarta++;
-      actualizarCartaActual();
-      siguienteTurno();
+      // Difícil: Juega de manera óptima
+      if (fichasMaquina === 0 || completarEscalera || puntuacionActual <= 8) {
+        tomarCarta();
+      } else {
+        fichasMaquina--;
+        fichasEnCarta++;
+        actualizarCartaActual();
+        siguienteTurno();
+      }
     }
   }
 
@@ -203,28 +244,28 @@ document.addEventListener("DOMContentLoaded", () => {
     return puntos;
   }
 
-  // Finalizar juego
-  function finalizarJuego() {
-    const puntosCartasJugador = calcularPuntuacionCartas(cartasJugador);
-    const puntosCartasMaquina = calcularPuntuacionCartas(cartasMaquina);
-    const puntosFichasJugador = fichasJugador;
-    const puntosFichasMaquina = fichasMaquina;
+ // Finalizar juego con progresión
+function finalizarJuego() {
+  const puntosCartasJugador = calcularPuntuacionCartas(cartasJugador);
+  const puntosCartasMaquina = calcularPuntuacionCartas(cartasMaquina);
+  const puntosFichasJugador = fichasJugador;
+  const puntosFichasMaquina = fichasMaquina;
 
-    const resultadoJugador = puntosCartasJugador - puntosFichasJugador;
-    const resultadoMaquina = puntosCartasMaquina - puntosFichasMaquina;
+  const resultadoJugador = puntosCartasJugador - puntosFichasJugador;
+  const resultadoMaquina = puntosCartasMaquina - puntosFichasMaquina;
 
-    document.getElementById("resultado-titulo").innerText = resultadoJugador < resultadoMaquina ? "¡Ganaste!" : "¡Perdiste!";
-    document.getElementById("resultado-mensaje").innerText = `
-      Puntos por cartas (Jugador): ${puntosCartasJugador}
-      Puntos por fichas (Jugador): ${puntosFichasJugador}
-      Resultado final (Jugador): ${resultadoJugador}
+  const ganador = resultadoJugador < resultadoMaquina ? "Jugador" : "Máquina";
 
-      Puntos por cartas (Máquina): ${puntosCartasMaquina}
-      Puntos por fichas (Máquina): ${puntosFichasMaquina}
-      Resultado final (Máquina): ${resultadoMaquina}
-    `;
-    resultadoModal.classList.remove("hidden");
+  if (ganador === "Jugador" && nivelActual < niveles.length - 1) {
+    nivelActual++;
+    alert(`¡Nivel superado! Avanzas al siguiente nivel: ${niveles[nivelActual].nombre}`);
+    iniciarJuego(); // Reinicia el juego en el siguiente nivel
+  } else {
+    alert(ganador === "Jugador" ? "¡Has ganado el juego!" : "¡Perdiste! Intenta de nuevo.");
+    nivelActual = 0; // Reinicia el progreso del nivel
+    iniciarJuego(); // Reinicia el juego desde el nivel inicial
   }
+}
 
   // Eventos
   document.getElementById("rechazar").addEventListener("click", rechazarCarta);
